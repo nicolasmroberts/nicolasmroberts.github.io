@@ -100,6 +100,7 @@ textarea {
 body {
     padding-left:20px;
     padding-right:20px;
+    max-width: 1000px;
 }
 
 h1 {
@@ -119,10 +120,12 @@ header{
 }
 main {
     background-color: #ddd;
-    background-size: ;
 }
 
-
+.bottom {
+    position: fixed;
+    bottom: 0;
+}
 
 .headshot {
     border-radius: 50%; 

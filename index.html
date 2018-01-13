@@ -28,28 +28,27 @@
 
 
         <script> 
-
-        function openTab(evt, tabName) {
-    // Declare all variables
-    var i, tabcontent, tablinks;
-
-    // Get all elements with class="tabcontent" and hide them
-    tabcontent = document.getElementsByClassName("tabcontent");
-    for (i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none";
-    }
-
-    // Get all elements with class="tablinks" and remove the class "active"
-    tablinks = document.getElementsByClassName("tablinks");
-    for (i = 0; i < tablinks.length; i++) {
-        tablinks[i].className = tablinks[i].className.replace(" active", "");
-    }
-
-    // Show the current tab, and add an "active" class to the button that opened the tab
-    document.getElementById(tabName).style.display = "block";
-    evt.currentTarget.className += " active";
-}
-</script>
+            function openTab(evt, tabName) {
+                // Declare all variables
+                var i, tabcontent, tablinks;
+            
+                // Get all elements with class="tabcontent" and hide them
+                tabcontent = document.getElementsByClassName("tabcontent");
+                for (i = 0; i < tabcontent.length; i++) {
+                    tabcontent[i].style.display = "none";
+                }
+            
+                // Get all elements with class="tablinks" and remove the class "active"
+                tablinks = document.getElementsByClassName("tablinks");
+                for (i = 0; i < tablinks.length; i++) {
+                    tablinks[i].className = tablinks[i].className.replace(" active", "");
+                }
+            
+                // Show the current tab, and add an "active" class to the button that   opened the        tab
+                document.getElementById(tabName).style.display = "block";
+                evt.currentTarget.className += " active";
+            }
+        </script>
 
         <div class="tab">
             <button class="tablinks" onclick="openTab(event,'Home')" id ="defaultOpen">Home</button>
@@ -63,21 +62,27 @@
             <img class="headshot" src="img/me.png" alt="char" width="200">
             <h2> About me </h2>
             <p>
-                I am a PhD Candidate at <em> The University of Wisconsin—Madison </em>, where I am studing structural geology. I've been here since the fall of 2014, when I was but a young strapping 23 year old without a plan. But now, as the years have passed, I see more clearly through the looking glass--the winter's fog is clearing.
+                I am a PhD Candidate at <em> The University of Wisconsin—Madison </em>, where I am studing structural geology. I've spent most of that time working on a large granitic dome in the Pilbara Craton, Western Australia, the Mt Edgar granitic complex. The geodynamics that drove the construction of earth's Earliest continents (that's right, the Pilbara craton has rocks as old as 3.6 billion years old) is a matter of ongoing debate--was plate tectonics already operating at a global scale, or did these early continents form in some pre-plate tectonics context?
             </p>
+            <p>
+                But I have also spent a lot of time working on the statistical treatment of high-dimensional structural geology data (like foliation-lineation pairs, strain ellipsoids). Structural geology is on the edge of a very exciting time--we are transitioning from using almost exclusively small field datasets........etc. 
         </section>
-<hr>
-        <section>
-            <h2> Interestests </h2>
-            <p> I'm interested in long walks on the beach, pina coladas, brisk fall days, etc. </p>
-        </section>
+
         </div>
 
 
 
         <div id="Projects" class= "tabcontent">
-            <h3> This is my Projects page </h3>
-            <p> Who knows what will go here </p>
+            <h3> The Pilbara Craton </h3>
+                <h4>
+                    Project goals: 
+                </h4>
+                <ul>
+                    <li>boundary kinematics </li>
+                    <li>internal dome strucures (AMS)</li>
+                    <li>numerical modeling</li>
+                </ul>
+
         </div>
 
         <div id="Scripts" class= "tabcontent">
@@ -95,8 +100,6 @@
             document.getElementById("defaultOpen").click();
         </script>
 
-<footer> copyright Nicolas M Roberts, 2018 </footer>
-
 
     </main>
 
@@ -113,5 +116,8 @@
             ga('create','UA-XXXXX-Y','auto');ga('send','pageview')
         </script>
         <script src="https://www.google-analytics.com/analytics.js" async defer></script>
+    <div class="bottom">
+        <footer> copyright Nicolas M. Roberts, 2018 </footer>
+    </div>
     </body>
 </html>
