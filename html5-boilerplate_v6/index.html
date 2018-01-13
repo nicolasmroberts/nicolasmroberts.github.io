@@ -1,0 +1,117 @@
+<!doctype html>
+<html class="no-js" lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Nicolas M Roberts Geology Website</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="manifest" href="site.webmanifest">
+        <link rel="apple-touch-icon" href="icon.png">
+        <!-- Place favicon.ico in the root directory -->
+
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/main.css">
+    </head>
+    <body>
+        <!--[if lte IE 9]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+        <![endif]-->
+
+        <!-- Add your site or application content here -->
+        <header> 
+            <h1> Nicolas M. Roberts </h1>
+            <h3> <em> Ph.D. Candidate in Structural Geology <br> University of Wisconsin-Madison </em></h3>
+        </header>
+       
+
+
+        <script> 
+
+        function openTab(evt, tabName) {
+    // Declare all variables
+    var i, tabcontent, tablinks;
+
+    // Get all elements with class="tabcontent" and hide them
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+
+    // Get all elements with class="tablinks" and remove the class "active"
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+
+    // Show the current tab, and add an "active" class to the button that opened the tab
+    document.getElementById(tabName).style.display = "block";
+    evt.currentTarget.className += " active";
+}
+</script>
+
+        <div class="tab">
+            <button class="tablinks" onclick="openTab(event,'Home')" id ="defaultOpen">Home</button>
+            <button class="tablinks" onclick="openTab(event,'Projects')">Projects</button>
+            <button class="tablinks" onclick="openTab(event,'Scripts')">Scripts</button>
+            <button class="tablinks" onclick="openTab(event,'CV')">CV</button>
+        </div>
+
+        <div id="Home" class= "tabcontent">
+            <section>
+            <img class="headshot" src="img/me.png" alt="char" width="200">
+            <h2> About me </h2>
+            <p>
+                I am a PhD Candidate at <em> The University of Wisconsin—Madison </em>, where I am studing structural geology. I've been here since the fall of 2014, when I was but a young strapping 23 year old without a plan. But now, as the years have passed, I see more clearly through the looking glass--the winter's fog is clearing.
+            </p>
+        </section>
+<hr>
+        <section>
+            <h2> Interestests </h2>
+            <p> I'm interested in long walks on the beach, pina coladas, brisk fall days, etc. </p>
+        </section>
+        </div>
+
+
+
+        <div id="Projects" class= "tabcontent">
+            <h3> This is my Projects page </h3>
+            <p> Who knows what will go here </p>
+        </div>
+
+        <div id="Scripts" class= "tabcontent">
+            <h3> This is my Scripts page </h3>
+            <p> Who knows what will go here </p>
+        </div>
+
+        <div id="CV" class= "tabcontent">
+            <h3> This is my CV page </h3>
+            <p> Probably my CV will go here </p>
+        </div>
+
+        <script>
+            // Get the element with id="defaultOpen" and click on it
+            document.getElementById("defaultOpen").click();
+        </script>
+
+<footer> copyright Nicolas M Roberts, 2018 </footer>
+
+
+    </main>
+
+
+        <script src="js/vendor/modernizr-3.5.0.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+        <script>window.jQuery || document.write('<script src="js/vendor/jquery-3.2.1.min.js"><\/script>')</script>
+        <script src="js/plugins.js"></script>
+        <script src="js/main.js"></script>
+
+        <!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
+        <script>
+            window.ga=function(){ga.q.push(arguments)};ga.q=[];ga.l=+new Date;
+            ga('create','UA-XXXXX-Y','auto');ga('send','pageview')
+        </script>
+        <script src="https://www.google-analytics.com/analytics.js" async defer></script>
+    </body>
+</html>
