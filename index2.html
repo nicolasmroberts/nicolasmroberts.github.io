@@ -1,0 +1,193 @@
+<!doctype html>
+<html class="no-js" lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Nicolas M Roberts Geology Website</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="manifest" href="site.webmanifest">
+        <link rel="apple-touch-icon" href="icon.png">
+        <!-- Place favicon.ico in the root directory -->
+
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/main.css">
+    </head>
+    <body>
+        <!--[if lte IE 9]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+        <![endif]-->
+
+        <!-- Add your site or application content here -->
+        <div class="parallax"></div>
+            <div id="header">
+                <h1> Nick Roberts' <em> structural geology page </em> [!!!] under construction [!!!] </h1>
+            </div>
+
+
+        <script> 
+            function openTab(evt, tabName) {
+                // Declare all variables
+                var i, tabcontent, tablinks;
+            
+                // Get all elements with class="tabcontent" and hide them
+                tabcontent = document.getElementsByClassName("tabcontent");
+                for (i = 0; i < tabcontent.length; i++) {
+                    tabcontent[i].style.display = "none";
+                }
+            
+                // Get all elements with class="tablinks" and remove the class "active"
+                tablinks = document.getElementsByClassName("tablinks");
+                for (i = 0; i < tablinks.length; i++) {
+                    tablinks[i].className = tablinks[i].className.replace(" active", "");
+                }
+            
+                // Show the current tab, and add an "active" class to the button that   opened the        tab
+                document.getElementById(tabName).style.display = "block";
+                evt.currentTarget.className += " active";
+            }
+        </script>
+
+        <div class="tab">
+            <button class="tablinks" onclick="openTab(event,'Home')" id ="defaultOpen">Home</button>
+            <button class="tablinks" onclick="openTab(event,'Projects')">Projects</button>
+            <button class="tablinks" onclick="openTab(event,'Scripts')">Scripts</button>
+            <button class="tablinks" onclick="openTab(event,'CV')">CV</button>
+            <button class="tablinks" onclick="openTab(event,'Photos')">Photos</button>
+        </div>
+
+        <div id="Home" class= "tabcontent">  
+            
+            <div class = "row">
+                <div class="column middle">          
+                    <img class="headshot" src="img/me.png" alt="char" width="200">
+                    <h2> About me </h2>
+                    <p>
+                I am a PhD Candidate at <em> The University of Wisconsin—Madison</em>, working with <a href="http://geoscience.wisc.edu/geoscience/people/faculty/basil-tikoff/"> Basil Tikoff</a>. I've spent most of that time working on a large granitic dome in the Pilbara Craton, Western Australia, the Mt Edgar granitic complex. The geodynamics that drove the construction of earth's Earliest continents (that's right, the Pilbara craton has rocks as old as 3.6 billion years old) is a matter of ongoing debate--was plate tectonics already operating at a global scale, or did these early continents form in some pre-plate tectonics context?
+                    </p>
+                    <p>
+                But I have also spent a lot of time working on the statistical treatment of high-dimensional structural geology data (like foliation-lineation pairs, strain ellipsoids). Structural geology is on the edge of a very exciting time--we are transitioning from using almost exclusively small field datasets........etc. 
+                    </p>
+                </div>
+       
+                <div class = "column side">
+                    <h3> Recent Activity </h3>
+                    <ul>
+                        <li> <strong> Dec. 2017: </strong> Presented a <a href = "http://www.google.com"> poster </a> at the AGU Fall meeting </li>
+                        <li> <strong> Nov. 2017: </strong> Gave a talk at the Specialist Group in Tectonics and Structural Geology (SGTSG) meeting in Denmark, Western Australia.
+                        <li> <strong> Nov. 2017: </strong> Attended the 7-day <a href="http://www.google.com"> SGTSG preconference field trip <a> led by the Geological Survey of Western Australia</li>
+                    </ul>
+                </div>
+            </div>
+        
+        </div>
+
+
+
+        <div id="Projects" class= "tabcontent">
+            <h3> The Pilbara Craton </h3>
+                                <img class="map" src="img/PilbaraSat.png" alt="char" width="400">
+
+                <h4>
+                    Project goals: 
+                </h4>
+                <ul>
+                    <li>boundary kinematics </li>
+                    <li>internal dome strucures (AMS)</li>
+                    <li>numerical modeling</li>
+                </ul>
+        </div>
+
+        <div id="Scripts" class= "tabcontent">
+            <h2>Statistical analysis scripts </h2>
+            <h4>From <em>The utility of statistical analysis in structural geology</em> (Roberts et al., <em>in review</em>)</h4>
+            <p>Download the <a href="Robertsetal_Manuscript.pdf">manuscript</a> and the <a href="Robertsetal_Figures.pdf">figures</a>.</p>
+            <p>This paper analyzes three datasets: two from the West Mountain area of the western Idaho shear zone, and one from the Orofino area of the western Idaho shear zone, locally the Ahsahka shear zone. The two datasets from West Mountain are a foliation dataset and a dataset of foliation-lineation pairs. The data from Orofino are foliation-lineation pairs.</p>
+            <p><strong>Links:</strong> The .zip file for the R scripts and .csv data files used for analysis can be downloaded <a href="http://www.google.com">here</a>. Note that the these scripts require the programing language R along with the <a href="http://www.joshuadavis.us/software"><em>geologyGeometry</em></a> package of statistical analysis functions written by Joshua R. Davis.</p>
+        </div>
+
+        <div id="CV" class= "tabcontent">
+            <h2> Curriculum Vitae </h2>
+            <p> Download the most current version of my CV <a href="http://www.google.com">here</a>.</p>
+        </div>
+         <div id="Photos" class= "tabcontent">
+            <h2> Geology photos </h2>
+            
+            <h4> Greece 2015 (UW-Madison graduate field trip)</h4>
+
+<div class="responsive">
+  <div class="gallery">
+    <a target="_blank" href="Greece 2015/bigGarnets.jpg">
+      <img src="Greece 2015/bigGarnets.jpg" alt="nice granets" width="300" height="200">
+    </a>
+    <div class="desc">Really nice garnets from the island of ________?</div>
+  </div>
+</div>
+
+
+<div class="responsive">
+  <div class="gallery">
+    <a target="_blank" href="Greece 2015/boudinBlock.jpg">
+      <img src="Greece 2015/boudinBlock.jpg" alt="3D boudins" width="600" height="400">
+    </a>
+    <div class="desc">Marble blocks from a quarry on Naxos</div>
+  </div>
+</div>
+
+<div class="responsive">
+  <div class="gallery">
+    <a target="_blank" href="Greece 2015/crenulations.jpg">
+      <img src="Greece 2015/crenulations.jpg" alt="crenulated fold" width="600" height="400">
+    </a>
+    <div class="desc">Amazing crenulations in folds</div>
+  </div>
+</div>
+
+<div class="responsive">
+  <div class="gallery">
+    <a target="_blank" href="Greece 2015/crossDikes.jpg">
+      <img src="Greece 2015/crossDikes.jpg" alt="cross cutting dikes" width="600" height="400">
+    </a>
+    <div class="desc">Add a description of the image here</div>
+  </div>
+</div>
+
+<div class="clearfix"></div>
+
+
+
+
+
+            <h4> Pilbara Craton, Western Australia (2015/2016)</h4>
+            <h4> Chile 2017 (UW-Madison graduate field trip)</h4>
+            <h4> Albany Fraser orogeny 2017 (SGTSG Forum, Western Australia)</h4>
+        </div>
+
+        <script>
+            // Get the element with id="defaultOpen" and click on it
+            document.getElementById("defaultOpen").click();
+        </script>
+
+<div class="parallax"></div>
+    </main>
+
+
+        <script src="js/vendor/modernizr-3.5.0.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+        <script>window.jQuery || document.write('<script src="js/vendor/jquery-3.2.1.min.js"><\/script>')</script>
+        <script src="js/plugins.js"></script>
+        <script src="js/main.js"></script>
+
+        <!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
+        <script>
+            window.ga=function(){ga.q.push(arguments)};ga.q=[];ga.l=+new Date;
+            ga('create','UA-XXXXX-Y','auto');ga('send','pageview')
+        </script>
+        <script src="https://www.google-analytics.com/analytics.js" async defer></script>
+    
+    <div>
+        <footer> Last updated by Nicolas M. Roberts on Jan 22, 2018 </footer>
+    </div>
+    </body>
+</html>

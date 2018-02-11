@@ -98,33 +98,147 @@ textarea {
    ========================================================================== */
 
 body {
-    padding-left:20px;
-    padding-right:20px;
-    max-width: 1000px;
+
+
 }
 
 h1 {
-    color: #000;
-    font-family: "helvetica";
-    line-height: 25px;
+    color: #f1f1f1;
+    font-family: "Helvetica neue";
+    line-height: 20px;
+    padding-left: 10px;
 
 }
 
 h3 {
     color: #666;
+    font-family: "helvetica";
+    padding-left: 10px;
 }
-header{
-    height:100px;
-    background-color: #f1f1f1;
-    border-top-width: 2px;
+
+footer {
+    background-color: #ccc;
+    color: #000;
+    font-family: "Times new roman";
+    font-size: 12pt;
+    text-align: center;
+    padding:5px;
+}
+
+#header{
+  position: absolute;
+  z-index: 1000;
+  top: 230px;
+  float: center;
 }
 main {
+
+}
+
+
+.parallaxHome { 
+    /* The image used */
+    background-image: url('parallaxHome.jpg');
+
+    /* Set a specific height */
+    height: 300px; 
+
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.parallaxProj { 
+    /* The image used */
+    background-image: url('parallaxProj.jpg');
+
+    /* Set a specific height */
+    height: 300px; 
+
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.parallaxScripts { 
+    /* The image used */
+    background-image: url('parallaxScripts.jpg');
+
+    /* Set a specific height */
+    height: 300px; 
+
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.parallaxCV { 
+    /* The image used */
+    background-image: url('parallaxCV.jpg');
+
+    /* Set a specific height */
+    height: 300px; 
+
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.parallaxPhotos { 
+    /* The image used */
+    background-image: url('parallaxPhotos.jpg');
+
+    /* Set a specific height */
+    height: 300px; 
+
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.column {
+    float: left;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+/* Left or right column */
+.column.side {
+    width: 25%;
     background-color: #ddd;
 }
 
-.bottom {
-    position: fixed;
-    bottom: 0;
+/* Middle column */
+.column.middle {
+    width: 70%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/* Responsive layout - makes the three columns stack on top of each other instead of next to each other */
+@media (max-width: 600px) {
+    .column.side, .column.middle {
+        width: 100%;
+    }
+}
+
+.nolink {
+
 }
 
 .headshot {
@@ -133,11 +247,24 @@ main {
     float:left;
 }
 
+.map {
+    border: 10px;
+    border-color: black;
+    padding: 10px;
+    float:right;
+}
+
+.nolink {
+    color: #000;
+    text-decoration:none;
+}
+
 /* Style the tab */
 .tab {
     overflow: hidden;
     background-color: #f1f1f1;
 }
+
 
 /* Style the buttons that are used to open the tab content */
 .tab button {
@@ -155,6 +282,16 @@ main {
     background-color: #ddd;
 }
 
+.tab selected {
+    background-color: #ccc;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+}
+
 /* Create an active/current tablink class */
 .tab button.active {
     background-color: #ccc;
@@ -162,17 +299,63 @@ main {
 
 /* Style the tab content */
 .tabcontent {
-    display: none;
     padding: 6px 12px;
     border: 1px solid #ccc;
     background-color: #ccc;
+    min-height: 600px;
     border-top: none;
+    padding-top: 20px;
 }
 
 
 
 
+div.gallery {
+    border: 1px solid #ccc;
+}
 
+div.gallery:hover {
+    border: 1px solid #777;
+}
+
+div.gallery img {
+    width: 100%;
+    height: auto;
+}
+
+div.desc {
+    padding: 15px;
+    text-align: center;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.responsive {
+    padding: 0 6px;
+    float: left;
+    width: 24.99999%;
+}
+
+@media only screen and (max-width: 700px){
+    .responsive {
+        width: 49.99999%;
+        margin: 6px 0;
+    }
+}
+
+@media only screen and (max-width: 500px){
+    .responsive {
+        width: 100%;
+    }
+}
+
+.clearfix:after {
+    content: "";
+    display: table;
+    clear: both;
+}
 
 
 
