@@ -18,23 +18,32 @@
 
    <style>
         .parallax { 
-    /* The image used */
-    background-image: url('img/{{ current_page.background_image }}');
+            /* The image used */
+             background-image: url('img/{{ current_page.background_image }}');
 
-    /* Set a specific height */
-    height: 300px; 
+            /* Set a specific height */
+            height: 250px; 
 
-    /* Create the parallax scrolling effect */
-    background-attachment: fixed;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
+            /* Create the parallax scrolling effect */
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
 }
    </style>
     
     <body>
         
         <div class="parallax"></div>
+            <style> 
+                #header{
+                    position: absolute;
+                    z-index: 1000;
+                    top: 190px;
+                    float: center;
+                }
+            </style>
+
             <div id="header"> 
                 <h1> Nick Roberts' <em> structural geology page </em></h1>
             </div>
