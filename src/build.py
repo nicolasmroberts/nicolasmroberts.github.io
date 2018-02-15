@@ -1,10 +1,12 @@
 import jinja2
 import os
+import datetime
 from collections import namedtuple
 
 Page = namedtuple('Page', ['name', 'title', 'background_image'])
 
 TEMPLATE_DIR = 'templates'
+
 PAGES = [
     Page(name='index', title='Home', background_image='parallaxHome.jpg'),
     Page(name='projects', title='Projects', background_image='parallaxProj.jpg'),
@@ -19,7 +21,7 @@ def build():
     )
     for page in PAGES:
         template = env.get_template('{page}.html.j2'.format(page=page.name))
-        output = template.render(current_page=page, PAGES=PAGES)
+        output = template.render(current_page=page, PAGES=PAGES, today = datetime.date.today())
         with open('{page}.html'.format(page=page.name), 'w') as f:
             f.write(output)
 
