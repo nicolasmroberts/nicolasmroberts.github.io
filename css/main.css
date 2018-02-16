@@ -97,17 +97,21 @@ textarea {
    Author's custom styles
    ========================================================================== */
 
-body {
 
-
+html, body {
+    margin: 0px;
+    padding: 0px;
+    border: 0px;
 }
 
 h1 {
-    color: #f1f1f1;
+    color: #fff;
     font-family: "Helvetica neue";
-    line-height: 20px;
-    padding-left: 10px;
-
+    font-size: 14pt;
+    text-align:center;
+    padding-top: 100px;
+    margin: 0px;
+    background:none;
 }
 
 h3 {
@@ -127,6 +131,8 @@ footer {
 
 
 main {
+    margin: 0px;
+    padding: 0px;
 }
 
 .column {
@@ -160,10 +166,6 @@ main {
     }
 }
 
-.nolink {
-
-}
-
 .headshot {
     padding:20px;
     float:left;
@@ -176,60 +178,71 @@ main {
     float:right;
 }
 
-.nolink {
-    color: #000;
-    text-decoration:none;
-}
-
 /* Style the tab */
-.tab {
+nav {
+    top: 0;
+    text-align: center;
+    background-color:#ccc;
+    padding: 0px;
+    margin: 0px;
+}
+
+nav ul {
     overflow: hidden;
-    background-color: #f1f1f1;
+    list-style: none;
+    font-family: "Helvetica";
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin: 0px;
+}
+
+nav li{
+    display: inline-block;
+    margin-left: auto;
+    margin-right:auto;
+    
+}
+
+nav a {
+    font-weight: normal;
+    padding: 20px;
+    margin: 0px;
+    font-weight: bold;
 }
 
 
-/* Style the buttons that are used to open the tab content */
-.tab button {
-    background-color: inherit;
-    float: left;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    padding: 14px 16px;
-    transition: 0.3s;
-}
-
-/* Change background color of buttons on hover */
-.tab button:hover {
+a.inactive:hover{
     background-color: #ddd;
-}
 
-.tab selected {
-    background-color: #ccc;
-    float: left;
+}
+.active {
+    background-color: #f1f1f1;
+    color: #000;
+    text-decoration: none;
     border: none;
     outline: none;
     cursor: pointer;
-    padding: 14px 16px;
-    transition: 0.3s;
 }
 
-/* Create an active/current tablink class */
-.tab button.active {
+.inactive {
     background-color: #ccc;
+    color: #666;
+    text-decoration: none;
+    border: none;
+    outline: none;
+    cursor: pointer;
 }
+
 
 /* Style the tab content */
 .tabcontent {
-    padding: 6px 12px;
-    border: 1px solid #ccc;
-    background-color: #ccc;
+    padding: 12px 12px;
+    border: 1px solid #f1f1f1;
+    background-color: #f1f1f1;
     min-height: 600px;
     border-top: none;
     padding-top: 20px;
 }
-
-
 
 
 div.gallery {

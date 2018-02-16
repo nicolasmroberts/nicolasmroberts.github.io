@@ -32,29 +32,23 @@
 }
    </style>
     
+
     <body>
-        
-        <div class="parallax"></div>
-            <style> 
-                #header{
-                    position: absolute;
-                    z-index: 1000;
-                    top: 190px;
-                    float: center;
-                }
-            </style>
-
-            <div id="header"> 
-                <h1> Nick Roberts' <em> structural geology page </em></h1>
-            </div>
-
-
-        <div class="tab">
-            {% for p in PAGES %}
-            <button {% if p.name == current_page.name %}class ="tablinks active" {% endif %} {% if p.name != current_page.name %} class = "tablinks" {% endif %}><a class = "nolink" href = "{{ p.name }}.html">{{p.title}}</a></button>
-            {% endfor %}
+           <main>
+            
+        <div class="parallax">
+                <h1> Nick's <em> structural geology page </em></h1>
         </div>
+
+
+
+<nav><ul>
+            {% for p in PAGES %}
+            <li><a {% if p.name == current_page.name %}class ="active" {% endif %}
+                {% if p.name != current_page.name %}class ="inactive"{% endif %} href = "{{ p.name }}.html">{{p.title}}</a></li>{% endfor %}
         
+        </nav>
+
         <div class="tabcontent">
             {% block page_content %}{% endblock %}
         </div>
