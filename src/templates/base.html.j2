@@ -38,16 +38,17 @@
             
         <div class="parallax">
                 <h1> Nick's <em> structural geology page </em></h1>
+                <nav><ul>
+            {% for p in PAGES %}
+                <li><a {% if p.name == current_page.name %}class ="active" {% endif %}
+                {% if p.name != current_page.name %}class ="inactive"{% endif %} href = "{{ p.name }}.html">{{p.title}}</a></li>{% endfor %}
+        
+        </nav>
         </div>
 
 
 
-<nav><ul>
-            {% for p in PAGES %}
-            <li><a {% if p.name == current_page.name %}class ="active" {% endif %}
-                {% if p.name != current_page.name %}class ="inactive"{% endif %} href = "{{ p.name }}.html">{{p.title}}</a></li>{% endfor %}
-        
-        </nav>
+
 
         <div class="tabcontent">
             {% block page_content %}{% endblock %}
