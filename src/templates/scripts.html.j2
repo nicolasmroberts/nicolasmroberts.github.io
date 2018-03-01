@@ -5,9 +5,19 @@
 {% block page_content %}
 
 <h2>Statistical analysis scripts </h2>
-            <h4>From <em>The utility of statistical analysis in structural geology</em> (Roberts et al., <em>in review</em>)</h4>
+	<div class= "contentContainer">
+            <h4>From <em>The utility of statistical analysis in structural geology</em> (Roberts et al., 2018)</h4>
             <p>Download the <a href="Robertsetal_Manuscript.pdf">manuscript</a> and the <a href="Robertsetal_Figures.pdf">figures</a>.</p>
             <p>This paper analyzes three datasets: two from the West Mountain area of the western Idaho shear zone, and one from the Orofino area of the western Idaho shear zone, locally the Ahsahka shear zone. The two datasets from West Mountain are a foliation dataset and a dataset of foliation-lineation pairs. The data from Orofino are foliation-lineation pairs.</p>
-            <p><strong>Links:</strong> The .zip file for the R scripts and .csv data files used for analysis can be downloaded <a href="http://www.google.com">here</a>. Note that the these scripts require the programing language R along with the <a href="http://www.joshuadavis.us/software"><em>geologyGeometry</em></a> package of statistical analysis functions written by Joshua R. Davis.</p>
+            <h4>Instructions:</h4> 
+            <ol>
+            	<li>Dowload <a href = "https://www.rstudio.com/products/RStudio/#Desktop">RStudio</a></li>
+            	<li>Dowload <a href = "geologyGeometry.zip"><em>geologyGeometry</em>June 2017 version</a>. <strong> Note:</strong>to download the most recent version of geologyGeometry (which may not be compatible with this statistical analysis), visit <a href="http://www.joshuadavis.us/software">Joshua Davis's website</a></li>
+            	<li>Install R-Studio on your computer</li>
+            	<li>Unzip the <em>geologyGeometry.zip</em>file and drag the folder to your desktop</li>
+            	<li>Open <em>JSG_StatisticalAnalysis_Orofino.r, JSG_statisticalAnalysis_WestMountain.r, </em>and <em> JSG_statsFunctions_direction.R</em> in RStudio.</li>
+            </ol>
+
+    </div>
 
 {% endblock %}
