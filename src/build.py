@@ -1,7 +1,11 @@
+#!/Horton/bin/env python
+#coding: utf-8
+import codecs
 import jinja2
 import os
 import datetime
 from collections import namedtuple
+
 
 Page = namedtuple('Page', ['name', 'title', 'background_image'])
 
