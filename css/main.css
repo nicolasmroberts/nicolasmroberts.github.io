@@ -177,13 +177,13 @@ main {
 }
 
 .contentContainer {
-    background-color: #ddd;
+    background-color: #f0f0e9;
     padding: 20px;
     overflow: hidden;
 }
 
 .contentContainerWhite {
-    background-color: #f1f1f1;
+    background-color: #ffffff;
     padding: 20px;
     overflow: hidden;
 }
@@ -250,7 +250,7 @@ a.inactive:hover{
 
 }
 .active {
-    background-color: #f1f1f1;
+    background-color: #ffffff;
     color: #000;
     text-decoration: none;
     border: none;
@@ -271,8 +271,8 @@ a.inactive:hover{
 /* Style the tab content */
 .tabcontent {
     padding: 12px 12px;
-    border: 1px solid #f1f1f1;
-    background-color: #f1f1f1;
+    border: 1px solid #ffffff;
+    background-color: #ffffff;
     min-height: 600px;
     border-top: none;
     padding-top: 20px;
