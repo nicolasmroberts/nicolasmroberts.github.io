@@ -107,6 +107,7 @@ body {
 h1 {
     color: #fff;
     font-family: "Helvetica neue";
+    font-weight: normal;
     font-size: 14pt;
     text-align:center;
     padding-top: 110px;
@@ -232,7 +233,7 @@ nav li{
     display: inline-block;
     margin-left: auto;
     margin-right:auto;
-    
+
 }
 
 nav a {
@@ -246,7 +247,7 @@ nav a {
 a.inactive:hover{
     color: #000;
     opacity: 0.7;
-    
+
 
 }
 .active {

@@ -17,12 +17,12 @@
    </head>
 
    <style>
-        .parallax { 
+        .parallax {
             /* The image used */
              background-image: url('img/parallaxScripts.jpg');
 
             /* Set a specific height */
-            height: 250px; 
+            height: 250px;
 
             /* Create the parallax scrolling effect */
             background-attachment: fixed;
@@ -31,11 +31,11 @@
             background-size: cover;
 }
    </style>
-    
+
 
     <body>
            <main>
-            
+
         <div class="parallax">
                 <h1> Nick's <em> structural geology page </em></h1>
                 <nav><ul>
@@ -50,7 +50,7 @@
                 class ="inactive" href = "cv.html">CV</a></li>
                 <li><a 
                 class ="inactive" href = "photos.html">Photos</a></li>
-        
+
         </nav>
         </div>
 
@@ -65,27 +65,62 @@
 	<p>This page contains scripts I use for statistical (and visual) analysis of structural geology data. I have worked with many types of geologic data, including field fabrics, anisotropy of magnetic susceptibility ellipsoids, and X-ray computed tomography grain ellipsoid data.</p>
       <p> For published work, I include all the files necessary to reproduce my statistical analysis.</p>
 
-           <p> 	<strong>Note:</strong> to download the most recent version of geologyGeometry (which may not be backwards- compatible with all statistical analyses), visit <a href="http://www.joshuadavis.us/software">Joshua Davis's website</a>.
+           <p> 	<strong>Note:</strong> The scripts on this page have been written for specific static versions of the <em> geologyGeometry </em> library, for which download links are given. If you would rather download the most recent version of geologyGeometry (which may not be backwards-compatible with all statistical analyses), visit <a href="http://www.joshuadavis.us/software">Joshua Davis's website</a>.
            </p>
+
+					 <div class="contentContainer">
+
+					 <h4>From <em>The utility of statistical analysis in structural geology</em> (Roberts et al., 2018)</h4>
+					 <p>Download the <a href="Robertsetal_Manuscript.pdf">manuscript</a> and the <a href="Robertsetal_Figures.pdf">figures</a>.</p>
+					 <p>This paper analyzes three datasets: two from the West Mountain area of the western Idaho shear zone, and one from the Orofino area of the western Idaho shear zone, locally the Ahsahka shear zone. The two datasets from West Mountain are a foliation dataset and a dataset of foliation-lineation pairs. The data from Orofino are foliation-lineation pairs.</p>
+
+
+					 <ol>
+					 <li>If you have not already downloaded <em>R </em>and<em> RStudio</em> and set it up for using <em>geologyGeometry</em>, then follow the instructions to do so at the bottom of this page. </li>
+					 <br>
+					 <li>
+					 						Dowload <a href = "geologyGeometry.zip"><em>geologyGeometry</em> June 2017 version</a>. This linked version already contains the datasets and statistical analyses from Roberts et al. (2018).
+					 			</li>
+					 	<br>
+					 			<li>
+					 						Drag the <em>20170620geologyGeometry</em> folder to your desktop.
+					 			</li>
+					 		<br>
+					 		<li>
+					 						The two statistical analysis scripts are titled <em>JSG_StatisticalAnalysis_Orofino.r, </em>and<em> JSG_statisticalAnalysis_WestMountain.r</em>, both located in the <em>geologyGeometry</em> folder. Open them in RStudio.
+					 			</li>
+					 		 <br>
+					 			<li>
+					 						At the top of each one, change <span style="font-family:courier new;color:#050">setwd('~Desktop/20170620geologyGeometry')</span> to reflect the true path to your <em>geologyGeometry</em> folder. You should not need to change this if you are using a Mac.
+					 			</li>
+					 <br>
+					 			<li>
+					 						Run each file line by line using "Run" button at the top of the window. Enjoy!
+					 			</li>
+					 <br>
+					 </ol>
+					 </div>
+
+<br>
 
 
 <div class= "contentContainer">
-           
-            <h4>R/RStudio Setup Instructions before using <em>geologyGeometry</em>:</h4> 
-            
+
+            <h4>R/RStudio Setup Instructions before using <em>geologyGeometry</em>:</h4>
+
             <ol>
                   <li>
-                        <a href = "http://www.r-project.org/">Dowload R</a> for your system. 
+                        <a href = "http://www.r-project.org/">Dowload R</a> for your system.
 
                         <ul>
                         	<li>
-                        	Choose a "mirror site" that hosts the software, prefereably near your geographical location, for 	speed.  
+                        	Choose a "mirror site" that hosts the software, prefereably near your geographical location, for 	speed.
 							</li>
-                       	
+
 							<li>
                         	On the mirror site, click to download a "precompiled binary distribution" of R for your operating 	system.
                         	</li>
-                        	
+
                         	<li>
                         	Once the download is complete, run the installer program and follow its instructions.
                         	</li>
@@ -93,28 +128,28 @@
                   </li>
                   <br>
                   <li>
-                        Download and install <a href = "https://www.rstudio.com/">RStudio</a>, a nice user interface for using R. 
+                        Download and install <a href = "https://www.rstudio.com/">RStudio</a>, a nice user interface for using R.
                   </li>
 
                   <br>
                   <li>
                         If you are installing on a Mac computer, download and install <a href= "http://xquartz.macosforge.org/"><em>XQuartz</em></a>. (You will need to log out and log back in after installing to activate it). <em>XQuartz</em> is a unix windowing system that <em>geologyGeometry</em> uses for interactive plots.
-                  </li>            	
+                  </li>
 <br>
                   <li>
                         Now, launch <em>RStudio</em>. It will open large window consisting of several "panes". Probably the Console pane is in the lower left corner of the window. Copy and paste (or retype) the following three lines of code into the Console pane, and then press Return to execute them. <strong> This step only needs to be done the first time you use R/RStudio. It will permenantly install some R packages that <em>geologyGeometry</em> uses.</strong>
-                        
+
 
                         <span style="font-family:courier new;color:#050">
                         	<ul>
                       			<li>
-                        		install.packages(c("rgl", "fields", "MASS")) 
+                        		install.packages(c("rgl", "fields", "MASS"))
                         		</li>
 
                         		<li>
-                        		install.packages(c("ICSNP", "expm", "FRB")) 
+                        		install.packages(c("ICSNP", "expm", "FRB"))
                         		</li>
-                        		
+
                         		<li>
                         		install.packages(c("Directional", "pracma"))
                         		</li>
@@ -123,38 +158,38 @@
 
                         <br>
 
-                        These commands should cause a flurry of activity. If you are notified that a source version is newer than a binary version, and asked whether to download the source version (y/n), enter  <span style="font-family:courier new;color:#050">n</span>. If you see warnings about how some package was built with an earlier version of R, then ignore them. To check that each package installed correctly, copy each of the following lines into the console. 
+                        These commands should cause a flurry of activity. If you are notified that a source version is newer than a binary version, and asked whether to download the source version (y/n), enter  <span style="font-family:courier new;color:#050">n</span>. If you see warnings about how some package was built with an earlier version of R, then ignore them. To check that each package installed correctly, copy each of the following lines into the console.
 
                         <span style="font-family:courier new;color:#050">
                         	<ul>
                         		<li>
                         		library("rgl")
                         		</li>
-                        		
+
                         		<li>
                         		library("fields")
                         		</li>
-                        		
+
                         		<li>
                         		library("MASS")
                         		</li>
-                        		
+
                         		<li>
                         		library("ICSNP")
                         		</li>
-                        		
+
                         		<li>
                         		library("expm")
                         		</li>
-								
-								<li>                       
+
+								<li>
                         		library("FRB")
                         		</li>
-                        		
+
                         		<li>
                         		library("Directional")
                         		</li>
-                        		
+
                         		<li>
                         		library("pracma")
                         		</li>
@@ -164,7 +199,7 @@
                         You are now all set up to use the <em>geologyGeometry</em> tools.
                   </li>
 <br>
-                  
+
             </ol>
 
       </div>
@@ -172,55 +207,20 @@
 
 
 
-<br>
 
 
 
 
 
 
-           	<div class="contentContainer">
 
-      	<h4>From <em>The utility of statistical analysis in structural geology</em> (Roberts et al., 2018)</h4>
-            <p>Download the <a href="Robertsetal_Manuscript.pdf">manuscript</a> and the <a href="Robertsetal_Figures.pdf">figures</a>.</p>
-            <p>This paper analyzes three datasets: two from the West Mountain area of the western Idaho shear zone, and one from the Orofino area of the western Idaho shear zone, locally the Ahsahka shear zone. The two datasets from West Mountain are a foliation dataset and a dataset of foliation-lineation pairs. The data from Orofino are foliation-lineation pairs.</p>
 
-        
-        <ol>
-        <li>If you have not already downloaded <em>R </em>and<em> RStudio</em> and set it up for using <em>geologyGeometry</em>, then follow the instructions to do so at the top of this page. </li>
-        <br>
-        <li>
-                        Dowload <a href = "geologyGeometry.zip"><em>geologyGeometry</em> June 2017 version</a>. This linked version already contains the datasets and statistical analyses from Roberts et al. (2018).
-                  </li>
-            	<br>
-                  <li>
-                        Drag the <em>20170620geologyGeometry</em> folder to your desktop.
-                  </li>
-                <br>
-                <li>
-                        The two statistical analysis scripts are titled <em>JSG_StatisticalAnalysis_Orofino.r, </em>and<em> JSG_statisticalAnalysis_WestMountain.r</em>, both located in the <em>geologyGeometry</em> folder. Open them in RStudio.
-                  </li>
-                 <br> 
-                  <li>
-                        At the top of each one, change <span style="font-family:courier new;color:#050">setwd('~Desktop/20170620geologyGeometry')</span> to reflect the true path to your <em>geologyGeometry</em> folder. You should not need to change this if you are using a Mac. 
-                  </li>
-<br>
-                  <li>
-                        Run each file line by line using "Run" button at the top of the window. Enjoy! 
-                  </li>
-				<br>
-        </ol>	
-        </div>
-
-      
-
-      
 
 
 
 
         </div>
-        
+
 
 <div class="parallax"></div>
 
@@ -241,7 +241,7 @@
         <script src="https://www.google-analytics.com/analytics.js" async defer></script>
 
     <div>
-       <footer> Nick last updated this website on Mar 04, 2018 </footer>
+       <footer> Nick last updated this website on Mar 21, 2018 </footer>
     </div>
     </body>
 </html>

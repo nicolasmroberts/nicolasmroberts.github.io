@@ -1,6 +1,3 @@
-#!/Horton/bin/env python
-#coding: utf-8
-import codecs
 import jinja2
 import os
 import datetime
@@ -9,7 +6,7 @@ from collections import namedtuple
 
 Page = namedtuple('Page', ['name', 'title', 'background_image'])
 
-TEMPLATE_DIR = 'templates'
+TEMPLATE_DIR = 'src/templates'
 
 PAGES = [
     Page(name='index', title='Home', background_image='parallaxHome.jpg'),

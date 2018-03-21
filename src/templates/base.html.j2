@@ -17,12 +17,12 @@
    </head>
 
    <style>
-        .parallax { 
+        .parallax {
             /* The image used */
              background-image: url('img/{{ current_page.background_image }}');
 
             /* Set a specific height */
-            height: 250px; 
+            height: 250px;
 
             /* Create the parallax scrolling effect */
             background-attachment: fixed;
@@ -31,18 +31,18 @@
             background-size: cover;
 }
    </style>
-    
+
 
     <body>
            <main>
-            
+
         <div class="parallax">
                 <h1> Nick's <em> structural geology page </em></h1>
                 <nav><ul>
             {% for p in PAGES %}
                 <li><a {% if p.name == current_page.name %}class ="active" {% endif %}
                 {% if p.name != current_page.name %}class ="inactive"{% endif %} href = "{{ p.name }}.html">{{p.title}}</a></li>{% endfor %}
-        
+
         </nav>
         </div>
 
@@ -53,7 +53,7 @@
         <div class="tabcontent">
             {% block page_content %}{% endblock %}
         </div>
-        
+
 
 <div class="parallax"></div>
 
