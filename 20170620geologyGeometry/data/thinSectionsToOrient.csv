@@ -1,0 +1,9 @@
+﻿location,easting,northing,strike,dip,rake,comments
+AME16_46,120.37038,-21.14484,5,75,90,dip_and_rake_not_known
+AME16_73,119.89893,-20.99516,241,61,52,_
+AME16_118b,120.26243,-20.97219,99,56,90,rake_not_known
+AME16_06b,120.07477,-21.42653,91,73,93,_
+AME16_198,119.97987,-20.984,355,34,90,_fracture_set_sd_rake_unknown
+AME16_119,120.26415,-20.97187,290,84,90,_rake_not_known
+AME16_22a,120.26225,-21.3273,38,82,100,_
+AME16_150,120.34771,-21.19469,86,60,90,_Measurement_redone_in_lab

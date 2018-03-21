@@ -1,0 +1,5548 @@
+*** MISCELLANEOUS MATH (miscellany.R) ***
+
+
+
+degree <- 2 * pi / 360
+
+Conversion between degrees and radians.
+
+Math works better in radians than in degrees. So R (like almost every programming language) operates in radians. So almost all of this library operates in radians. The exceptions are all labeled 'Deg', as in 'geoCartesianFromStrikeDipDeg', like a skull and crossbones on a bottle of poison. Anyway, to convert from degrees to radians, you multiply by this number. For example, 30 * degree == pi / 6. To convert from radians to degrees, you divide by this number. For example, 2 * pi / degree == 360.
+
+
+
+cross <- function(v, w) {
+
+Cross product of three-dimensional Cartesian vectors.
+
+Inputs
+
+* v: A 3D real vector.
+
+* w: A 3D real vector.
+
+Output
+
+* A 3D real vector.
+
+
+
+dot <- function(v, w) {
+
+Dot product of n-dimensional Cartesian vectors.
+
+Inputs
+
+* v: A real vector.
+
+* w: A real vector of the same dimension.
+
+Output
+
+* A real number.
+
+
+
+
+
+*** ORDINARY DIFFERENTIAL EQUATIONS (miscellany.R) ***
+
+
+
+rungeKutta <- function(y0, vel, n, correction=NULL) {
+
+Classical fourth-order Runge-Kutta method on a Euclidean space.
+
+Inputs
+
+* y0: A d-dimensional vector. The initial condition.
+
+* vel: An R function that takes a time s and a d-dimensional vector y and returns a d-dimensional velocity vector v.
+
+* n: A real number (positive integer). The number of steps to use.
+
+* correction: A function to be applied to the vector after each step. Pass NULL to deactivate.
+
+Output
+
+* A d-dimensional vector. The final condition.
+
+
+
+rungeKuttaLeft <- function(y0, f, n, operation=(function(g, h) {g %*% h}), exponential=expm) {
+
+Left-invariant fourth-order Runge-Kutta method on an arbitrary Lie group G.
+
+From Munthe-Kaas (1998). Used to solve a differential equation of the form y-dot = y f, where y is a curve in G and f : G -> g is a Lie algebra-valued function describing the velocity of the curve when it is at y.
+
+Inputs
+
+* y0: An element of G. The initial condition at time t = 0.
+
+* f: An R function that takes a Lie group element and returns a velocity vector in its tangent space.
+
+* n: A real number (positive integer). The number of steps to use.
+
+* operation: The group operation. The default suffices for matrix groups.
+
+* exponential: The exponential map. The default suffices for matrix groups, but consider specialized cases such as rotExp.
+
+Output
+
+* An element of G. The final condition at time t = 1.
+
+
+
+
+
+*** METRIC SPACES (miscellany.R) ***
+
+
+
+euclideanDistance <- function(x, y) {
+
+The Euclidean distance between two d-dimensional points.
+
+Inputs
+
+* x: A real vector.
+
+* y: A real vector, of the same dimension as x.
+
+Output
+
+* A scalar. The distance between x and y.
+
+
+
+clusteringVoronoi <- function(xs, seeds, dist, ...) {
+
+Voronoi partition in an arbitrary metric space.
+
+A clustering of n points in a metric space is a list of (usually non-empty) vectors of real numbers, such that all of the numbers are integers between 1 and n (inclusive) and each integer between 1 and n appears exactly once in the clustering. For example, list(c(5, 2), c(3, 1, 4)) is a clustering for n = 5.
+
+Inputs
+
+* xs: A list of n points in the metric space.
+
+* seeds: A list of k points in the metric space.
+
+* dist: The metric on the metric space. An R function that takes two points as inputs and produces a non-negative real number as output. Additional arguments can be passed through ....
+
+Output
+
+* A list of k numeric vectors. The integers 1, 2, ..., n are partitioned among these lists. (Each of these integers appears once and only once among the lists.) The ith list is the indices of the xs that are in the Voronoi cell centered at the ith seed.
+
+
+
+matrixOfDistances <- function(xs, dist, verbose=FALSE, ...) {
+
+Matrix of distances between points in a metric space.
+
+For an input list of length n, the algorithm uses O(n^2) calls to the distance function. So this can take a while.
+
+Inputs
+
+* xs: A list of points in the metric space.
+
+* dist: The metric on the metric space. An R function that takes two points as inputs and produces a non-negative real number as output. Additional arguments can be passed through ....
+
+* verbose: A logical. Whether to print information about the progress of the computation.
+
+* ...: Additional parameters to be passed to dist.
+
+Output
+
+* An n x n matrix, with only the top half filled in.
+
+
+
+clusteringDBSCAN <- function(dists, radius, minPoints) {
+
+DBSCAN clustering in an arbitrary metric space.
+
+A clustering of n points in a metric space is a list of (usually non-empty) vectors of real numbers, such that all of the numbers are integers between 1 and n (inclusive) and each integer between 1 and n appears exactly once in the clustering. For example, list(c(5, 2), c(3, 4, 1)) is a clustering for n = 5.
+
+Intuitively, this algorithm forms clusters as contiguous patches of 'crowded' points. A point is 'crowded' if there are at least minPoints points within radius of it. You have to tune radius and minPoints to produce clusters that are meaningful to you.
+
+Inputs
+
+* dists: An n x n matrix of pairwise distances between the points. Only the top half of the matrix is used. Typically obtained from matrixOfDistances.
+
+* radius: A real number (positive). The radius about each point, that is considered that point's neighborhood.
+
+* minPoints: A real number (positive integer). The minimum number of points needed, to consider a neighborhood crowded. Notice that the point itself is in its neighborhood. So no neighborhood ever has 0 neighbors.
+
+Output
+
+* A clustering. The final entry is a pseudo-cluster consisting of all of the points not included in any cluster. Unlike the real clusters, this pseudo-cluster may be empty.
+
+
+
+clusteringKMeans <- function(dists, gamma0, numSteps=100) {
+
+k-means clustering in an arbitrary metric space, based on a seed clustering.
+
+A clustering of n points in a metric space is a list of (usually non-empty) vectors of real numbers, such that all of the numbers are integers between 1 and n (inclusive) and each integer between 1 and n appears exactly once in the clustering. For example, list(c(5, 2), c(3, 1, 4)) is a clustering for n = 5.
+
+Intuitively, this algorithm forms clusters based on the idea that each point should be closer to its cluster's mean than to the mean of any other cluster. You have to supply the number k of clusters ahead of time. In fact, you have to supply a seed clustering. The algorithm improves that seed clustering until it stabilizes.
+
+Inputs
+
+* dists: An n x n matrix of pairwise distances between the points. Only the top half of the matrix is used. Typically obtained from matrixOfDistances.
+
+* gamma0: A clustering. This seeds the algorithm. It can certainly affect the result. So you might want to run this function multiple times from different seeds.
+
+* numSteps: A real number (non-negative integer). Bound on how many iterations to use.
+
+Output
+
+* A list consisting of gamma (a clustering), change (a non-negative real number), and numSteps (a non-negative integer). change measures how much the solution improved on the last iteration. numSteps is the number of iterations used.
+
+
+
+
+
+*** GRAPHICS (miscellany.R) ***
+
+
+
+hue <- function(y, a=0, b=1, p=((1 + sqrt(5)) / 2)) {
+
+Assign a color to a number.
+
+The number interval [a, b] is mapped to the color spectrum [red, magenta] (through blue and green). Inputs outside [a, b] are clamped to [a, b]. p is a distortion exponent. p = 1 was my original choice, but it under-uses the secondary colors. p = 2 makes the primaries a little under-used --- especially red. So I settled on the golden ratio.
+
+Inputs
+
+* y: A real number. The number to be mapped to a color.
+
+* a: A real number. The number that would be mapped to red.
+
+* b: A real number. The number that would be mapped to magenta. Must not equal a.
+
+* p: A real number (positive). The distortion exponent. I've never tried values outside 1 <= p <= 3.
+
+Output
+
+* Character. The color in '#rrggbb' format, suitable for passing to R graphics routines.
+
+
+
+hues <- function(ys, p=((1 + sqrt(5)) / 2)) {
+
+Assign colors to a sequence of numbers.
+
+The number interval range(ys) is mapped to the color spectrum [red, magenta] (through blue and green).
+
+Inputs
+
+* ys: A vector of real numbers. The numbers to be mapped to colors.
+
+* p: A real number (positive). The distortion exponent, as in the hue function.
+
+Output
+
+* A character vector, of the same length as ys. Each string is a color in '#rrggbb' format, suitable for passing to R graphics routines.
+
+
+
+clusteringHues <- function(clus, p=((1 + sqrt(5)) / 2)) {
+
+Coloring the results of a cluster analysis.
+
+A clustering of n points in a metric space is a list of (usually non-empty) vectors of real numbers, such that all of the numbers are integers between 1 and n (inclusive) and each integer between 1 and n appears exactly once in the clustering. For example, list(c(5, 2), c(3, 1, 4)) is a clustering for n = 5. This function returns a vector of n colors, that can be used in plots of the cluster results.
+
+Inputs
+
+* clus: A clustering of n points.
+
+* p: A real number. The distortion exponent. See the hue function.
+
+Output
+
+* A character vector of length n. Exactly n colors are used, from red through green and blue to magenta.
+
+
+
+shade <- function(x, domain=c(0, 1), range=c(0, 1)) {
+
+Assign a grayscale shade to a number.
+
+The given domain [a, b] is mapped to the given range [c, d], which should be a subset of [0, 1]. The range is then included into [0, 1], which is mapped into the color spectrum [black, white]. Inputs outside domain are clamped to domain. For example, if drawing on a white background, then maybe range should be c(0, 0.75).
+
+Inputs
+
+* y: A real number. The number to be mapped to a shade.
+
+* domain: A vector of two real numbers. The domain [a, b].
+
+* range: A vector of two real numbers. The range [c, d]. Should obey 0 <= c < d <= 1.
+
+Output
+
+* Character. The color in '#rrggbb' format, suitable for passing to R graphics routines.
+
+
+
+shades <- function(xs, range=c(0, 1)) {
+
+Assign grayscale shades to a sequence of numbers.
+
+The number interval range(xs) is mapped to the grayscale range, where 0 is black and 1 is white.
+
+Inputs
+
+* xs: A vector of real numbers. The numbers to be mapped to shades.
+
+* range: A vector of two real numbers. The range [c, d]. Should obey 0 <= c < d <= 1. As in the shade function.
+
+Output
+
+* A character vector, of the same length as xs. Each string is a color in '#rrggbb' format, suitable for passing to R graphics routines.
+
+
+
+afterMaximizingWindow <- function(leftName=NULL, rightName=NULL, zoom=0.55) {
+
+A pair of screenshots of an RGL window.
+
+Once you have an RGL window with the image that you want, maximize it, to make it as large as possible on the screen. Keeping it open, return to R and invoke this function. Currently file names must end in 'png' and only PNG output is supported.
+
+Inputs
+
+* leftName: Character. The name (or path) of the file, in which to store the first screenshot. NULL disables it.
+
+* rightName: Character. The name (or path) of the file, in which to store the second screenshot. NULL disables it.
+
+Output
+
+* NULL
+
+
+
+plot3D <- function(radius=NULL, points=list(), curves=list(), triangles=list(), colors=c("white"), simplePoints=FALSE, backgroundColor="black", curveColor="white", curveWidth=1, fogStyle="linear", pointSize=NULL, axesColors=c("red", "green", "blue")) {
+
+Infrastucture for 3D plots.
+
+Unless you are designing your own system of plotting, you probably do not want to call this function directly. Call rotEqualAnglePlot, etc. instead. See also rgl's plot3d.
+
+Inputs
+
+* radius: A real number (non-negative). If not supplied, then it is deduced from the points, curves, and triangles.
+
+* points: A list of 3D real vectors.
+
+* curves: A list of lists of 3D real vectors.
+
+* triangles: A list of length-3 lists of 3D real vectors.
+
+* colors: A list of strings (colors). Used to color the points only.
+
+* simplePoints: A logical. Whether to plot points as points or as spheres. Spheres are better for conveying depth, but they may be slow for large data sets.
+
+* backgroundColor: String (color). Color of background and fog.
+
+* curveColor: A string (color). Color of curves.
+
+* curveWidth: A real number (positive). Width of curves in pixels.
+
+* fogStyle: A string, either 'none', 'linear', 'exp', or 'exp2'. The style of fog used to suggest depth. See help for rgl.bg.
+
+* pointSize: A real number (positive). The size of the points or spheres used to depict points. If simplePoints, then measured in pixels with default 3. If not simplePoints, then measured in the same units as the radius of the plot, with default 0.02 * radius.
+
+Output
+
+* NULL.
+
+
+
+
+
+
+*** MISCELLANY (rays.R) ***
+
+
+
+rayNormalized <- function(v) {
+
+Vector normalization (to have length 1).
+
+Inputs
+
+* v: A d-dimensional vector. Cannot be of length 0.
+
+Output
+
+* A d-dimensional vector of length 1.
+
+
+
+rayOrthogonalProjection <- function(pole, v) {
+
+Projection of a vector onto the plane perpendicular to another vector.
+
+For example, when v = c(0, 0, 1), returns the upward-most ray perpendicular to pole.
+
+Inputs
+
+* pole: A d-dimensional vector perpendicular to the plane of interest. Must have non-zero length. Need not be unit.
+
+* v: A d-dimensional vector. Should not be parallel to pole. Need not be unit.
+
+Output
+
+* A unit d-dimensional vector.
+
+
+
+rayOrthogonal <- function(v) {
+
+A ray perpendicular to a given vector, deterministically.
+
+The result is deterministic but arbitrary. Due to the hairy ball theorem, the result cannot be chosen to depend smoothly on the input.
+
+Inputs
+
+* v: A 3-dimensional vector. Need not be unit.
+
+Output
+
+* A ray, perpendicular to v.
+
+
+
+rayOrthogonalUniform <- function(v) {
+
+A ray perpendicular to a given vector, probabilistically.
+
+In theory, the returned ray is uniformly chosen on the circle's worth of rays perpendicular to the given vector.
+
+Inputs
+
+* v: A 3-dimensional vector. Need not be unit.
+
+Output
+
+* A ray, perpendicular to v.
+
+
+
+rayGreatCircle <- function(pole, numSteps=50) {
+
+The great circle perpendicular to the given ray.
+
+Inputs
+
+* pole: A ray.
+
+* numSteps: The number of line segments to be used in the approximation of the great circle.
+
+Output
+
+* A list of numSteps+1 rays. The first and last one are identical. Otherwise, they are evenly spaced on the circle perpendicular to the given pole, and in order (either clockwise or counter-clockwise, depending on your viewpoint).
+
+
+
+raySmallCircle <- function(v, r, numPoints=50) {
+
+A small circle with the given ray as its pole.
+
+Inputs
+
+* v: A ray. The pole of the small circle.
+
+* r: A real number. The radius of the circle around the pole, in radians, measured along the surface of the sphere. For example, the Arctic circle would be at radius r == 23.5 * degree from the north pole.
+
+Output
+
+* A list of numPoints+1 rays. The first and last one are identical. Otherwise, they are evenly spaced on the small circle, and in order (either clockwise or counter-clockwise, depending on your viewpoint).
+
+
+
+rayGeodesicPoints <- function(u, v, numSteps=10) {
+
+Geodesic between two points on the unit sphere.
+
+Like rayGreatCircle, but specifying the great circle in terms of two points on it, rather than its pole.
+
+Inputs
+
+* u: A ray.
+
+* v: A ray.
+
+* numSteps: The number of line segments to be used in the approximation of the great circle arc from u to v.
+
+Output
+
+* A list of numSteps+1 rays. The first is u and the last is v. They are evenly spaced and in order.
+
+
+
+rayTetrahedralSphere <- function(numNonAdapt) {
+
+Triangular approximation to the unit sphere.
+
+Inputs
+
+* numNonAdapt: A real number (non-negative integer). The number of times to refine the base triangulation of the sphere.
+
+Output
+
+* A list of triangles, where each triangle is a list of three rays. The number of triangles is 4^(1 + numNonAdapt), so each triangle has spherical area pi / 4^numNonAdapt.
+
+
+
+rayUniform <- function(n=NULL) {
+
+Uniformly random points on the unit sphere.
+
+Inputs
+
+* n: A real number (positive integer) or NULL.
+
+Output
+
+* If n is NULL, then a single ray. If n is a positive integer, then a list of n rays.
+
+
+
+
+
+*** EXTRINSIC METHODS (rays.R) ***
+
+
+
+rayMeanScatter <- function(us) {
+
+Extrinsic mean and scalar scatter of a set of rays.
+
+Scatter varies between 0 (tight concentration) and 1 (wide dispersion). This scatter is denoted 1 - R-bar in Mardia and Jupp (2000), p. 163. Arguably the preferred measure of scatter should be 2 * (1 - R-bar) or 1 - R-bar^2, but this function implements neither of those.
+
+Inputs
+
+* us: A list of rays.
+
+Output
+
+* A list with elements $mean (ray) and $scatter (a real number between 0 and 1). 
+
+
+
+rayProjectedMean <- function(us) {
+
+Extrinsic mean of a set of rays.
+
+Convenience shortcut for rayMeanScatter(us)$mean.
+
+Inputs
+
+* us: A list of rays.
+
+Output
+
+* A ray.
+
+
+
+rayBootstrapInference <- function(ls, numBoots, ...) {
+
+Bootstrapped extrinsic mean with percentile confidence region and hypothesis tests.
+
+The inference is based on percentiles of Mahalanobis distance in the tangent space at the mean of the bootstrapped means. The user should check that the bootstrapped means form a tight ellipsoidal cluster, before taking such a region seriously.
+
+Inputs
+
+* ls: A list of rays.
+
+* numBoots: A real number (positive integer). The number of bootstrapped means to compute. 10,000 might be a good value.
+
+* ...: Other arguments to be passed to the underlying rayMahalanobisInference function.
+
+Output
+
+* A list. See rayMahalanobisInference.
+
+
+
+
+
+*** DIFFERENTIAL GEOMETRY (rays.R) ***
+
+
+
+rayDistance <- function(u, v) {
+
+Distance between two points on the unit sphere.
+
+Inputs
+
+* u: A ray.
+
+* v: A ray.
+
+Output
+
+* A real number. The angular difference between the two rays, in radians. Always between 0 and pi, inclusive.
+
+
+
+rayVariance <- function(us, center) {
+
+L^2 variance of a set of rays about a point.
+
+I'm not sure about the weighting on this. If you change it, change regression too.
+
+Inputs
+
+* us: A list of rays.
+
+* center: A ray. Usually some kind of mean of the us.
+
+Output
+
+* A real number (in the interval [0, pi^2 / 2]).
+
+
+
+rayExp <- function(p, v) {
+
+The exponential map on the unit sphere.
+
+Regards v as a vector in the tangent space of the unit sphere at the point p. Returns a point q on the unit sphere, a distance of |v| from p, in the direction of v. Partial inverse to rayLog.
+
+Inputs
+
+* p: A ray.
+
+* v: A 3-dimensional vector, perpendicular to p, not necessarily unit.
+
+Output
+
+* A ray.
+
+
+
+rayLog <- function(p, q) {
+
+Inverse exponential map on the unit sphere.
+
+Returns a vector v in the tangent space to the unit sphere at p, such that rayExp(p, v) = q.
+
+Inputs
+
+* p: A ray.
+
+* q: A ray.
+
+Output
+
+* A 3-dimensional vector, perpendicular to p, not necessarily unit.
+
+
+
+rayPointFromTangentVector <- function(w, rotation) {
+
+Wrapping a plane around the unit sphere.
+
+This function composes the exponential map with a non-canonical isomorphism to the plane R^2. The isomorphism is specified by the user through a rotation matrix R. The first row of R is regarded as a point p on the unit sphere. The other two rows define an isomorphism between R^2 and the tangent plane to the unit sphere at p. w is mapped through this isomorphism into the tangent plane, and then into the sphere via the exponential map. Inverse to rayTangentVectorFromPoint.
+
+Inputs
+
+* w: A 2-dimensional real vector.
+
+* rotation: A 3x3 real matrix (special orthogonal).
+
+Output
+
+* A ray.
+
+
+
+rayTangentVectorFromPoint <- function(q, rotation) {
+
+Unwrapping unit sphere into a tangent plane.
+
+Inverse to rayPointFromTangentVector.
+
+Inputs
+
+* q: A ray.
+
+* rotation: A 3x3 real matrix (special orthogonal).
+
+Output
+
+* A 2-dimensional real vector.
+
+
+
+rayMahalanobisInference <- function(us, uBar, alpha=0.05, numPoints=0, doIsotropic=FALSE) {
+
+Elliptical percentile confidence region based on Mahalanobis distance in a tangent space.
+
+Inputs
+
+* us: A list of rays.
+
+* uBar: A ray. Usually something like rayProjectedMean(us).
+
+* alpha: A real number, either 0.05 or 0.01.
+
+* numPoints: A real number (non-negative integer). The resolution with which to sample the boundary curve of the (1 - alpha)* 100% confidence region.
+
+* doIsotropic: Logical. If TRUE, forces the inverse covariance to the identity matrix and hence the region to be circular.
+
+Output
+
+* A list. $bootstraps is us. $center is uBar. $covarInv is the inverse covariance matrix in the tangent space, which is just the identity if doIsotropic is TRUE. rotation is the rotation used in rayTangentVectorFromPoint, etc. $q000, $q025, $q050, $q075, $q095, $q099 are quantiles of Mahalanobis norm. $pvalue is an R function that assigns to any ray its p-value. If numPoints > 0, then the list also has elements $alpha and $points. $alpha is alpha. $points is a list of numPoints + 1 rays describing the boundary of the confidence region, in order, with the first and last points identical.
+
+
+
+
+
+*** FISHER DISTRIBUTION (rays.R) ***
+
+
+
+rayFisher <- function(mu, kappa, n=NULL) {
+
+Sampling points from the Fisher distribution.
+
+Also called von Mises-Fisher distribution or Langevin distribution. Uses expressions on p. 172 of Mardia and Jupp (2000), with a naive acceptance-rejection sampling algorithm. As kappa increases, this algorithm gets less and less efficient --- for example, about 19 tries per acceptance when kappa == 100.
+
+Inputs
+
+* mu: A ray. The center of the distribution.
+
+* kappa: A real number (positive). The concentration of the distribution.
+
+* n: A real number (positive integer) or NULL.
+
+Output
+
+* If n is NULL, then a single ray. If n is a positive integer, then a list of n rays.
+
+
+
+rayFisherMLE <- function(xs) {
+
+Maximum likelihood estimation of the Fisher parameters.
+
+Based on Mardia and Jupp (2000, p. 198).
+
+Inputs
+
+* xs: A list of rays.
+
+Output
+
+* A list with members $muHat (the mean ray, identical to rayProjectedMean), $rBar (non-negative real number), and $kappaHat (a positive real number).
+
+
+
+rayFisherConfidence095 <- function(xs) {
+
+Confidence region for the Fisher distribution mean.
+
+Theoretically better than rayFisherLargeSampleConfidence? But in my tests it seems no better. Coverage rates tend to be too small for small sample sizes n. n = 30 delivers around 93% coverage. n = 100 delivers adequate coverage. Based on Eq. (10.4.26) from Mardia and Jupp (2000).
+
+Inputs
+
+* xs: A list of rays.
+
+Output
+
+* A list consisting of $angle95 (a real number in [0, pi]) and everything from rayFisherMLE.
+
+
+
+rayFisherLargeSampleConfidence <- function(xs, alpha=0.05) {
+
+Asymptotic confidence region for the Fisher distribution mean.
+
+Assumes large sample size n. When the sample size is small, this function's reported angle is typically too small. n = 10 is too small (only 90% coverage). n = 30 is a bit small (about 94% coverage). Even n = 55 is borderline. But n = 70 is quite adequate. Uses Eq. (10.4.31) from Mardia and Jupp (2000).
+
+Inputs
+
+* xs: A list of rays.
+
+* alpha: A real number (in [0, 1]). The significance level --- for example, 0.05 for 95% confidence.
+
+Output
+
+* A list with members $muHat (a ray, identical to rayProjectedMean), $rBar (a non-negative real number), $angle (a real number in [0, pi]). $angle is the radius of the confidence region, in radians, measured along the surface of the sphere.
+
+
+
+
+
+*** REGRESSION AND CURVE FITTING (rays.R) ***
+
+
+
+rayBestFitSmallCircle <- function(us, numSeeds=5, numSteps=1000) {
+
+Fitting a small circle to some points on the unit sphere.
+
+Inputs
+
+* us: A list of rays.
+
+Output
+
+* A list consisting of $pole (a ray, the pole to the small circle), $angle (the distance from the pole to the small circle, in radians), $error (0 if and only if minimization succeeds; if 1, then increase numSteps), and $minEigenvalue (worry about the result if this isn't positive).
+
+
+
+
+
+*** PLOTTING (rays.R) ***
+
+
+
+rayEqualAreaPlot <- function(points=list(), curves=list(), colors=c("black"), shapes=c("c")) {
+
+Equal-area plot of rays.
+
+Inputs
+
+* points: A list of rays, to be plotted as points.
+
+* curves: A list of lists of rays. Each list of rays is regarded as a curve to be plotted. Each curve is automatically subidivided at the boundary. Lower-hemisphere parts appear solid, while upper-hemisphere appear dotted.
+
+* colors: A character vector. Colors to be passed to the underlying R point-plotting function. They are truncated or recycled as needed.
+
+* shapes: A character vector. Shapes to be assigned to the plotted points: "c", "s", or "t" for circle, square, or triangle. Lower-hemisphere (upper-) points are plotted using filled (unfilled) versions of the shapes. They are truncated or recycled as needed.
+
+Output
+
+* NULL.
+
+
+
+rayEqualAreaRadiusPlot <- function(points=list(), radii=c(), colors=c("black"), shapes=c("c")) {
+
+Equal-area plot of rays, with a circle about each point.
+
+Inputs
+
+* points: A list of rays, to be plotted as points.
+
+* radii: A vector of real numbers. The radii of circles to be drawn about the points. Radii are measured in radians, along the surface of the unit sphere.
+
+* colors: A character vector. See rayEqualAreaPlot.
+
+* shapes: A character vector. See rayEqualAreaPlot.
+
+Output
+
+* NULL.
+
+
+
+rayEqualAreaPlotTwo <- function(pointsA, pointsB, colorA="red", colorB="cyan", curves=list()) {
+
+Convenience shortcut for plotting two sets of rays.
+
+Inputs
+
+* pointsA: A list of rays.
+
+* pointsB: A list of rays.
+
+* colorA: Character. A color, of the sort used in all R graphics routines.
+
+* colorB: Character. A color, of the sort used in all R graphics routines.
+
+* curves: A list of lists of rays. Curves to be plotted.
+
+Output
+
+* NULL.
+
+
+
+rayEqualAreaPlotThree <- function(pointsA, pointsB, pointsC, colorA="red", colorB="green", colorC="blue", curves=list()) {
+
+Convenience shortcut for plotting three sets of rays.
+
+Inputs
+
+* pointsA: A list of rays.
+
+* pointsB: A list of rays.
+
+* pointsC: A list of rays.
+
+* colorA: Character. A color, of the sort used in all R graphics routines.
+
+* colorB: Character. A color, of the sort used in all R graphics routines.
+
+* colorC: Character. A color, of the sort used in all R graphics routines.
+
+* curves: A list of lists of rays. Curves to be plotted.
+
+Output
+
+* NULL.
+
+
+
+
+
+*** TWO DIMENSIONS (rays.R) ***
+
+
+
+ray2DUniform <- function(n=NULL) {
+
+Uniformly random points on the unit circle.
+
+Inputs
+
+* n: A real number (positive integer) or NULL.
+
+Output
+
+* If n is NULL, then a single 2D ray. If n is a positive integer, then a list of n 2D rays.
+
+
+
+ray2DWrappedNormal <- function(mean, sd, n=NULL) {
+
+Random points on the unit circle, drawn from the wrapped normal distribution.
+
+Inputs
+
+* mean: A 2D ray.
+
+* sd: A real number (positive). The standard deviation sigma of the underlying normal distribution, in radians.
+
+* n: A real number (positive integer) or NULL.
+
+Output
+
+* If n is NULL, then a single 2D ray. If n is a positive integer, then a list of n 2D rays.
+
+
+
+ray2DBootstrapInference <- function(ls, numBoots) {
+
+Bootstrapped extrinsic mean for 2D rays.
+
+The inference is based on percentiles of distance from the mean of the bootstrapped means. The user should check that the bootstrapped means form a unimodal symmetric distribution, before taking such a region seriously.
+
+Inputs
+
+* ls: A list of 2D rays.
+
+* numBoots: A real number (positive integer). The number of bootstrapped means to compute. 10,000 might be a good value.
+
+Output
+
+* A list ($center, $bootstraps, $pvalue, $q000, $q025, $q050, $q075, $q095, $q099, $q100). $bootstraps are the bootstraps. $center is their mean. The other fields are quantiles of distance from the mean, in radians, among the bootstraps. For example, a 95% confidence region consists of all 2D rays within $q095 of $center. $pvalue is an R function from 2D rays to real numbers, assigning a p-value to any given null hypothesis for the mean.
+
+
+
+ray2DRosePlot <- function(rays, weights=replicate(length(rays), 1), numBins=36, inner=0, areal=TRUE) {
+
+Rose plot for 2D rays.
+
+The data are binned. (Binning starts at the positive x-axis and proceeds counterclockwise. In a future release maybe we could add an offset, to start the binning elsewhere.) Each datum can be given a weight, which is tantamount to repeating the datum in the data set. Each petal in the Rose plot represents the total weight in a bin, either by area or by length. Concentric circles indictate the 10%, 20%, 30%, etc. weight levels.
+
+Inputs
+
+* rays: A list of 2D or 3D real vectors. In each one, only the 2D projection (the first two components) is used. It must be non-zero but need not be unit.
+
+* weights: A vector of real numbers. The weights to attach to the rays.
+
+* numBins: The number of bins to use. For example, numBins == 36 means 10-degree-wide bins.
+
+* inner: A real number (non-negative). This parameter reserves a circle of empty space at the center of the plot. More precisely, the plot takes place between radius inner and radius 1. inner == 0 seems traditional in geology, but I feel that inner == 0.25 (say) is prettier and easier to read.
+
+* areal: Logical. If FALSE, then each petal's length is proportional to its bin's weight. If TRUE, then each petal's area is proportional to its bin's weight. areal == FALSE seems traditional in geology, but all data visualization advice I've ever seen suggests that areal == TRUE is the right choice.
+
+Output
+
+* NULL.
+
+
+
+
+
+
+*** MISCELLANY (lines.R) ***
+
+
+
+lineDistance <- function(u, v) {
+
+Distance between two lines, as the angle (in radians) between them.
+
+Inputs
+
+* u: A line.
+
+* v: A line.
+
+Output
+
+* A real number. The distance between the two lines, in radians. Between 0 and pi / 2, inclusive.
+
+
+
+lineVariance <- function(us, center) {
+
+L^2 variance of a set of lines about a point.
+
+I'm not sure about the weighting on this. If you change it, change regression too.
+
+Inputs
+
+* us: A list of lines.
+
+* center: A line. Usually some kind of mean of the us.
+
+Output
+
+* A real number (in the interval [0, pi^2 / 8]).
+
+
+
+lineGeodesicPoints <- function(u, v, numSteps=10) {
+
+Geodesic curve between two points on the unit sphere.
+
+Inputs
+
+* u: A line.
+
+* v: A line.
+
+* numSteps: The number of line segments to be used in the approximation of the great circle arc from u to v.
+
+Output
+
+* A list of numSteps+1 lines. The first is u and the last is v. They are evenly spaced and in order.
+
+
+
+lineUniform <- function(n=NULL) {
+
+Uniformly random lines.
+
+Inputs
+
+* n: A real number (positive integer) or NULL.
+
+Output
+
+* If n is NULL, then a single line. If n is a positive integer, then a list of n lines.
+
+
+
+
+
+*** EXTRINSIC METHODS (lines.R) ***
+
+
+
+lineMeanScatter <- function(us) {
+
+Projected mean and scatter of a set of lines.
+
+Inputs
+
+* us: A list of lines.
+
+Output
+
+* A list with elements $values, $vectors. $vectors is a 3x3 real matrix whose columns are the principal directions of dispersion: mean, other direction along main girdle, pole to girdle. $values is a vector of three numbers, nonnegative, summing to 1, and decreasing. They capture the strength of the concentration about the principal directions.
+
+
+
+lineProjectedMean <- function(us) {
+
+Shortcut convenience function for the projected mean.
+
+Inputs
+
+* us: A list of lines.
+
+Output
+
+* A line.
+
+
+
+lineBootstrapInference <- function(ls, numBoots, ...) {
+
+Bootstrapped projected mean with percentile confidence region and hypothesis tests.
+
+The inference is based on percentiles of Mahalanobis distance in the tangent space at the mean of the bootstrapped means. The user should check that the bootstrapped means form a tight ellipsoidal cluster, before taking such a region seriously.
+
+Inputs
+
+* ls: A list of lines.
+
+* numBoots: A real number (positive integer). The number of bootstrapped means to compute. 10,000 might be a good value.
+
+* ...: Other arguments to be passed to the underlying rayMahalanobisInference function.
+
+Output
+
+* A list. See rayMahalanobisInference for most of it. But the $pvalue function treats its input as a ray. An added $pvalueLine function treats its input as a line, so use that.
+
+
+
+
+
+*** WATSON DISTRIBUTION (lines.R) ***
+
+
+
+lineWatsonNormalizer <- function(kappa) {
+
+Normalizing constant for the Watson distribution.
+
+That is, the number C such that C exp(kappa (mu^T u)^2) integrates to 1. By the way, C == 1 / 1F1(0.5, 1.5, kappa).
+
+Inputs
+
+* kappa: A real number. The concentration parameter.
+
+Output
+
+* A real number.
+
+
+
+lineWatson <- function(mu, kappa, n=NULL) {
+
+Sampling lines from the Watson distribution.
+
+A naive acceptance-rejection sampling algorithm, based on bounding the density (with respect to the distance from mu) with a constant. For large kappa, this method grows inefficient. For kappa == 100, about 13 tries are needed per success. For kappa == -100, about 18 tries are needed.
+
+Inputs
+
+* mu: A line. The mean of the distribution (if kappa > 0) or the pole to the girdle of the distribution (if kappa < 0).
+
+* kappa: A real number. The concentration parameter.
+
+* n: A real number (positive integer) or NULL.
+
+Output
+
+* If n is NULL, then a single line. If n is a positive integer, then a list of n lines.
+
+
+
+lineWatsonMLE <- function(xs, shape=NULL) {
+
+Maximum likelihood estimation of the Watson distribution parameters.
+
+From Mardia and Jupp (2000, Section 10.3.2).
+
+Inputs
+
+* xs: A list of lines.
+
+* shape: NULL or character, either 'bipolar' or 'girdle'. If NULL, then this function chooses automatically.
+
+Output
+
+* A list with members $muHat (a line, the MLE of the mean), $kappaHat (a real number, the MLE of the concentration, shape (character, either 'bipolar' or 'girdle'), d3 (a positive real number, the D3 from which kappaHat was computed), and $eigenvalues (the eigenvalues of the T-bar matrix, in descending order).
+
+
+
+lineWatsonInference <- function(xs, alpha=0.05, shape=NULL) {
+
+One-sample inference about the mean of the Watson distribution.
+
+Assumes large concentration --- either kappa >> 0 or kappa << 0. From Mardia and Jupp (2000, Section 10.7.3).
+
+Inputs
+
+* xs: A list of lines.
+
+* alpha: A real number, between 0 and 1. The significance level for the confidence region.
+
+* shape: NULL or character, either 'bipolar' or 'girdle'. If NULL, then this function chooses automatically.
+
+Output
+
+* A list with members $shape, $tBar, $rhs, $pvalue. $shape is either 'bipolar' or 'girdle'. If 'bipolar', then the confidence region consists of all lines u such that u^T %*% $tBar %*% u > $rhs. If 'girdle', then the confidence region consists of all lines u such that u^T %*% $tBar %*% u < $rhs. $pvalue is an R function that takes as input a line u0 and produces as output a real number in [0, 1] --- the p-value for the null hypothesis that the Watson mean is u0.
+
+
+
+lineLargeMultiSampleWatsonInference <- function(xss, shape=NULL) {
+
+Multi-sample inference about the mean of the Watson distribution.
+
+Assumes large sample sizes. Assumes that all of the data sets are Watson-distributed with the same unknown concentration kappa. From Mardia and Jupp (2000, Section 10.7.4).
+
+Inputs
+
+* xss: A list of lists of lines.
+
+* shape: NULL or character, either 'bipolar' or 'girdle'. If NULL, then this function chooses automatically.
+
+Output
+
+* A real number. The p-value for the null hypothesis that the means of the q distributions are all equal.
+
+
+
+lineConcentratedMultiSampleWatsonInference <- function(xss, shape=NULL) {
+
+Multi-sample inference about the mean of the Watson distribution.
+
+Assumes tight concentration. Tests suggest that it works for |kappa| >= 10, but not for |kappa| == 1. Assumes that all of the data sets are Watson-distributed with the same unknown concentration kappa. From Mardia and Jupp (2000, Section 10.7.4).
+
+Inputs
+
+* xss: A list of lists of lines.
+
+* shape: NULL or character, either 'bipolar' or 'girdle'. If NULL, then this function chooses automatically.
+
+Output
+
+* A real number. The p-value for the null hypothesis that the means of the q distributions are all equal.
+
+
+
+
+
+*** BINGHAM DISTRIBUTION (lines.R) ***
+
+
+
+lineBingham <- function(a, n=NULL) {
+
+Simulation from the Bingham distribution.
+
+Uses the function rbingham in package Directional. In that convention, the Bingham probability density is proportional to exp(-x^T A x), not exp(x^T A x). The mean is the eigenvector of A with least eigenvalue. The main direction of the dispersion is toward the eigenvector of A with the intermediate eigenvalue. The pole to the dispersion is the eigenvector with greatest eigenvalue.
+
+Inputs
+
+* a: A symmetric real 3x3 matrix.
+
+* n: A real number (positive integer) or NULL.
+
+Output
+
+* If n is NULL, then a single line. If n is a positive integer, then a list of n lines.
+
+
+
+lineTauxeBinghamMLE <- function(us, weights=replicate(length(us), 1)) {
+
+Maximum likelihood estimation of the Bingham distribution parameters.
+
+Based on Tauxe (2010). May not work if the data are too concentrated or too dispersed? Results are great for n == 1000, so-so for n == 100, and poor for n == 10. The Bingham probability density is proportional to exp(-x^T A x), not exp(x^T A x). I prefer to normalize A so that tr A == 0.
+
+Inputs
+
+* us: A list of lines.
+
+* weights: A vector of real numbers (positive), of length equal to us. They need not sum to 1; the function automatically normalizes them to do so.
+
+Output
+
+* A list with members $a (symmetric 3x3 real matrix A), $values (a real 3D vector; the eigenvalues of A), and $vectors (a rotation matrix; the eigenvectors of A are the columns). The values are in descending order and sum to zero.
+
+
+
+lineBinghamInference095 <- function(us) {
+
+95% confidence region for the mean of the Bingham distribution.
+
+This function sometimes fails, if the data set is too concentrated, dispersed, or small? This is not a particularly high-quality implementation of the technique.
+
+Inputs
+
+* ls: A list of lines.
+
+Output
+
+* A list with members $directions, $scatter, and $angles095. The first two members are identical to $vectors and $values in lineProjectedMean. $angles095 is a pair of real numbers. They describe the 95% confidence region, as two distances from the mean toward the two other principal dispersions, measured in radians along the unit sphere's surface. If the inference fails, then the angles are NA.
+
+
+
+lineGeodesicRegression <- function(xs, ls, numSteps=1000, numPoints=0) {
+
+Fitting a great circle arc to a set of lines.
+
+Inputs
+
+* xs: A vector of real numbers. Values of the independent scalar variable x.
+
+* ls: A list of lines, of the same length as xs.
+
+* numSteps: A real number (positive integer). A bound on the number of numerical optimization iterations allowed. If you find that the results have $error != 0, then try increasing numSteps.
+
+* numPoints: A real number (positive integer). The number of points along the regression curve requested.
+
+Output
+
+* A list (a, rotation, error, minEigenvalue, rSquared, prediction). The great circle curve is v(x) = R [cos(a x) sin(a x) 0]^T, where R == rotation. The third column of R is the pole of the great circle. a is the angle of rotation about that pole per unit x, in radians. So a / degree is the angle in degrees. error should be 0 and minEigenvalue should be positive. Otherwise there was some problem in the optimization. rSquared is the squared correlation coefficient, 0 <= R^2 <= 1. If numPoints > 0 then the return list also has a member $points consisting of numPoints+1 lines. prediction is an R function that takes an x value (real number) as input and produces the line v(x) as output.
+
+
+
+lineRescaledGeodesicRegression <- function(xs, ls, numSteps=1000, numPoints=0) {
+
+Fitting a great circle arc to a set of lines.
+
+Similar to regressionLineGeodesicCurve, but internally rescales x to [0, 1] for better performance. Try this function first, and use the other function only if you find reason to.
+
+Inputs
+
+* xs: See lineGeodesicRegression.
+
+* ls: See lineGeodesicRegression.
+
+* numSteps: See lineGeodesicRegression.
+
+* numPoints: See lineGeodesicRegression.
+
+Output
+
+* See lineGeodesicRegression.
+
+
+
+lineGeodesicRegressionPermutations <- function(xs, ls, numPerms, numSteps=10000) {
+
+Permutation test for geodesic regression of lines.
+
+You request some number of permutations. This function attempts that many. Sometimes some of them fail, due to the optimization process. If you're getting many failures, then consider increasing numSteps. Anyway, after computing these R^2 values, you will want to know how many there are and how many exceed the R^2 for the original regression. The ratio of the latter to the former is your p-value for the null hypothesis that there is no geodesic dependence of the ls on the xs. In other words, small values of p indicate that the regression is meaningful.
+
+Inputs
+
+* xs: See lineGeodesicRegression.
+
+* ls: See lineGeodesicRegression.
+
+* numPerms: A real number (positive integer). The number of permutations to try, say 1,000 or 10,000.
+
+* numSteps: See lineGeodesicRegression.
+
+Output
+
+* A vector of real numbers, all between 0 and 1 inclusive. The length (dimension) of this vector cannot exceed numPerms. The R^2 value for each of the permutation tests in which the optimization succeeded.
+
+
+
+lineWellner <- function(xs, ys) {
+
+Wellner's T-statistic (Wellner, 1979), which measures how different two sets of lines are.
+
+Inputs
+
+* xs: A list of lines.
+
+* ys: A list of lines.
+
+Output
+
+* A real number (nonnegative). Zero if the two data sets are identical.
+
+
+
+lineWellnerInference <- function(xs, ys, numPerms) {
+
+Two-sample test, based on permutations and Wellner's T-statistic (Wellner, 1979).
+
+Inputs
+
+* xs: A list of lines.
+
+* ys: A list of lines.
+
+* numPerms: A real number (positive integer). The number of permutations, say 1,000 or 10,000.
+
+Output
+
+* A real number, between 0 and 1 inclusive. The fraction of tests in which T exceeds the original T for the data. You can interpret this as a p-value for the null hypothesis that the two populations are identical (not just that their means are identical). In other words, small values of p indicate that the distinction between the two populations is meaningful.
+
+
+
+
+
+*** PLOTTING (lines.R) ***
+
+
+
+lineEqualAreaPlot <- function(points=list(), curves=list(), colors=c("black"), shapes=c("c")) {
+
+Equal-area, lower-hemisphere plot of lines.
+
+This function essentially sends everything to the lower hemisphere and then invokes rayEqualAreaPlot. See rayEqualAreaPlot for details.
+
+Inputs
+
+* points: A list of rays.
+
+* curves: A list of lists of rays.
+
+* colors: A character vector.
+
+* shapes: A character vector. Traditionally lineations are squares, intermediates are triangles, and poles to foliation are circles.
+
+Output
+
+* NULL
+
+
+
+lineEqualAreaRadiusPlot <- function(points=list(), radii=c(), colors=c("black"), shapes=c("c")) {
+
+Equal-area, lower-hemisphere plot of lines, with a circle about each point.
+
+This function essentially sends everything to the lower hemisphere and then invokes rayEqualAreaRadiusPlot.
+
+Inputs
+
+* points: A list of lines, to be plotted as points.
+
+* radii: A vector of real numbers. The radii of circles to be drawn about the points. Radii are measured in radians, along the surface of the unit sphere.
+
+* colors: A character vector. See rayEqualAreaPlot.
+
+* shapes: A character vector. See rayEqualAreaPlot.
+
+Output
+
+* NULL
+
+
+
+lineEqualAreaFunctionPlot <- function(f, levels, numNonAdapt=4, points=list(), colors=c("black"), shapes=c("c"), ...) {
+
+Equal-area, lower-hemisphere plot of lines, with contours representing level sets of an arbitrary given function.
+
+Inputs
+
+* f: An R function. Its input is a single line u, and optionally additional parameters '...'. Its output is a real number f(u, ...).
+
+* levels: A vector of real numbers. The numbers c such that the contours f(u, ...) = c are plotted.
+
+* numNonAdapt: A real number (non-negative integer). The number of non-adaptive refinements to make. These control the quality of the plot. Each increment to numNonAdapt makes the contours smoother, and helps resolve 'star defects' that sometimes appear along the contours. On the other hand, each increment increases the time and memory requirements by a factor of four.
+
+* points: A list of lines, to be plotted as points. Need not have anything to do with f.
+
+* colors: A character vector. See rayEqualAreaPlot.
+
+* shapes: A character vector. See rayEqualAreaPlot.
+
+* ...: Additional arguments to be passed to f, other than u.
+
+Output
+
+* NULL
+
+
+
+lineKambPlot <- function(points, multiples=c(3, 6, 9, 12), k=3, degree=3, numNonAdapt=4, colors=c("black"), shapes=c("c")) {
+
+Equal-area, lower-hemisphere plot of lines, with Kamb contours representing density.
+
+Inputs
+
+* points: A list of lines, to be plotted as points.
+
+* multiples: A vector of real numbers (positive). The multiples of sigma to be plotted as contours.
+
+* k: A real number (positive). The arbitrary smoothing factor of Kamb (1959). I see no practical reason to mess with this, other than curiosity.
+
+* degree: A real number (0, 1, or 3). The degree of the weighting polynomial. Higher degrees tend to produce smoother plots. I see no practical reason to mess with this, other than curiosity.
+
+* numNonAdapt: A real number (non-negative integer). The number of non-adaptive refinements to make. These control the quality of the plot. Each increment to numNonAdapt makes the contours smoother, and helps resolve 'star defects' that sometimes appear along the contours. On the other hand, each increment increases the time and memory requirements by a factor of four.
+
+* colors: A character vector. See rayEqualAreaPlot.
+
+* shapes: A character vector. See rayEqualAreaPlot.
+
+Output
+
+* NULL
+
+
+
+lineEqualAreaPlotTwo <- function(pointsA, pointsB, colorA="red", colorB="cyan", curves=list()) {
+
+Convenience shortcut for plotting two sets of lines.
+
+Inputs
+
+* pointsA: A list of lines.
+
+* pointsB: A list of lines.
+
+* colorA: Character. A color, of the sort used in all R graphics routines.
+
+* colorB: Character. A color, of the sort used in all R graphics routines.
+
+* curves: A list of lists of lines. Curves to be plotted.
+
+Output
+
+* NULL.
+
+
+
+lineEqualAreaPlotThree <- function(pointsA, pointsB, pointsC, colorA="red", colorB="green", colorC="blue", curves=list()) {
+
+Convenience shortcut for plotting three sets of lines.
+
+Inputs
+
+* pointsA: A list of lines.
+
+* pointsB: A list of lines.
+
+* pointsC: A list of lines.
+
+* colorA: Character. A color, of the sort used in all R graphics routines.
+
+* colorB: Character. A color, of the sort used in all R graphics routines.
+
+* colorC: Character. A color, of the sort used in all R graphics routines.
+
+* curves: A list of lists of lines. Curves to be plotted.
+
+Output
+
+* NULL.
+
+
+
+lineEqualAreaScalarPlot <- function(vs, zs, ...) {
+
+Equal-area plot of lines, extruded into the third dimension arbitrarily by the user.
+
+Inputs
+
+* vs: A list of lines.
+
+* zs: A vector of real numbers, of the same length as vs. The third coordinate to be plotted.
+
+* ...: Other plotting options to be passed to the underlying plot3D.
+
+Output
+
+* NULL.
+
+
+
+
+
+*** TWO DIMENSIONS (lines.R) ***
+
+
+
+line2DUniform <- ray2DUniform
+
+Uniformly random 2D lines.
+
+Inputs
+
+* n: A real number (positive integer) or NULL.
+
+Output
+
+* If n is NULL, then a single 2D line. If n is a positive integer, then a list of n 2D lines.
+
+
+
+line2DWrappedNormal <- ray2DWrappedNormal
+
+Random 2D lines, drawn from the wrapped normal distribution on the unit circle.
+
+Inputs
+
+* mean: A 2D line.
+
+* sd: A real number (positive). The standard deviation sigma of the underlying normal distribution, in radians.
+
+* n: A real number (positive integer) or NULL.
+
+Output
+
+* If n is NULL, then a single 2D line. If n is a positive integer, then a list of n 2D lines.
+
+
+
+line2DBootstrapInference <- function(ls, numBoots) {
+
+Bootstrapped extrinsic mean for 2D lines.
+
+Essentially ray2DBootstrapInference, adapted for lines.
+
+Inputs
+
+* ls: A list of 2D lines.
+
+* numBoots: A real number (positive integer). The number of bootstrapped means to compute. 10,000 might be a good value.
+
+Output
+
+* A list ($center, $bootstraps, $pvalue, $q000, $q025, $q050, $q075, $q095, $q099, $q100). $bootstraps are the bootstraps. $center is their mean. The other fields are quantiles of distance from the mean, in radians, among the bootstraps. For example, a 95% confidence region consists of all 2D rays within $q095 of $center. $pvalue is an R function from 2D rays to real numbers, assigning a p-value to any given null hypothesis for the mean.
+
+
+
+line2DRosePlot <- function(lines, weights=replicate(length(lines), 1), ...) {
+
+Rose plot for 2D lines.
+
+Nearly identical to ray2DRosePlot, but with each line represented by two rays. In theory this rose diagram should be perfectly symmetric about the origin. In practice, data points often fall on the boundary between bins and are resolved arbitrarily, producing some leakage from bins into neighboring bins and hence asymmetry?
+
+Inputs
+
+* lines: A list of 2D or 3D real vectors. In each one, only the 2D projection (the first two components) is used. It must be non-zero but need not be unit.
+
+* weights: A vector of real numbers. The weights to attach to the lines.
+
+* ...: Other options to be passed to the underlying rayRosePlot.
+
+Output
+
+* NULL.
+
+
+
+
+
+
+*** CONVERSIONS AMONG REPRESENTATIONS OF ROTATIONS (rotations.R) ***
+
+
+
+rotVectorFromAntisymmetric <- function(w) {
+
+Conversion from anti-symmetric matrix (infinitesimal rotation) to a vector of its non-redundant entries.
+
+Inputs
+
+* w: A rotation matrix.
+
+Output
+
+* A real 3D vector of length between 0 and pi, inclusive.
+
+
+
+rotAntisymmetricFromVector <- function(v) {
+
+Conversion from vector representation to anti-symmetric matrix (infinitesimal rotation).
+
+Inputs
+
+* v: A real 3D vector.
+
+Output
+
+* A rotation matrix.
+
+
+
+rotMatrixFromAxisAngle <- function(ua) {
+
+Conversion from angle-axis representation to matrix.
+
+Inputs
+
+* au: A 4D real vector c(u1, u2, u3, a), with u unit length and a an angle in radians.
+
+Output
+
+* A rotation matrix.
+
+
+
+rotAxisAngleFromMatrix <- function(r) {
+
+Conversion from matrix to angle-axis representation.
+
+Inputs
+
+* r: A rotation matrix.
+
+Output
+
+* A 4D real vector c(u1, u2, u3, a), with u unit length and a an angle in radians.
+
+
+
+rotExp <- function(w) {
+
+Matrix exponentiation of infinitesimal rotation to finite rotation.
+
+Inputs
+
+* w: A 3x3 real matrix (anti-symmetric).
+
+Output
+
+* A rotation matrix.
+
+
+
+rotLog <- function(r) {
+
+Matrix logarithm to produce infinitesimal from finite rotation.
+
+Inputs
+
+* r: A 3x3 rotation matrix.
+
+Output
+
+* A 3x3 real matrix (anti-symmetric). The principal logarithm.
+
+
+
+rotMatrixFromRightTangent <- function(v, center) {
+
+Maps a tangent space into the space of rotations.
+
+Converts tangent vector v into rotation matrix R = exp(V) C.
+
+Inputs
+
+* v: A 3D real vector.
+
+* center: A rotation matrix.
+
+Output
+
+* A rotation matrix.
+
+
+
+rotRightTangentFromMatrix <- function(r, center) {
+
+Maps the space of rotations into one of its tangent spaces.
+
+Converts rotation matrix R = exp(V) C into vector v. Appropriate only if the two given rotations are close to each other.
+
+Inputs
+
+* r: A rotation matrix.
+
+* center: A rotation matrix.
+
+Output
+
+* A 3D real vector.
+
+
+
+rotMatrixFromLeftTangent <- function(v, center) {
+
+Maps a tangent space into the space of rotations.
+
+Converts tangent vector v into rotation matrix R = C exp(V).
+
+Inputs
+
+* v: A 3D real vector.
+
+* center: A rotation matrix.
+
+Output
+
+* A 3x3 rotation matrix.
+
+
+
+rotLeftTangentFromMatrix <- function(r, center) {
+
+Maps the space of rotations into one of its tangent spaces.
+
+Converts rotation matrix R = exp(V) C into vector v. Appropriate only if the two given rotations are close to each other.
+
+Inputs
+
+* r: A rotation matrix.
+
+* center: A rotation matrix.
+
+Output
+
+* A 3D real vector.
+
+
+
+rotMatrixAboutX <- function(a) {
+
+Rotation matrix about the x-axis.
+
+Inputs
+
+* a: A real number (angle in radians).
+
+Output
+
+* A rotation matrix.
+
+
+
+rotMatrixAboutY <- function(a) {
+
+Rotation matrix about the y-axis.
+
+Inputs
+
+* a: A real number (angle in radians).
+
+Output
+
+* A rotation matrix.
+
+
+
+rotMatrixAboutZ <- function(a) {
+
+Rotation matrix about the z-axis.
+
+Inputs
+
+* a: A real number (angle in radians).
+
+Output
+
+* A rotation matrix.
+
+
+
+rotMatrixFromXZXAngles <- function(cba) {
+
+Rotation matrix from xzx Euler angles.
+
+The resulting matrix represents rotation about the global x-axis through the angle cba[[3]], followed by rotation about the global z-axis through cba[[2]], followed by rotation about the global x-axis through cba[[1]].
+
+Inputs
+
+* cba: A 3D real vector. The Euler angles in radians.
+
+Output
+
+* A rotation matrix.
+
+
+
+rotXZXAnglesFromMatrix <- function(r) {
+
+Extraction of xzx Euler angles from rotation matrix.
+
+A vector cba is produced, such that the matrix represents rotation about the global x-axis through the angle cba[[3]], followed by rotation about the global z-axis through cba[[2]], followed by rotation about the global x-axis through cba[[1]].
+
+Inputs
+
+* r: A rotation matrix.
+
+Output
+
+* A 3D real vector. The Euler angles in radians. The middle angle is always in [0, pi].
+
+
+
+rotEqualVolumeFromAxisAngle <- function(ua) {
+
+Conversion of angle-axis representation to equal-volume representation.
+
+Inputs
+
+* ua: A 4D real vector c(u1, u2, u3, a), with u unit length and a an angle in radians.
+
+Output
+
+* A 3D real vector.
+
+
+
+rotXMinusSinXSolution <- function(d) {
+
+Solution of x - sin(x) == d, within tolerance of epsilon.
+
+Helper function for rotAxisAngleFromEqualVolume, etc.
+
+Inputs
+
+* d: A real number.
+
+Output
+
+* A real number, hopefully in [0, pi].
+
+
+
+rotAxisAngleFromEqualVolume <- function(v) {
+
+Conversion of equal-volume representation to angle-axis representation.
+
+Inputs
+
+* v: A 3D real vector.
+
+Output
+
+* A 4D real vector c(u1, u2, u3, a), with u unit length and a an angle in radians.
+
+
+
+rotEqualVolumeFromMatrix <- function(r) {
+
+Conversion of rotation matrix to its equal-volume representation.
+
+Inputs
+
+* r: A rotation matrix.
+
+Output
+
+* A 3D real vector.
+
+
+
+rotMatrixFromEqualVolume <- function(v) {
+
+Conversion of equal-volume representation to rotation matrix.
+
+Inputs
+
+* v: A 3D real vector.
+
+Output
+
+* A rotation matrix.
+
+
+
+rotEqualAngleFromMatrix <- function(r) {
+
+Conversion of rotation matrix to its equal-angle representation.
+
+Inputs
+
+* r: A rotation matrix.
+
+Output
+
+* A 3D real vector.
+
+
+
+rotMatrixFromEqualAngle <- function(v) {
+
+Conversion of equal-angle representation to rotation matrix.
+
+Inputs
+
+* v: A 3D real vector.
+
+Output
+
+* A rotation matrix.
+
+
+
+rotRodriguesFromMatrix <- function(r) {
+
+Conversion of rotation matrix to its Rodrigues representation.
+
+Inputs
+
+* r: A rotation matrix.
+
+Output
+
+* A 3D real vector.
+
+
+
+rotMatrixFromRodrigues <- function(v) {
+
+Conversion of Rodrigues representation to rotation matrix.
+
+Inputs
+
+* v: A 3D real vector.
+
+Output
+
+* A rotation matrix.
+
+
+
+rotQuaternionFromAxisAngle <- function(ua) {
+
+Conversion of axis-angle representation to quaternion.
+
+Inputs
+
+* ua: A 4D real vector. Unit vector u followed by angle a in radians.
+
+Output
+
+* A 4D real vector (unit length).
+
+
+
+rotAxisAngleFromQuaternion <- function(q) {
+
+Conversion of quaternion representation to axis-angle.
+
+Inputs
+
+* q: A 4D real vector (unit length).
+
+Output
+
+* A 4D real vector. Unit vector u followed by angle a in radians.
+
+
+
+rotMatrixFromQuaternion <- function(q) {
+
+Conversion of quaternion representation to its rotation matrix.
+
+Inputs
+
+* q: A 4D real vector (unit length).
+
+Output
+
+* A rotation matrix.
+
+
+
+rotQuaternionFromMatrix <- function(r) {
+
+Conversion of rotation matrix to its quaternion representation.
+
+Inputs
+
+* r: A rotation matrix.
+
+Output
+
+* A 4D real vector (unit length).
+
+
+
+
+
+*** GEODESIC METHODS (rotations.R) ***
+
+
+
+rotDistance <- function(r, q) {
+
+The distance between two rotations as points in SO(3).
+
+Inputs
+
+* r: A rotation matrix.
+
+* q: A rotation matrix.
+
+Output
+
+* A real number (in the interval [0, pi]).
+
+
+
+rotDiameter <- function(rs) {
+
+Diameter of a set of rotations.
+
+Inputs
+
+* rs: A list of rotation matrices.
+
+Output
+
+* A real number (in the interval [0, pi]).
+
+
+
+rotSmallestRotationFromTwoRays <- function(u, v) {
+
+The smallest rotation matrix R such that R u = v.
+
+Inputs
+
+* u: A ray (unit real 3D vector).
+
+* v: A ray.
+
+Output
+
+* A rotation matrix.
+
+
+
+rotSmallestRotationFromTwoLines <- function(u, v) {
+
+The smallest rotation matrix R such that R u = v or R u = -v.
+
+Inputs
+
+* u: A line (unit real 3D vector).
+
+* v: A line.
+
+Output
+
+* A rotation matrix.
+
+
+
+rotSeparation <- function(rs) {
+
+The minimum distance between two elements of a set of rotations.
+
+Inputs
+
+* rs: A list of rotation matrices.
+
+Output
+
+* A real number (in the interval [0, pi]).
+
+
+
+rotVariance <- function(rs, center) {
+
+The Frechet (geodesic L^2) variance of a set of rotations about a given rotation.
+
+Inputs
+
+* rs: A list of rotation matrices.
+
+* center: A rotation matrix.
+
+Output
+
+* A real number (between 0 and pi^2 / 2).
+
+
+
+rotMeanVariance <- function(rs, numSeeds=1, numSteps=100) {
+
+The Frechet (geodesic L^2) mean of a set of rotations, starting from a seed.
+
+An interative algorithm for computing the Frechet mean --- the rotation that minimizes the Frechet variance. The iterations continue until error squared of epsilon is achieved or numSteps iterations have been used. Try multiple seeds, to improve your chances of finding the global optimum.
+
+Inputs
+
+* rs: A list of rotation matrices.
+
+* numSeeds: A real number (positive integer). How many rs to try as seeds.
+
+* numSteps: A real number (positive integer). Bound on how many iterations to use.
+
+Output
+
+* A list consisting of $mean (a special orthogonal real 3x3 matrix), $variance (a real number), $changeSquared (a real number), and $numSteps (a non-negative integer). changeSquared is the square of the size of the final step. numSteps is the number of iterations used.
+
+
+
+rotFrechetMean <- function(rs, numSeeds=1, numSteps=100) {
+
+The Frechet (geodesic L^2) mean. Convenience shortcut for rotMeanVariance.
+
+Inputs
+
+* rs: A list of rotation matrices.
+
+* numSeeds: A real number (positive integer). How many rs to try as seeds.
+
+* numSteps: A real number (positive integer). Bound on how many iterations to use.
+
+Output
+
+* A rotation matrix.
+
+
+
+rotNearestPointOnRightGeodesic <- function(q, m, b) {
+
+Point on a geodesic that is closest to a given point.
+
+Returns the point on the geodesic (exp a M) B that is closest to Q.
+
+Inputs
+
+* q: A rotation matrix.
+
+* m: A 3x3 real matrix (antisymmetric).
+
+* b: A rotation matrix.
+
+Output
+
+* A rotation matrix.
+
+
+
+rotNearestPointOnLeftGeodesic <- function(q, m, b) {
+
+Point on a geodesic that is closest to a given point.
+
+Returns the point on the geodesic B (exp a M) that is closest to Q.
+
+Inputs
+
+* q: A rotation matrix.
+
+* m: A 3x3 real matrix (antisymmetric).
+
+* b: A rotation matrix.
+
+Output
+
+* A rotation matrix.
+
+
+
+rotGeodesicPoints <- function(r, q, numSteps) {
+
+Points evenly spaced on a geodesic from one rotation to another.
+
+Doesn't work well if rotations are pi away from each other. Give it an intermediate point, to help it out.
+
+Inputs
+
+* r: A rotation matrix.
+
+* q: A rotation matrix.
+
+* numSteps: A real number (positive integer).
+
+Output
+
+* A list of rotation matrices, of length numSteps + 1. The first one is r and the last one is q.
+
+
+
+
+
+*** PROJECTED ARITHMETIC MEAN AND RELATED COMPUTATIONS (rotations.R) ***
+
+
+
+rotProjectedMatrix <- function(m) {
+
+Projects matrices near SO(3) onto SO(3).
+
+Inputs
+
+* m: A real 3x3 matrix. Presumed to be nearly special orthogonal.
+
+Output
+
+* A rotation matrix.
+
+
+
+rotProjectedMean <- function(rs) {
+
+The projected arithmetic mean of a set of rotations.
+
+This function is appropriate only if the rotations are already known to be clustered about a central tendency (rather than girdled, say). In this case the projected arithmetic mean equals the MLE of the matrix Fisher mean (rotFisherMLE) and the quaternionic axial mean (rotMeanScatter). If the data are not clustered, then the projected arithmetic mean may equal the negation of the quaternionic axial mean (so orthogonal but not special orthogonal).
+
+Inputs
+
+* rs: A list of rotation matrices.
+
+Output
+
+* A rotation matrix.
+
+
+
+rotMeanScatter <- function(rs) {
+
+Mean and dispersion of a sample, computed via axial treatment of quaternions.
+
+See Prentice (1986), p. 218.
+
+Inputs
+
+* rs: A list of rotation matrices.
+
+Output
+
+* A list consisting of $values (real 4-vector, non-negative, descending order, sum to 1) and $rotations (list of four special orthogonal real 3x3 matrices). If val1 + val4 > 0.5, then the sample is bipolar and $rotations[[1]] equals the projected arithmetic mean and the MLE of the matrix Fisher mean. If val1 + val4 < 0.5, then the sample is equatorial and $rotations[[4]] equals the MLE of the matrix Fisher mean.
+
+
+
+rotSingularValueDecomposition <- function(m) {
+
+Signed singular value decomposition, using only rotations but allowing one negative singular value.
+
+Inputs
+
+* m: A real 3x3 matrix.
+
+Output
+
+* A list of three 3x3 real matrices $u, $d, $v, such that M = U D V^T. U and V are rotation matrices and D is diagonal with |D_11| >= D_22 >= D_33 >= 0. If M is an arithmetic mean of rotation matrices, then furthermore 1 >= |D_11|.
+
+
+
+rotFisherMLE <- function(rs, seeds=NULL, numSteps=1000) {
+
+Maximum likelihood estimation of the matrix Fisher parameters M and K.
+
+The method proceeds by minimizing a certain function using numerical methods. Things can go wrong. The results include two kinds of diagnostic information. !!Warning: Don't be surprised if this doesn't work very well yet. The seeds need better choosing. Also, we should constrain the optimization to prevent the integrals from getting insanely big.
+
+Inputs
+
+* rs: A list of rotation matrices.
+
+* seeds: A list of 3-dimensional real vectors, or NULL. Seeds for the minimization. The details are complicated. If NULL is given, then this function picks 6 of them automatically.
+
+* numSteps: A real number (positive integer). Limits the number of iterations to use.
+
+Output
+
+* A list consisting of $mHat (rotation matrix), $kHat (symmetric 3x3 real matrix), $error (real number), $minEigenvalue (real number). $error is 0 if and only if the minimization succeeds. If $error is 1, then try increasing numSteps. $minEigenvalue is the least eigenvalue of the Hessian at the solution; worry about the result if it is non-positive.
+
+
+
+rotDownsInference <- function(rs) {
+
+P-value function for whether the data come from a matrix Fisher distribution with the hypothesized mean.
+
+Based on Downs (1972; Eq. 5.7, p = 2 case). Assumes large sample size and tightly clustered sample. Uses the Stiefel manifold version of the matrix Fisher distribution, rather than the SO(3) version (Sei et al. (2013)). Only the left 3x2 submatrices of the given matrices are used. Indeed, the matrices may safely be given as 3x2.
+
+Inputs
+
+* rs: A list of rotation matrices.
+
+Output
+
+* An R function from {rotation matrices} to {real numbers}. For any given hypothesized mean, this function produces the p-value for that hypothesis.
+
+
+
+rotPrenticeInference <- function(rs) {
+
+P-value function for whether the data come from a distribution with the hypothesized mean.
+
+Based on sampling theory of the moment of inertia matrix (Prentice, 1986).
+
+Inputs
+
+* rs: A list of rotation matrices.
+
+Output
+
+* An R function from {rotation matrices} to {real numbers union NULL}. If the data are unsuitable (because they are not bipolar), then NULL is always output. Otherwise, for any given hypothesized mean, this function produces the p-value for that hypothesis.
+
+
+
+rotRayleighInference <- function(rs) {
+
+Test of uniformity, based on the Rayleigh statistic.
+
+Inputs
+
+* rs: A list of rotation matrices.
+
+Output
+
+* A list with members $p, $rayleigh. $p is a real number (between 0 and 1), the p-value for the test. Low values indicate that the sample was not drawn from the uniform distribution. $rayleigh is the Rayleigh statistic that produced $p.
+
+
+
+
+
+*** TANGENT SPACE METHODS (rotations.R) ***
+
+
+
+rotLeftCovariance <- function(rs, center) {
+
+Sample covariance matrix, approximated in the tangent space at a given rotation.
+
+Appropriate only if the sample is tightly concentrated near the center.
+
+Inputs
+
+* rs: A list of rotation matrices.
+
+* center: A rotation matrix. Typically the Frechet mean of the rs.
+
+Output
+
+* A 3x3 real matrix (symmetric, non-negative eigenvalues).
+
+
+
+rotLeftPrincipalComponentAnalysis <- function(rs, center, numPoints=0) {
+
+Principal geodesic analysis in the tangent space at a given rotation.
+
+Appropriate only if the sample is tightly concentrated near the center.
+
+Inputs
+
+* rs: A list of rotation matrices.
+
+* center: A rotation matrix. Typically the Frechet mean of the rs.
+
+* numPoints: A real number (integer, 0 or >= 3). The number of points to return on each of the six geodesics through the center.
+
+Output
+
+* A list consisting of $magnitudes (3D real vector, nonnegative) and $directions (3x3 real matrix, whose columns are unit-length vectors). The $magnitudes are in decreasing order. The $directions are the corresponding directions, suitable for use in rotMatrixFromLeftTangent. If numPoints >= 1, then there is also a $curves field (list of three lists of (2 numPoints + 1) rotation matrices).
+
+
+
+rotMahalanobisNorm <- function(r, center, leftCovarInv) {
+
+Mahalanobis distance of a rotation relative to a sample.
+
+Appropriate only if the sample is tightly clustered and the given rotation is close to its center.
+
+Inputs
+
+* r: A rotation matrix.
+
+* center: A rotation matrix. Typically the Frechet mean of a sample.
+
+* covarInv: A 3x3 real matrix (symmetric, positive-definite). Typically the inverse of the covariance obtained from rotLeftCovariance.
+
+Output
+
+* A real number.
+
+
+
+rotMahalanobisInference <- function(rs, center) {
+
+P-value function for any hypothesized mean, using tangent space approximation and Mahalanobis distances.
+
+Appropriate only if the rotations are tightly clustered. May fail if the rotations live on a geodesic curve or surface.
+
+Inputs
+
+* rs: A list of rotation matrices. Typically the result of bootstrapping, MCMC, etc.
+
+* center: A rotation matrix. Typically the Frechet mean of the rs.
+
+Output
+
+* A list containing elements $pvalue (an R function from {rotation matrices} to {real numbers}; for any given hypothesized mean, this function produces the p-value for that hypothesis), $center (as passed to this function), $leftCovarInv (real symmetric 3x3 matrix), and $q000, $q025, $q050, $q075, $q095, $q099, $q100 (real numbers; quantiles of Mahalanobis distance). For example, a rotation r with tangent vector v at center is in the 95% confidence region if sqrt(v %*% covarInv %*% v) < q095.
+
+
+
+rotEllipsoidTriangles <- function(center, leftCovarInv, level, numNonAdapt=3) {
+
+Ellipsoidal surface from Mahalanobis inference.
+
+Inputs
+
+* center: A rotation matrix. Typically the $center from the inference.
+
+* leftCovarInv: A 3x3 real matrix (symmetric, positive-definite). Typically the $leftCovarInv from the inference.
+
+* level: A real number. Typically $q095^2 from the inference.
+
+* numNonAdapt: A real number (non-negative integer). The number of refinements to the sphere that is deformed into the ellipsoid. Incrementing numNonAdapt improves visual quality but increases time and memory requirements by a factor of four.
+
+Output
+
+* A list of triangles, where each triangle is a list of three rotation matrices.
+
+
+
+rotRancourtFromMatrix <- function(r, center) {
+
+Approximation of one rotation in the tangent space at the other rotation.
+
+This function is based on Rancourt et al. (2000). It produces a somewhat different approximation from that of rotLeftTangentFromMatrix. Appropriate only if r and center are close to each other. Definitely inappropriate if the distance between r and center is greater than pi / 2.
+
+Inputs
+
+* r: A rotation matrix.
+
+* center: A rotation matrix.
+
+Output
+
+* A 3D real vector.
+
+
+
+rotMatrixFromRancourt <- function(v, center) {
+
+Mapping a tangent space into the space of rotations.
+
+Inverse to rotRancourtFromMatrix.
+
+Inputs
+
+* v: A 3D real vector.
+
+* center: A rotation matrix.
+
+Output
+
+* A rotation matrix.
+
+
+
+rotRancourtInference <- function(rs) {
+
+P-value function for any hypothesized mean, using tangent space approximation of Rancourt et al. (2000).
+
+Appropriate only if the rotations are tightly clustered. Definitely inappropriate if any rotation is more than pi / 2 away from the mean. Uses Eq. (2.6) of Rancourt et al. (2000), 'Using orientation statistics to investigate variations in human kinematics'. Inserts an extra factor of n on the left side of that equation. Without this extra factor, coverage rates are much too large. Also the corresponding author confirmed via e-mail on 2015/08/31 that the extra factor should be there.
+
+Inputs
+
+* rs: A list of rotation matrices. The data.
+
+Output
+
+* An R function from {rotation matrices} to {real numbers union NA}. For any given hypothesized mean, returns NA if that mean is more than pi / 2 away from the mean of the rs, or the p-value if not.
+
+
+
+
+
+*** SAMPLING FROM DISTRIBUTIONS (rotations.R) ***
+
+
+
+rotUniform <- function(n=NULL) {
+
+Sampling from the uniform distribution on the space of rotations.
+
+Inputs
+
+* n: A real number (positive integer) or NULL.
+
+Output
+
+* Either a rotation matrix (if n is NULL) or a list of n rotation matrices (if n is a number).
+
+
+
+rotWrappedTrivariateNormal <- function(s, kappa, n=NULL) {
+
+Sampling from the wrapped trivariate normal distribution.
+
+Inputs
+
+* s: A rotation matrix. The center of the distribution.
+
+* kappa: A real number (positive). The concentration of the distribution.
+
+* n: A real number (positive integer) or NULL.
+
+Output
+
+* Either a rotation matrix (if n is NULL) or a list of n rotation matrices (if n is a number).
+
+
+
+rotFisherHelper <- function(lambda, omega, sigma, bound) {
+
+One rotation drawn from the matrix Fisher distribution on SO(3).
+
+This function is a helper function for rotFisher. Probably you do not want to call this function yourself.
+
+Inputs
+
+* lambda: A 4D real vector. lambda from Kent et al. (2013).
+
+* omega: A 4x4 real matrix. Omega from Kent et al. (2013).
+
+* sigma: A 4x4 real matrix. Inverse of omega. Sigma from Kent et al. (2013).
+
+* bound: A real number. M* from Kent et al. (2013).
+
+Output
+
+* A rotation matrix.
+
+
+
+rotFisher <- function(m, k, n=NULL) {
+
+Sampling from the matrix Fisher distribution on SO(3).
+
+Follows Kent et al. (2013), 'A new method to simulate the Bingham and related distributions in directional data analysis with applications'.
+
+Inputs
+
+* m: A rotation matrices. The center of the distribution.
+
+* k: A 3x3 real matrix (symmetric, positive-definite). The concentration of the distribution.
+
+* n: A real number (positive integer) or NULL.
+
+Output
+
+* Either a rotation matrix (if n is NULL) or a list of n rotation matrices (if n is a number).
+
+
+
+rotIsotropicFisher <- function(s, kappa, n=NULL) {
+
+Sampling from the isotropic matrix Fisher distribution.
+
+Inputs
+
+* s: A rotation matrix. The center of the distribution.
+
+* kappa: A real number (positive). The concentration of the distribution.
+
+* n: A real number (positive integer) or NULL.
+
+Output
+
+* Either a rotation matrix (if n is NULL) or a list of n rotation matrices (if n is a number).
+
+
+
+rotIsotropicFisherJeffreysPrior <- function(negLogKappa) {
+
+Jeffreys prior for the concentration parameter of the isotropic matrix Fisher distribution on SO(3).
+
+See Bingham et al. (2010, Section 3.2). To avoid a notational conflict, rename their kappa to lambda. The relationship between lambda and the kappa of Qiu et al. (2013) is lambda == kappa^2 / 2. Then also let eta == -log kappa, so that kappa = exp(-eta). We work in terms of eta.
+
+
+
+
+
+*** BOOTSTRAPPING (rotations.R) ***
+
+
+
+rotBootstrapInference <- function(rs, numBoots, func=rotFrechetMean) {
+
+Inference about the population mean, based on non-parametric bootstrapping.
+
+This function bootstraps the rotation mean, returning two pieces of information. The first is a list of the bootstrapped means. The user should rotEqualAnglePlot or rotEqualVolumePlot this list, to make sure that the means form a fairly tight ellipsoidal cluster. If so, then the second piece of information may be used: An R function that takes a rotation R0 as input, as produces as output a p-value for the hypothesis that the mean of the population is R0. This p-value is the fraction of means that are farther from the mean of means than R0 is, based on Mahalanobis distance in the set of means.
+
+Inputs
+
+* rs: A list of rotation matrices.
+
+* numBoots: A real number (positive integer). The number of bootstrap samples.
+
+* func: An R function. Either rotFrechetMean or rotProjectedMean (or something equivalent).
+
+Output
+
+* A list consisting of $bootstraps (a list of rotation matrices) and everything returned by rotMahalanobisInference.
+
+
+
+rotFisherBootstrapInference <- function(rs, numBoots, func=rotFrechetMean) {
+
+Inference about the population mean, based on parametric bootstrapping with the Fisher distribution.
+
+Identical to rotBootstrapInference, but draws its bootstrap samples from the MLE matrix Fisher distribution for the data, rather than from the data set itself.
+
+Inputs
+
+* rs: A list of rotation matrices.
+
+* numBoots: A real number (positive integer). The number of bootstrap samples.
+
+* func: An R function. Either rotFrechetMean or rotProjectedMean (or something equivalent).
+
+Output
+
+* A list consisting of $bootstraps (a list of rotation matrices) and everything returned by rotMahalanobisInference.
+
+
+
+rotTwoSampleBootstrapInference <- function(firsts, seconds, numBoots, func=rotFrechetMean) {
+
+Two-sample inference about the difference in population means, based on non-parametric bootstrapping.
+
+This function bootstraps the difference of the means of the two samples, returning two pieces of information. The first is a list of the bootstrapped differences. The user should rotEqualAnglePlot or rotEqualVolumePlot this list, to make sure that the differences form a fairly tight ellipsoidal cluster. If so, then the second piece of information may be used: An R function that takes a rotation R0 as input, as produces as output a p-value for the hypothesis that the difference of means is R0. This p-value is the fraction of differences that are farther from the mean of differences than R0 is, based on the Mahalanobis distance of the differences.
+
+Inputs
+
+* firsts: A list of rotation matrices.
+
+* seconds: A list of rotation matrices.
+
+* numBoots: A real number (positive integer). The number of bootstrap samples.
+
+* func: An R function. Either rotFrechetMean or rotProjectedMean (or something equivalent).
+
+Output
+
+* A list consisting of $bootstraps (a list of rotation matrices) and everything returned by rotMahalanobisInference.
+
+
+
+rotTwoSampleFisherBootstrapInference <- function(firsts, seconds, numBoots, func=rotFrechetMean) {
+
+Two-sample inference about the difference in population means, based on parametric bootstrapping using the Fisher distribution.
+
+Identical to rotTwoSampleBootstrapInference, but draws its bootstrap samples from matrix Fisher distributions MLE-fit to the data, rather than from the data set itself.
+
+Inputs
+
+* firsts: A list of rotation matrices.
+
+* seconds: A list of rotation matrices.
+
+* numBoots: A real number (positive integer). The number of bootstrap samples.
+
+* func: An R function. Either rotFrechetMean or rotProjectedMean (or something equivalent).
+
+Output
+
+* A list consisting of $bootstraps (a list of rotation matrices) and everything returned by rotMahalanobisInference.
+
+
+
+
+
+*** REGRESSION (rotations.R) ***
+
+
+
+rotNativeGeodesicRegression <- function(xs, rs, numSteps=100) {
+
+Regression to fit a geodesic curve to data (x, R), with no pre-processing of the independent variable.
+
+Returns the best-fit geodesic R(x) = (exp (x m)) b for the given (x, r) pairs. Minimizes the sum of squared distances in the r-direction only, as in ordinary linear regression. Usually you want to try rotGeodesicRegression first.
+
+Inputs
+
+* xs: A list of real numbers.
+
+* rs: A list of rotation matrices of same length as xs.
+
+* numSteps: A real number (positive integer). Limits the number of iterations to use.
+
+Output
+
+* A list consisting of $m (anti-symmetric 3x3 real matrix), $b (rotation matrix), $error (real number), $minEigenvalue (real number), $rSquared (real number), $prediction (R function). $error is 0 if and only if the minimization succeeds. If $error == 1, try increasing steps, to 1000 say. $minEigenvalue is the least eigenvalue of the Hessian at the solution; worry about the result if it is non-positive. $rSquared is the R^2 statistic measuring the amount of variance captured, from none (0) to all (1). $prediction takes an x as input and returns the predicted rotation R(x).
+
+
+
+rotGeodesicRegression <- function(xs, rs, numSteps=100) {
+
+Geodesic curve regression, with a convenient behind-the-scenes rescaling.
+
+In theory, this function is equivalent to rotGeodesicRegression. In practice, it uses a behind-the-scenes rescaling of the xs onto the interval [0, 1], which I find improves the performance of the optimization. You should use this version of the function, unless you have some specific reason to use rotNativeGeodesicRegression.
+
+Inputs
+
+* xs: A list of real numbers.
+
+* rs: A list of rotation matrices of same length as xs.
+
+* numSteps: A real number (positive integer). Limits the number of iterations to use.
+
+Output
+
+* A list consisting of $m (anti-symmetric 3x3 real matrix), $b (rotation matrix), $error (real number), $minEigenvalue (real number), $rSquared (real number), $prediction (R function). $error is 0 if and only if the minimization succeeds. If $error == 1, try increasing steps, to 1000 say. $minEigenvalue is the least eigenvalue of the Hessian at the solution; worry about the result if it is non-positive. $rSquared is the R^2 statistic measuring the amount of variance captured, from none (0) to all (1). $prediction takes an x as input and returns the predicted rotation R(x).
+
+
+
+rotGeodesicRegressionPermutations <- function(xs, rs, numPerms, numSteps=10000) {
+
+Permutation test for significance of a geodesic regression.
+
+Returns up to numPerms R^2 values. May be fewer than numPerms, because of some regressions failing. Let n be the dimension of this vector and g the number of R^2 values greater than the R^2 for the original regression of the data. Let p = g / n. Small values of p indicate that the dependency detected by the regression is meaningful. Uses an internal rescaling, just like rotGeodesicRegression.
+
+Inputs
+
+* xs: A vector of real numbers.
+
+* rs: A list of rotation matrices, of same length as xs.
+
+* numPerms: A real number (positive integer). The number of permutations to try.
+
+* numSteps: A real number (positive integer). Limits the number of iterations to use.
+
+Output
+
+* A vector of real numbers, of dimension at most numPerms.
+
+
+
+rotNativeKernelRegression <- function(x, xs, rs, h, k=dnorm, numSteps=100) {
+
+Kernel regression to fit a rotation R(x) to (x, R) data, with no pre-processing of the independent variable.
+
+Theoretically identical to rotKernelRegression, but doesn't rescale the xs to the interval [0, 1].
+
+Inputs
+
+* x: A real number. The x-value at which to predict the rotation R.
+
+* xs: A vector of real numbers. The x-values at which R(x) is known.
+
+* rs: A list of rotation matrices. The values of R corresponding to xs.
+
+* h: A real number (positive). The bandwidth. The kernel k is scaled by h, meaning that k is changed to function(x) {k(x / h) / h}.
+
+* k: An R function from {real numbers} to {real numbers}. The kernel, not scaled by bandwidth.
+
+* numSteps: A real number (positive integer). Limits the number of iterations to use.
+
+Output
+
+* A list consisting of $r (the rotation matrix R(x)), $error (which should be 0; if it is 1, then increase numSteps), and $minEigenvalue (which should be positive; if not, then the minimization has failed).
+
+
+
+rotKernelRegression <- function(x, xs, rs, h, k=dnorm, numSteps=100) {
+
+Kernel regression to fit a rotation R(x) to (x, R) data, with no pre-processing of the independent variable.
+
+This function interpolates/extrapolates a rotation R for a given x-value, based on a given set of (x, R) data. The chosen bandwidth h may have a substantial effect on the results. See rotBandwidthForKernelRegression. If this function doesn't work as you expect, then try rotNativeKernelRegression.
+
+Inputs
+
+* x: A real number. The x-value at which to predict the rotation R.
+
+* xs: A vector of real numbers. The x-values at which R(x) is known.
+
+* rs: A list of rotation matrices. The values of R corresponding to xs.
+
+* h: A real number (positive). The bandwidth. The kernel k is scaled by h, meaning that k is changed to function(x) {k(x / h) / h}.
+
+* k: An R function from {real numbers} to {real numbers}. The kernel, not scaled by bandwidth.
+
+* numSteps: A real number (positive integer). Limits the number of iterations to use.
+
+Output
+
+* A list consisting of $r (the rotation matrix R(x)), $error (which should be 0; if it is 1, then increase numSteps), and $minEigenvalue (which should be positive; if not, then the minimization has failed).
+
+
+
+rotBandwidthForKernelRegression <- function(xs, rs, k=dnorm, numSteps=100) {
+
+Cross-validation algorithm for choosing the bandwidth for kernel regression.
+
+See Davis et al. (2010).
+
+Inputs
+
+* xs: A vector of real numbers. The x-values at which R(x) is known. Assumed to have length >= 3.
+
+* rs: A list of rotation matrices. The values of R corresponding to xs.
+
+* k: An R function from {real numbers} to {real numbers}. The kernel, not scaled by bandwidth.
+
+* numSteps: A real number (positive integer). Limits the number of iterations to use.
+
+Output
+
+* A real number (positive). The bandwidth to use in kernel regression.
+
+
+
+rotRsquaredForKernelRegression <- function(xs, rs, h, k=dnorm, numSteps=100) {
+
+R^2 statistic for kernel regression.
+
+As always, make sure the errors are 0 and the minEigenvalues are positive.
+
+Inputs
+
+* xs: A vector of real numbers. The x-values at which R(x) is known.
+
+* rs: A list of rotation matrices. The values of R corresponding to xs.
+
+* h: A real number (positive). The bandwidth. The kernel k is scaled by h, meaning that k is changed to function(x) {k(x / h) / h}.
+
+* k: An R function from {real numbers} to {real numbers}. The kernel, not scaled by bandwidth.
+
+* numSteps: A real number (positive integer). Limits the number of iterations to use.
+
+Output
+
+* A list with elements $rSquared, $errors, $minEigenvalues.
+
+
+
+rotKernelRegressionPermutations <- function(xs, rs, h, numPerms, k=dnorm, numSteps=10000) {
+
+Permutation test for significance of a kernel regression.
+
+Returns up to numPerms R^2 values. May be fewer than numPerms, because of some regressions failing. Let n be the dimension of this vector and g the number of R^2 values greater than the R^2 for the original regression of the data. Let p = g / n. Small values of p indicate that the dependency detected by the regression is meaningful.
+
+Inputs
+
+* xs: A vector of real numbers. The x-values at which R(x) is known.
+
+* rs: A list of rotation matrices. The values of R corresponding to xs.
+
+* h: A real number (positive). The bandwidth. The kernel k is scaled by h, meaning that k is changed to function(x) {k(x / h) / h}.
+
+* numPerms: A real number (positive integer). The number of permutations to try.
+
+* k: An R function from {real numbers} to {real numbers}. The kernel, not scaled by bandwidth.
+
+* numSteps: A real number (positive integer). Limits the number of iterations to use.
+
+Output
+
+* A vector of length up to numPerms, containing R^2 values for successful permutations.
+
+
+
+
+
+*** PLOTTING (rotations.R) ***
+
+
+
+rotEulerAnglePlot <- function(points, showBoundary=FALSE, ...) {
+
+x-z-x Euler angle plot of the space of rotations.
+
+The plot represents each rotation as a point in Euler angle space, which is a (2 pi) x (pi) x (2 pi) box. This plot does not have an equal-angle or equal-volume property. Indeed, it is extremely distorted near certain gimbal lock lines. Curves and triangles are not supported.
+
+Inputs
+
+* points: A list of rotation matrices.
+
+* showBoundary: Logical. Whether to show the bounding box.
+
+* ...: Additional plotting options to be passed to plot3D.
+
+Output
+
+* NULL.
+
+
+
+rotBallCurves <- function(vs, radius, ballFromRotation, rotationFromBall) {
+
+Breaking a curve into pieces that don't cross the boundary of a ball plot.
+
+Probably you don't want to use this. It's used internally in our plotting functions. Anyway, if two successive points are very far apart (more than 1.5 times the radius of the plot), then the curve is broken between them. Two antipodal boundary points are inserted, so that one piece of the curve ends on the boundary, and the next piece of the curve starts at the antipode. To clarify, if the original curve never needs breaking, then the returned list will have length 1.
+
+Inputs
+
+* vs: A list of 3D real vectors.
+
+* radius: A real number (positive). The radius of the plot.
+
+* ballFromRotation: A function from the set of special orthogonal 3x3 real matrices to the set of 3D real vectors. A right inverse to rotationFromBall.
+
+* rotationFromBall: A function from the set of 3D real vectors to the set of special orthogonal 3x3 real matrices. A left inverse to ballFromRotation.
+
+Output
+
+* A list of lists of 3D real vectors.
+
+
+
+rotBallPlot <- function(radius=NULL, points, curves, triangles, colors, ballFromRotation, rotationFromBall, boundaryAlpha=0.1, simplePoints=FALSE, backgroundColor="black", curveColor="white", curveWidth=1, fogStyle="linear", pointSize=NULL, trianglesRaw=NULL, axesColors=c("red", "green", "blue")) {
+
+Infrastucture for equal-volume and similar plots.
+
+Unless you are designing your own system of plotting, you probably do not want to call this function. Call rotEqualVolumePlot, etc. instead.
+
+Inputs
+
+* radius: A real number (positive). If NULL, then a radius is chosen to contain all points, curves, and triangles.
+
+* points: A list of 3D real vectors.
+
+* curves: A list of lists of 3D real vectors.
+
+* triangles: A list of length-3 lists of 3D real vectors.
+
+* colors: A list of strings (colors). Used to color the points only. Colors are recycled, just as in rgl.points and rgl.spheres.
+
+* ballFromRotation: A function from the set of rotation matrices to the set of 3D real vectors. A right inverse to rotationFromBall.
+
+* rotationFromBall: A function from the set of 3D real vectors to the set of rotation matrices. A left inverse to ballFromRotation.
+
+* boundaryAlpha: A real number (between 0 and 1). The opacity of the boundary sphere. A value of 0 turns off the sphere entirely.
+
+* simplePoints: A logical. Whether to plot points as points or as spheres. Spheres are higher-quality and slower.
+
+* backgroundColor: String (color). Color of background and fog.
+
+* curveColor: A string (color). Color of curves.
+
+* curveWidth: A real number (positive). Width of curves in pixels.
+
+* fogStyle: A string, either "none", "linear", "exp", or "exp2". The style of fog used to suggest depth. See rgl.bg.
+
+* pointSize: A real number (positive). The size of the points or spheres used to depict points. If simplePoints, then measured in pixels with default 3. If not simplePoints, then measured in the same units as the radius of the plot, with default 0.02 * radius.
+
+* trianglesRaw: Either NULL or a vector of 9 * m real numbers. An alternative way to pass m triangles: All of the x-coordinates of vertices, then all of the ys, then all of the zs.
+
+* axesColors: A character vector of length 3. The colors for the axes.
+
+Output
+
+* NULL.
+
+
+
+rotAxisAnglePlot <- function(points=list(), curves=list(), triangles=list(), colors=c("white"), ...) {
+
+Axis-angle plot of the space of rotations.
+
+The plot represents each rotation as a point, whose direction from the origin indicates the axis of rotation, and whose distance from the origin indicates the angle of rotation. Angles between 0 and pi are used. So SO(3) plots as a ball of radius pi. This plot does not have an equal-angle or equal-volume property. Curves that cross the boundary of the plot are clipped automatically. On the other hand, triangles are not clipped.
+
+Inputs
+
+* points: A list of rotation matrices.
+
+* curves: A list of lists of rotation matrices.
+
+* triangles: A list of length-3 lists of rotation matrices.
+
+* colors: A list of strings (colors). Used to color the points only.
+
+* ...: Plotting options: boundaryAlpha, simplePoints, etc. See rotBallPlot for details.
+
+Output
+
+* NULL.
+
+
+
+rotEqualAnglePlot <- function(points=list(), curves=list(), triangles=list(), colors=c("white"), ...) {
+
+Equal-angle plot of the space of rotations.
+
+The plot represents each rotation as a point, whose direction from the origin indicates the axis of rotation, and whose distance from the origin indicates the tangent quarter-angle of rotation. All positive angles are potentially used. So SO(3) plots as a ball of radius 1.
+
+Inputs
+
+* points: A list of rotation matrices.
+
+* curves: A list of lists of rotation matrices.
+
+* triangles: A list of length-3 lists of rotation matrices.
+
+* colors: A list of strings (colors). Used to color the points only.
+
+* ...: Plotting options: boundaryAlpha, simplePoints, etc. See rotBallPlot for details.
+
+Output
+
+* NULL.
+
+
+
+rotRodriguesPlot <- function(points=list(), curves=list(), triangles=list(), colors=c("white"), ...) {
+
+Rodrigues plot of the space of rotations.
+
+The plot represents each rotation as a point, whose direction from the origin indicates the axis of rotation, and whose distance from the origin indicates the tangent half-angle of rotation. All positive angles are potentially used. So SO(3) plots as a ball of infinite radius.
+
+Inputs
+
+* points: A list of rotation matrices.
+
+* curves: A list of lists of rotation matrices.
+
+* triangles: A list of length-3 lists of rotation matrices.
+
+* colors: A list of strings (colors). Used to color the points only.
+
+* ...: Plotting options: boundaryAlpha, simplePoints, etc. See rotBallPlot for details.
+
+Output
+
+* NULL.
+
+
+
+rotNativeEqualVolumePlot <- function(points=list(), curves=list(), triangles=list(), colors=c("white"), ...) {
+
+Equal-volume plot of the space of rotations, presented in equal-volume coordinates.
+
+Probably you don't want to use this. Look at rotEqualVolumePlot first. Each rotation is passed to this function as an equal-volume vector, as produced by rotEqualVolumeFromMatrix, for example. The function simply plots those vectors, in a ball of radius approximately 0.62. The plot is equal-volume; it accurately represents volumes of regions of SO(3). Curves that cross the boundary of the plot are clipped automatically. On the other hand, triangles are not clipped.
+
+Inputs
+
+* points: A list of 3D real vectors.
+
+* curves: A list of lists of 3D real vectors.
+
+* triangles: A list of length-3 lists of 3D real vectors.
+
+* colors: A list of strings (colors). Used to color the points only.
+
+* ...: Plotting options: boundaryAlpha, simplePoints, etc. See rotBallPlot for details.
+
+Output
+
+* NULL.
+
+
+
+rotEqualVolumePlot <- function(points=list(), curves=list(), triangles=list(), colors=c("white"), ...) {
+
+Equal-volume plot of the space of rotations.
+
+Each rotation is passed to this function as a special orthogonal matrix. The function converts to volumetric representation and then simply calls volumetricPlot.
+
+Inputs
+
+* points: A list of rotation matrices.
+
+* curves: A list of lists of rotation matrices.
+
+* triangles: A list of length-3 lists of rotation matrices.
+
+* colors: A list of strings (colors). Used to color the points only.
+
+* ...: Plotting options: boundaryAlpha, simplePoints, etc. See rotBallPlot for details.
+
+Output
+
+* NULL.
+
+
+
+rotGeodesicRegressionPlot <- function(xs, rs, regr, colors=hues(xs), spurs=NULL, ...) {
+
+Equal-angle plot of geodesic regression results.
+
+The user may choose to draw extra spurs, joining the Rs to their corresponding predictions on the curve.
+
+Inputs
+
+* xs: A vector of real numbers.
+
+* rs: A list of rotation matrices.
+
+* regr: The output of rotGeodesicRegression with those xs and rs.
+
+* colors: A list of strings (colors). Used to color the points only.
+
+* spurs: A list of rotation matrices. When not NULL, it's usually equal to Rs.
+
+* ...: Other plotting options to be passed to rotEqualAnglePlot.
+
+Output
+
+* NULL.
+
+
+
+rotEllipsoidPlot <- function(points, center, leftCovarInv, level, numNonAdapt=3, colors=c("white"), ...) {
+
+Equal-angle plot of Mahalanobis inference results.
+
+Inputs
+
+* points: A list of rotation matrices.
+
+* center: A rotation matrix. Typically the $center from the inference.
+
+* leftCovarInv: A 3x3 real matrix (symmetric, positive-definite). Typically the $leftCovarInv from the inference.
+
+* level: A real number. Typically $q095^2 from the inference.
+
+* numNonAdapt: A real number (non-negative integer). The number of refinements to the sphere that is deformed into the ellipsoid. Incrementing numNonAdapt improves visual quality but increases time and memory requirements by a factor of four.
+
+* colors: A list of strings (colors). Used to color the points only.
+
+* ...: Additional plotting options to be passed to rotEqualAnglePlot.
+
+Output
+
+* NULL.
+
+
+
+rotEqualAreaTickPlot <- function(rs, numSteps=60, tickSize=0.1, ...) {
+
+Equal-area plot, attempting to show all degrees of freedom.
+
+In each rotation, regards the first row as +-down-pole and the third row as +-ray. Depicts each rotation as a great circle (perpendicular to the pole), a point on that great circle (corresponding to the ray), and a tick mark (indicating the direction of the ray, either toward the center if up or away if down). Really intended for representing faults-with-slip in geology, where the second row is then the vorticity of fault slip. But could be useful in more abstract rotations?
+
+Inputs
+
+* rs: A list of rotation matrices.
+
+* numSteps: A real number (positive integer). The number of steps used in drawing each great circle.
+
+* tickSize: A real number (non-negative). The length of the ticks.
+
+* ...: Additional options to be passed to the underlying lineEqualAreaPlot.
+
+Output
+
+* NULL.
+
+
+
+
+
+
+*** SYMMETRY GROUPS (orientations.R) ***
+
+
+
+oriTrivialGroup <- list(diag(c(1, 1, 1)))
+
+When trivial symmetry is used, the orientations are simply rotations. This case is so important that we have separate code, in rotations.R, for doing it. But let's include the trivial group, for completeness.
+
+
+
+oriRayInPlaneGroup <- list(
+
+Ray-in-plane symmetry is applicable to faults-with-slip-directions, such as slickensides (and certain minerals).
+
+
+
+oriLineInPlaneGroup <- list(
+
+Line-in-plane symmetry is applicable to foliation-lineations, cylindrical fold orientations, triaxial ellipsoid orientations, and earthquake focal mechanisms (and olivine).
+
+
+
+oriTrigonalTrapezohedralGroup <- list(
+
+Trigonal trapezohedral is the point group of alpha-quartz.
+
+
+
+oriHexagonalTrapezohedralGroup <- list(
+
+Hexagonal trapezohedral is the point group of beta-quartz.
+
+
+
+oriSymmetrizedRotations <- function(rs, group) {
+
+Replicating a list of orientations into their multiple rotation representatives.
+
+Inputs
+
+* rs: A list of rotation matrices. The representative rotations Rs.
+
+* group: A list of rotation matrices. The symmetry group G.
+
+Output
+
+* A list of rotation matrices. The set G Rs. For each orientation G R, its |G| representatives are spread out in this list.
+
+
+
+
+
+*** MISCELLANEOUS METHODS (orientations.R) ***
+
+
+
+oriDistance <- function(r, q, group) {
+
+The distance between two orientations as points in SO(3) / G.
+
+Inputs
+
+* r: A rotation matrix.
+
+* q: A rotation matrix.
+
+* group: A list of rotation matrices. The symmetry group G.
+
+Output
+
+* A real number (in the interval [0, pi]). The distance from G R to G R.
+
+
+
+oriDiameter <- function(rs, group) {
+
+Diameter of a set of orientations.
+
+Inputs
+
+* rs: A list of rotation matrices.
+
+* group: A list of rotation matrices. The symmetry group G.
+
+Output
+
+* A real number (non-negative).
+
+
+
+oriNearestRepresentative <- function(r, center, group) {
+
+Selecting an orientation representative near a given rotation.
+
+Inputs
+
+* r: A rotation matrix.
+
+* center: A rotation matrix.
+
+* group: A list of rotation matrices. The symmetry group G.
+
+Output
+
+* A rotation matrix. The element of G R that is closest to center.
+
+
+
+oriNearestRepresentatives <- function(rs, center=rs[[1]], group) {
+
+Selecting orientation representatives near a given rotation.
+
+Inputs
+
+* rs: A list of rotation matrices.
+
+* center: A rotation matrix.
+
+* group: A list of rotation matrices. The symmetry group G.
+
+Output
+
+* A list of rotation matrices. For each R, the element of G R that is closest to center.
+
+
+
+oriVariance <- function(rs, center, group) {
+
+The Frechet (geodesic L^2) variance of a set of orientations.
+
+Inputs
+
+* rs: A list of rotation matrices.
+
+* center: A rotation matrix. Often the mean of the rs.
+
+* group: A list of rotation matrices. The symmetry group G.
+
+Output
+
+* A real number (non-negative). The variance of the points G R about the point G center.
+
+
+
+oriMeanVariance <- function(rs, group, numSeeds=1, numSteps=1000) {
+
+The Frechet (geodesic L^2) mean of a set of orientations as points in SO(3) / G.
+
+An iterative algorithm for computing the Frechet mean --- the orientation that minimizes the Frechet variance. The iterations continue until change-squared of epsilon is achieved or numSteps iterations have been used.
+
+Inputs
+
+* rs: A list of rotation matrices.
+
+* group: A list of rotation matrices. The symmetry group G.
+
+* numSeeds: A real number (positive integer). How many seeds to try, in trying to find a global optimum.
+
+* numSteps: A real number (positive integer). Bound on how many iterations to use.
+
+Output
+
+* A list consisting of $mean (a special orthogonal real 3x3 matrix), $variance (a real number), $changeSquared (a real number), and $numSteps (a non-negative integer). changeSquared is the square of the size of the final step. numSteps is the number of iterations used.
+
+
+
+oriFrechetMean <- function(rs, group, numSeeds=1, numSteps=1000) {
+
+The Frechet (geodesic L^2) mean. Convenience shortcut for oriMeanVariance.
+
+Inputs
+
+* rs: A list of rotation matrices.
+
+* group: A list of rotation matrices. The symmetry group G.
+
+* numSeeds: A real number (positive integer). How many seeds to try, in trying to find a global optimum.
+
+* numSteps: A real number (positive integer). Bound on how many iterations to use.
+
+Output
+
+* A rotation matrix. The Frechet mean.
+
+
+
+oriMeanScatter <- function(rs, group, numSeeds=1, numSteps=1000) {
+
+Projected arithmetic mean of a set of orientations as points in SO(3) / G.
+
+An iterative algorithm for computing the projected arithmetic mean of orientations rather than rotations. See Bachmann et al. (2010). The iterations continue until the change is small or the allowed number of iterations has been exhausted.
+
+Inputs
+
+* rs: A list of rotation matrices.
+
+* group: A list of rotation matrices. The symmetry group G.
+
+* numSeeds: A real number (positive integer). The number of seeds to try, in trying to find a global optimum.
+
+* numSteps: A real number (positive integer). Bound on how many iterations to use.
+
+Output
+
+* A list consisting of $values (as in rotMeanScatter), $rotations (as in rotMeanScatter), $changeSquared (a real number), and $numSteps (a non-negative integer). changeSquared is the square of the size of the final step. numSteps is the number of iterations used.
+
+
+
+oriProjectedMean <- function(rs, group, numSeeds=1, numSteps=1000) {
+
+Projected mean orientation. Convenience shortcut for oriMeanScatter.
+
+Inputs
+
+* rs: A list of rotation matrices.
+
+* group: A list of rotation matrices. The symmetry group G.
+
+* numSeeds: A real number (positive integer). The number of seeds to try, in trying to find a global optimum.
+
+* numSteps: A real number (positive integer). Bound on how many iterations to use.
+
+Output
+
+* A rotation matrix.
+
+
+
+
+
+*** BOOTSTRAPPING (orientations.R) ***
+
+
+
+oriBootstrapInference <- function(rs, numBoots, group) {
+
+Inference for mean orientations, based on non-parametric bootstrapping.
+
+This function bootstraps the Frechet orientation mean, returning various pieces of information. The first is a list of the bootstrapped means. The user should oriEqualAnglePlot and oriEqualVolumePlot this list, to make sure that the means form a fairly tight ellipsoidal cluster. If so, then the second piece of information may be used: An R function that takes an orientation R0 as input, as produces as output a p-value for the hypothesis that the mean of the population is R0. This p-value is the fraction of means that are farther from the mean of means than R0 is, based on the Mahalanobis distance of the means.
+
+Inputs
+
+* rs: A list of rotation matrices. The data.
+
+* numBoots: A real number (positive integer). The number of bootstrap samples.
+
+* group: A list of rotation matrices. The symmetry group G.
+
+Output
+
+* A list consisting of $bootstraps (a list of rotation matrices), $pvalueOri (an R function from {orientation matrices} to {real numbers}), and everything returned by rotMahalanobisInference.
+
+
+
+
+
+*** REGRESSION (orientations.R) ***
+
+
+
+oriGeodesicRegression <- function(xs, rs, group, numSteps=100) {
+
+Best-fit geodesic curve in SO(3) / G.
+
+Returns the best-fit geodesic R(x) = (exp (x m)) b for the given (x, R) pairs. Minimizes the sum of squared distances in the R-direction only, as in ordinary linear regression --- not in the x-direction.
+
+Inputs
+
+* xs: A list of real numbers.
+
+* rs: A list of rotation matrices of same length as xs.
+
+* group: A list of rotation matrices. The symmetry group G.
+
+* numSteps: A real number (positive integer). Limits the number of iterations to use.
+
+Output
+
+* A list consisting of $m (anti-symmetric 3x3 real matrix), $b (rotation matrix), $error (real number), $minEigenvalue (real number), $rSquared (real number), $prediction (R function). error is 0 if and only if the minimization succeeds. If error == 1, try increasing numSteps, to 1000 say. minEigenvalue is the least eigenvalue of the Hessian at the solution; worry about the result if it is non-positive 0. rSquared is the R^2 statistic measuring the amount of variance captured, from none (0) to all (1). prediction takes a real number x as input, and returns the predicted rotation matrix R(x) as output.
+
+
+
+oriGeodesicRegressionPermutations <- function(xs, rs, numPerms, group, numSteps=10000) {
+
+Permutation test for significance of a geodesic regression.
+
+# Returns up to numPerms R^2 values. May be fewer than numPerms, because of some regressions failing. Let n be the dimension of this vector and g the number of R^2 values greater than the R^2 for the original regression of the data. Let p = g / n. Small values of p indicate that the dependency detected by the regression is meaningful. Uses an internal rescaling, just like oriGeodesicRegression.
+
+Inputs
+
+* xs: A vector of real numbers.
+
+* rs: A list of rotation matrices, of same length as xs.
+
+* numPerms: A real number (positive integer). The number of permutations to try.
+
+* group: A list of rotation matrices. The symmetry group G.
+
+* numSteps: A real number (positive integer). Limits the number of iterations to use.
+
+Output
+
+* A vector of real numbers, of dimension at most numPerms.
+
+
+
+oriKernelRegression <- function(x, xs, rs, h, group, k=dnorm, numSteps=100) {
+
+Kernel regression to fit an orientation R(x) to (x, R) data.
+
+This function interpolates/extrapolates an orientation R for a given x-value, based on a given set of (x, R) data. The chosen bandwidth h may have a substantial effect on the results. See oriBandwidthForKernelRegression.
+
+Inputs
+
+* x: A real number. The x-value at which to predict the orientation R.
+
+* xs: A vector of real numbers. The x-values at which R(x) is known.
+
+* rs: A list of rotation matrices. The values of R corresponding to xs.
+
+* h: A real number (positive). The bandwidth. The kernel k is scaled by h, meaning that k is changed to function(x) {k(x / h) / h}.
+
+* group: A list of rotation matrices. The symmetry group G.
+
+* k: An R function from {real numbers} to {real numbers}. The kernel, not scaled by bandwidth.
+
+* numSteps: A real number (positive integer). Limits the number of iterations to use.
+
+Output
+
+* A list consisting of $r (the rotation matrix R(x)), $error (which should be 0; if it is 1, then increase numSteps), and $minEigenvalue (which should be positive; if not, then the minimization has failed).
+
+
+
+oriBandwidthForKernelRegression <- function(xs, rs, group, k=dnorm, numSteps=100) {
+
+Cross-validation algorithm for choosing the bandwidth for kernel regression.
+
+Inputs
+
+* xs: A vector of real numbers. The x-values at which R(x) is known. Assumed to have length >= 3.
+
+* rs: A list of rotation matrices. The values of R corresponding to xs.
+
+* group: A list of rotation matrices. The symmetry group G.
+
+* k: An R function from {real numbers} to {real numbers}. The kernel, not scaled by bandwidth.
+
+* numSteps: A real number (positive integer). Limits the number of iterations to use.
+
+Output
+
+* A real number (positive). The bandwidth to use in kernel regression.
+
+
+
+oriRsquaredForKernelRegression <- function(xs, rs, h, group, k=dnorm, numSteps=100) {
+
+R^2 statistic for kernel regression.
+
+Inputs
+
+* xs: A vector of real numbers. The x-values at which R(x) is known.
+
+* rs: A list of rotation matrices. The values of R corresponding to xs.
+
+* h: A real number (positive). The bandwidth. The kernel k is scaled by h, meaning that k is changed to function(x) {k(x / h) / h}.
+
+* group: A list of rotation matrices. The symmetry group G.
+
+* k: An R function from {real numbers} to {real numbers}. The kernel, not scaled by bandwidth.
+
+* numSteps: A real number (positive integer). Limits the number of iterations to use.
+
+Output
+
+* A real number (usually between 0 and 1). The R^2 statistic.
+
+
+
+
+
+*** PLOTTING (orientations.R) ***
+
+
+
+oriEulerAnglePlot <- function(points, group, showBoundary=FALSE, ...) {
+
+X-Z-X Euler angle plot of orientations as symmetric sets of rotations.
+
+This function is much like rotEulerAnglePlot, but it plots |G| symmetric copies of the points, curves, and triangles. This plot does not have an equal-angle or equal-volume property. Indeed, it is extremely distorted near certain gimbal lock lines. Curves and triangles are not supported.
+
+Inputs
+
+* points: A list of rotation matrices.
+
+* group: A list of rotation matrices. The symmetry group G.
+
+* showBoundary: Logical. Whether to show the bounding box.
+
+* ...: Plotting options to be passed to plot3D. If colors is used, its length should equal that of points.
+
+Output
+
+* NULL.
+
+
+
+oriAxisAnglePlot <- function(group, points=list(), curves=list(), triangles=list(), ...) {
+
+Axis-angle plot of orientations as symmetric sets of rotations.
+
+This function is much like rotAxisAnglePlot, but it plots |G| symmetric copies of the points, curves, and triangles. Curves that cross the boundary are automatically clipped. On the other hand, triangles are not clipped. Thus you probably don't want to use any triangles.
+
+Inputs
+
+* group: A list of rotation matrices. The symmetry group G.
+
+* points: A list of rotation matrices.
+
+* curves: A list of lists of rotation matrices.
+
+* triangles: A list of length-3 lists of rotation matrices.
+
+* ...: Plotting options to be passed to rotBallPlot. If colors is used, its length should equal that of points.
+
+Output
+
+* NULL.
+
+
+
+oriEqualAnglePlot <- function(group, points=list(), curves=list(), triangles=list(), ...) {
+
+Equal-angle plot of orientations as symmetric sets of rotations.
+
+This function is much like rotEqualAnglePlot, but it plots |G| symmetric copies of the points, curves, and triangles.
+
+Inputs
+
+* group: A list of rotation matrices. The symmetry group G.
+
+* points: A list of rotation matrices.
+
+* curves: A list of lists of rotation matrices.
+
+* triangles: A list of length-3 lists of rotation matrices.
+
+* ...: Plotting options to be passed to rotBallPlot. If colors is used, its length should equal that of points.
+
+Output
+
+* NULL.
+
+
+
+oriEqualVolumePlot <- function(group, points=list(), curves=list(), triangles=list(), ...) {
+
+Equal-volume plot of orientations as symmetric sets of rotations.
+
+This function is much like rotEqualVolumePlot, but it plots |G| symmetric copies of the points, curves, and triangles. Curves that cross the boundary are automatically clipped. On the other hand, triangles are not clipped. Thus you probably don't want to use any triangles.
+
+Inputs
+
+* group: A list of rotation matrices. The symmetry group G.
+
+* points: A list of rotation matrices.
+
+* curves: A list of lists of rotation matrices.
+
+* triangles: A list of length-3 lists of rotation matrices.
+
+* ...: Plotting options to be passed to rotBallPlot. If colors is used, its length should equal that of points.
+
+Output
+
+* NULL.
+
+
+
+oriRodriguesPlot <- function(group, points=list(), curves=list(), triangles=list(), ...) {
+
+Rodrigues plot of orientations as symmetric sets of rotations.
+
+This function is much like rotRodriguesPlot, but it plots |G| symmetric copies of the points, curves, and triangles.
+
+Inputs
+
+* group: A list of rotation matrices. The symmetry group G.
+
+* points: A list of rotation matrices.
+
+* curves: A list of lists of rotation matrices.
+
+* triangles: A list of length-3 lists of rotation matrices.
+
+* ...: Plotting options to be passed to rotBallPlot. If colors is used, its length should equal that of points.
+
+Output
+
+* NULL.
+
+
+
+oriGeodesicRegressionPlot <- function(xs, rs, regr, group, colors=hues(xs), spurs=NULL, ...) {
+
+Equal-angle plot of geodesic regression results.
+
+The user may choose to draw extra spurs, joining the Rs to their corresponding predictions on the curve.
+
+Inputs
+
+* xs: A vector of real numbers.
+
+* rs: A list of rotation matrices.
+
+* regr: The output of oriGeodesicRegression with those xs and rs.
+
+* group: A list of rotation matrices. The symmetry group G.
+
+* colors: A list of strings (colors). Used to color the points only.
+
+* spurs: A list of rotation matrices. When not NULL, it's usually equal to Rs.
+
+* ...: Other plotting options to be passed to rotEqualAnglePlot.
+
+Output
+
+* NULL.
+
+
+
+
+
+
+*** CONVERSIONS AMONG REPRESENTATIONS (ellipsoids.R) ***
+
+
+
+ellLog <- function(ell) {
+
+A log-ellipsoid tensor from an ellipsoid tensor, respecting normalization.
+
+Inputs
+
+* ell: A real 3x3 matrix (symmetric, positive-definite).
+
+Output
+
+* A
+
+
+
+ellExp <- function(logEll) {
+
+An ellipsoid tensor from a log-ellipsoid tensor, respecting normalization.
+
+Inputs
+
+* logEll: A real 3x3 matrix (symmetric).
+
+Output
+
+* A
+
+
+
+ellVectorFromLog <- function(logEll) {
+
+An ellipsoid 6-vector from an unnormalized log-ellipsoid tensor.
+
+The conversion is tuned so that the Frobenius inner product on matrices maps to the dot product on vectors.
+
+Inputs
+
+* logEll: A real 3x3 matrix (symmetric).
+
+Output
+
+* A 6-dimensional real vector.
+
+
+
+ellLogFromVector <- function(vec) {
+
+An unnormalized log-ellipsoid tensor from an ellipsoid 6-vector.
+
+The conversion is tuned so that the Frobenius inner product on matrices maps to the dot product on vectors.
+
+Inputs
+
+* vec: A 6-dimensional real vector.
+
+Output
+
+* A real 3x3 matrix (symmetric).
+
+
+
+ellNormalizedVectorFromLog <- function(normLogEll) {
+
+An ellipsoid 5-vector from a normalized log-ellipsoid tensor.
+
+The conversion is tuned so that the Frobenius inner product on matrices maps to the dot product on vectors.
+
+Inputs
+
+* logEll: A real 3x3 matrix (symmetric, trace-zero).
+
+Output
+
+* A 5-dimensional real vector.
+
+
+
+ellLogFromNormalizedVector <- function(vec) {
+
+A normalized log-ellipsoid tensor from an ellipsoid 5-vector.
+
+The conversion is tuned so that the Frobenius inner product on matrices maps to the dot product on vectors.
+
+Inputs
+
+* vec: A 5-dimensional real vector.
+
+Output
+
+* A real 3x3 matrix (symmetric, trace-zero).
+
+
+
+ellEllipsoidFromVector <- function(v) {
+
+An ellipsoid from an ellipsoid vector.
+
+Inputs
+
+* v: An ellipsoid vector, either 5-dimensional (if normalized) or 6-dimensional (if not).
+
+Output
+
+* An ellipsoid.
+
+
+
+ellEllipsoidFromRotationLogA <- function(r, logA, doNormalize=FALSE) {
+
+An ellipsoid from its orientation and the logarithms of its semi-axis lengths.
+
+Inputs
+
+* r: A real 3x3 matrix (special orthogonal), with the semi-axis directions along its rows.
+
+* logA: A real 3-dimensional vector. The logarithms of the semi-axis lengths, in order corresponding to the rows of r.
+
+Output
+
+* An ellipsoid.
+
+
+
+ellAscendingRotation <- function(rot, aOrLogA, descending=FALSE) {
+
+Ellipsoid orientation with axes in ascending or descending order.
+
+Inputs
+
+* rot: A real 3x3 matrix (special orthogonal), with the semi-axis directions along its rows.
+
+* aOrLogA: A real 3-dimensional vector. The semi-axis lengths or their logarithms, in order corresponding to the rows of rot.
+
+* descending: A Boolean. If TRUE, then sort axes in descending order. If FALSE, then sort in ascending order.
+
+Output
+
+* A real 3x3 matrix (special orthogonal). This matrix equals the input matrix, with its rows reordered and possibly one row negated to maintain determinant 1.
+
+
+
+ellPoleDirectionRotation <- function(rot, aOrLogA) {
+
+Ellipsoid orientation with axes ordered short, then long, then intermediate.
+
+This function is useful for comparing ellipsoid orientations to foliation-lineation orientations.
+
+Inputs
+
+* rot: A real 3x3 matrix (special orthogonal), with the semi-axis directions along its rows.
+
+* aOrLogA: A real 3-dimensional vector. The semi-axis lengths or their logarithms, in order corresponding to the rows of rot.
+
+Output
+
+* A real 3x3 matrix (special orthogonal). This matrix equals the input matrix, with its rows reordered and possibly one row negated to maintain determinant 1.
+
+
+
+
+
+*** SIZE AND SHAPE (ellipsoids.R) ***
+
+
+
+ellSizeInvariant <- function(logs) {
+
+Size-related tensor invariant of ellipsoids. Tantamount to volume.
+
+The first invariant (trace) of log E^(-1 / 2), where E is the ellipsoid tensor. The volume of the ellipsoid is (4 pi / 3) * exp(size). The size is positive for large ellipsoids, zero for normalized ellipsoids, and negative for small ellipsoids.
+
+Inputs
+
+* logs: A real 3D vector. The logs of the ellipsoid's semi-axis lengths, in any order.
+
+Output
+
+* A real number (can achieve any real value).
+
+
+
+ellStrainInvariant <- function(logs) {
+
+Strain-related tensor invariant of ellipsoids. Tantamount to octahedral shear strain.
+
+The second invariant of log E^(-1 / 2), where E is the ellipsoid tensor. Equals zero for spheres. For normalized ellipsoids, this strain == -Es^2 / 2, where Es is the octahedral shear strain. 
+
+Inputs
+
+* logs: A real 3D vector. The logs of the ellipsoid's semi-axis lengths, in any order.
+
+Output
+
+* A real number <= 0.
+
+
+
+ellShapeInvariant <- function(logs) {
+
+Shape-related tensor invariant of ellipsoids. An analogue of Lode's parameter.
+
+The third invariant (determinant) of log E^(-1 / 2), where E is the ellipsoid tensor. For normalized ellipsoids, this shape is positive for oblate ellipsoids, zero for 'plane strain' ellipsoids, and negative for prolate ellipsoids. In this sense it is analogous to (but not equal to or even tantamount to) Lode's parameter.
+
+Inputs
+
+* logs: A real 3D vector. The logs of the ellipsoid's semi-axis lengths, in any order.
+
+Output
+
+* A real number (can achieve any real value).
+
+
+
+ellVolume <- function(logs) {
+
+Volume of an ellipsoid.
+
+Inputs
+
+* logs: A real 3D vector. The logs of the ellipsoid's semi-axis lengths, in any order.
+
+Output
+
+* A real number > 0.
+
+
+
+ellOctahedralShearStrain <- function(logs) {
+
+Octahedral shear strain e_s.
+
+Inputs
+
+* logs: A real 3D vector. The logs of the ellipsoid's semi-axis lengths, in any order.
+
+Output
+
+* A real number >= 0.
+
+
+
+ellLodeNu <- function(logs) {
+
+nu is undefined for spheres, but we arbitrarily declare nu = 0 for them. Otherwise -1 <= nu <= 1. nu = -1 for prolate spheroids and nu = 1 for oblate spheroids.
+
+Inputs
+
+* logs: A real 3D vector. The logs of the ellipsoid's semi-axis lengths, in any order.
+
+Output
+
+* A real number (in the interval [-1, 1]), unless it fails.
+
+
+
+ellJelinekP <- function(logs) {
+
+The statistic P_j of Jelinek (1981).
+
+Inputs
+
+* logs: A real 3D vector. The logs of the ellipsoid's semi-axis lengths, in any order.
+
+Output
+
+* A real number >= 1.
+
+
+
+ellFlinnK <- function(logs) {
+
+Flinn's K measure of ellipsoid shape.
+
+Fails in the case of a prolate spheroid or sphere. Zero in the case of an oblate spheroid (that is not a sphere).
+
+Inputs
+
+* logs: A real 3D vector. The logs of the ellipsoid's semi-axis lengths, in any order.
+
+Output
+
+* A real number >= 0, unless it fails.
+
+
+
+ellLogAFromVEsNu <- function(vEsNu) {
+
+The logs of an ellipsoid's semi-axis lengths, from three other measures of shape.
+
+Inputs
+
+* vEsNu: A real 3D vector consisting of volume, octahedral shear strain, and Lode's parameter nu.
+
+Output
+
+* A real 3D vector, consisting of the logs of the ellipsoid's semi-axis lengths.
+
+
+
+
+
+*** DESCRIPTIVE STATISTICS (ellipsoids.R) ***
+
+
+
+ellMean <- function(vectors) {
+
+Geometric mean.
+
+Inputs
+
+* vectors: A list of 5- or 6-dimensional real vectors.
+
+Output
+
+* An ellipsoid.
+
+
+
+ellCovariance <- function(vectors) {
+
+Covariance matrix.
+
+The vectors are automatically centered about their mean. The denominator is n - 1, not n.
+
+Inputs
+
+* vectors: A list of 5- or 6-dimensional real vectors.
+
+Output
+
+* A 5x5 or 6x6 real matrix.
+
+
+
+ellCovarianceScalars <- function(vectors) {
+
+Convenience shortcut to the eigenvalues of the covariance matrix.
+
+These 5 or 6 numbers quantify the dispersion of the ellipsoids.
+
+Inputs
+
+* vectors: A list of 5- or 6-dimensional real vectors.
+
+Output
+
+* A 5- or 6-dimensional vector, containing the eigenvalues of the variance.
+
+
+
+ellPrincipalComponentAnalysis <- function(vectors) {
+
+Principal component analysis.
+
+Inputs
+
+* vectors: A list of 5- or 6-dimensional real vectors.
+
+Output
+
+* See prcomp.
+
+
+
+
+
+*** INFERENCE (ellipsoids.R) ***
+
+
+
+ellHotellingT2Inference <- function(vectors, hypoth, fOrChi="f") {
+
+One-sample inference based on Hotelling's T2 test.
+
+Inputs
+
+* vectors: A list of 5- or 6-dimensional real vectors.
+
+* hypoth: A 5- or 6-dimensional real vector, respectively.
+
+* fOrChi: Character. Should be 'f' or 'chi'.
+
+Output
+
+* See HotellingsT2.
+
+
+
+ellBootstrapMMInference <- function(vectors, hypoth, numBoots=1000, ...) {
+
+One-sample inference based on Hotelling test using the MM estimator.
+
+Inputs
+
+* vectors: A list of 5- or 6-dimensional real vectors.
+
+* hypoth: A 5- or 6-dimensional real vector, respectively.
+
+* numBoots: A real number (positive integer). The number of bootstrap samples.
+
+Output
+
+* See FRBhotellingMM.
+
+
+
+ellBootstrapSInference <- function(vectors, hypoth, numBoots=1000, ...) {
+
+One-sample inference based on Hotelling test using the S estimator.
+
+Inputs
+
+* vectors: A list of 5- or 6-dimensional real vectors.
+
+* hypoth: A 5- or 6-dimensional real vector, respectively.
+
+* numBoots: A real number (positive integer). The number of bootstrap samples.
+
+Output
+
+* See FRBhotellingS.
+
+
+
+ellHighEllipsoidVectors <- function(covarInv, center, level, numSamples=7) {
+
+A sampling of points on an ellipsoid in high-dimensional space.
+
+d is the dimension of the ambient space. The arguments for this function typically come out of ellBootstrapInference, where d == 5 or d == 6.
+
+Inputs
+
+* covarInv: A real dxd matrix (symmetric, positive-definite).
+
+* center: A real dD vector.
+
+* level: A real number. Typically q095^2 from ellBootstrapInference.
+
+* numSamples: A real number (positive integer). Roughly, the number of samples per dimension.
+
+Output
+
+* A list of dD real vectors.
+
+
+
+ellBootstrapInference <- function(vectors, numBoots=1000) {
+
+One-sample inference based on bootstrapping.
+
+Inputs
+
+* vectors: A list of 5- or 6-dimensional real vectors.
+
+* numBoots: A real number (positive integer). The number of bootstrap samples.
+
+Output
+
+* A list with members $pvalue, $center, $covarInv, $bootstraps, $q000, $q025, $q050, $q075, $q095, $q099, $q100. $pvalue is a function with input a 5D or 6D vector and output a real number, the p-value for the null hypothesis that the mean is that vector. $center is the mean of $bootstraps, which are the bootstraps. $covarInv is their inverse covariance matrix at the mean. The $qxxx values are percentiles of Mahalanobis distance among the bootstraps.
+
+
+
+ellTwoSampleHotellingT2Inference <- function(firsts, seconds, fOrChi="f") {
+
+Two-sample inference based on Hotelling's T2 test.
+
+Inputs
+
+* firsts: A list of 5- or 6-dimensional real vectors.
+
+* seconds: A list of 5- or 6-dimensional real vectors.
+
+* fOrChi: Character. Should be 'f' or 'chi'.
+
+Output
+
+* See HotellingsT2.
+
+
+
+ellTwoSampleBootstrapInference <- function(firsts, seconds, numBoots=1000) {
+
+Two-sample inference based on bootstrapping.
+
+Inputs
+
+* firsts: A list of 5- or 6-dimensional real vectors.
+
+* seconds: A list of 5- or 6-dimensional real vectors.
+
+* numBoots: A real number (positive integer). The number of bootstrap samples.
+
+Output
+
+* A list with members $pvalue, $center, $covarInv, $bootstraps, $q000, $q025, $q050, $q075, $q095, $q099, $q100. $pvalue is a function with input a 5D or 6D vector and output a real number, the p-value for the null hypothesis that second-mean - first-mean is that vector. $center is the mean of $bootstraps, which are the bootstraps. $covarInv is their inverse covariance matrix at the mean. The $qxxx values are percentiles of Mahalanobis distance among the bootstraps.
+
+
+
+ellRobin <- function(poleRakeOthers, rakeSemiaxisLengths, otherSemiaxisLengths) {
+
+Fit an ellipsoid to elliptical sections, using their shape but not size.
+
+Warning: This function is not well tested. Actually I have reason to believe that it is quite wrong. Anyway, this is the second case treated by Robin (2002). The output ellipsoid tensor is normalized to have trace 3, and might not actually be positive-definite at all.
+
+Inputs
+
+* poleRakeOthers: A list of real 3x3 matrices (special orthogonal). Each matrix describes the orientation of an ellipse in space. The first row is the pole to the plane. The second row is the rake of one of the ellipse's axes in that plane. The third row is the cross product of the first two.
+
+* rakeSemiaxisLengths: A vector of real numbers. The length of the semi-axis indicated by the rake in the first argument.
+
+* otherSemiaxisLengths: A vector of real numbers. The length of the semi-axis perpendicular to the rake.
+
+Output
+
+* A real 3x3 matrix (symmetric, trace-3). The putative ellipsoid tensor.
+
+
+
+ellSPO <- function(poleRakeOthers, rakeSemiaxisLengths, otherSemiaxisLengths, numSteps=10000) {
+
+Fit an ellipsoid to elliptical sections, using their shape but not size.
+
+This is my custom method for fitting SPO. Unlike the method of Robin (2002, Case 2), this method is guaranteed to produce a positive-definite ellipsoid tensor E. Currently I force volume normalization (det E = 1) as well. Works well, except when minEigenvalue is negative. Works less well if BFGS is replaced with the default (Nelder-Mead).
+
+Inputs
+
+* poleRakeOthers: A list of real 3x3 matrices (special orthogonal). Each matrix describes the orientation of an ellipse in space. The first row is the pole to the plane. The second row is the rake of one of the ellipse's axes in that plane. The third row is the cross product of the first two.
+
+* rakeSemiaxisLengths: A vector of real numbers. The length of the semi-axis indicated by the rake in the first argument.
+
+* otherSemiaxisLengths: A vector of real numbers. The length of the semi-axis perpendicular to the rake.
+
+* numSteps: A real number (positive integer). The number of steps to use in the optimization algorithm.
+
+Output
+
+* A list with members $ellipsoid, $error, $minEigenvalue, and $value. $ellipsoid is an ellipsoid. $error is an error code; if it is non-zero, then an error occurred; try increasing numSteps. $minEigenvalue is the least eigenvalue of the Hessian at the putative optimum; if it is non-positive, then an error occurred. $value is the value of the misfit function at the optimum.
+
+
+
+
+
+*** PLOTTING (ellipsoids.R) ***
+
+
+
+ellEllipsoidPlot <- function(rots, as, centers=replicate(length(rots), c(0, 0, 0), simplify=FALSE), numNonAdapt=4, ...) {
+
+Visualization of ellipsoids.
+
+Inputs
+
+* rots: A list of 3x3 real matrices (special orthogonal). The ellipsoid orientations, as given by the $rotation field of an ellipsoid.
+
+* as: A list of 3D real vectors. The ellipsoid semi-axis lengths, in order corresponding to the rows of the rots, as given by the $a field of an ellipsoid.
+
+* centers: A list of 3D real vectors. The locations of the ellipsoid centers.
+
+* numNonAdapt: A real number (non-negative integer). The number of refinements to use. Each refinement makes the ellipsoids smoother, but increases time and memory requirements by a factor of four.
+
+Output
+
+* NULL.
+
+
+
+ellEqualAreaPlot <- function(rots, as, rotCurves=list(), aCurves=list(), colors=c("black")) {
+
+Equal-area plot of ellipsoid axes.
+
+Short axes are shown as circles, intermediate as triangles, long as squares. Warning: Curves are not well tested.
+
+Inputs
+
+* rots: A list of 3x3 real matrices (special orthogonal). The ellipsoid orientations, as given by the $rotation field of an ellipsoid.
+
+* as: A list of 3D real vectors. The ellipsoid semi-axis lengths, in order corresponding to the rows of the rots, as given by the $a field of an ellipsoid. Alternatively, you can pass logA; this information is used only to determine the order of the axes.
+
+* rotCurves: A list of lists of 3x3 real matrices (special orthogonal). Like rots, but curves rather than points.
+
+* aCurves: A list of lists of 3D real vectors. Like as, but curves rather than points.
+
+* colors: Character. A vector of colors for coloring the points, as in all R graphics functions.
+
+Output
+
+* NULL.
+
+
+
+ellEqualVolumePlot <- function(rots, as, rotCurves=list(), aCurves=list(), colors=c("white"), ...) {
+
+Equal-volume plot of ellipsoid orientations.
+
+Inputs
+
+* rots: A list of 3x3 real matrices (special orthogonal). The ellipsoid orientations, as given by the $rotation field of an ellipsoid.
+
+* as: A list of 3D real vectors. The ellipsoid semi-axis lengths, in order corresponding to the rows of the rots, as given by the $a field of an ellipsoid. Alternatively, you can pass logA; this information is used only to determine the order of the axes.
+
+* rotCurves: A list of lists of 3x3 real matrices (special orthogonal). Like rots, but curves rather than points.
+
+* aCurves: A list of lists of 3D real vectors. Like as, but curves rather than points.
+
+* colors: Character. A vector of colors for coloring the points, as in all R graphics functions.
+
+Output
+
+* NULL.
+
+
+
+ellWrongHsuNadaiPlot <- function(logAs, curves=list(), es=NULL, colors=c("black")) {
+
+A distorted version of the Hsu-Nadai plot of ellipsoid shapes.
+
+This is a polar plot, in which the radial coordinate is octahedral shear strain and the angular coordinate is Lode's parameter. This plot is similar to, but not identical to, the Hsu-Nadai plot. See ellHsuNadaiPlot for the real thing.
+
+Inputs
+
+* logAs: A list of 3D real vectors. The ellipsoid semi-axis log-lengths.
+
+* curves: A list of lists of 3D real vectors. Like logAs, but curves rather than points.
+
+* es: A real number (positive) or NULL. If a number, then that is the radius of the plot in the E_s direction. If NULL, then the radius of the plot is inferred from the points (not the curves, currently).
+
+* colors: Character. A vector of colors for coloring the points, as in all R graphics functions.
+
+Output
+
+* NULL.
+
+
+
+ellHsuNadaiPlot <- function(logAs, curves=list(), es=NULL, colors=c("black")) {
+
+Hsu-Nadai plot of ellipsoid shapes.
+
+Inputs
+
+* logAs: A list of 3D real vectors. The ellipsoid semi-axis log-lengths.
+
+* curves: A list of lists of 3D real vectors. Like logAs, but curves rather than points.
+
+* es: A real number (positive) or NULL. If a number, then that is the radius of the plot in the E_s direction. If NULL, then the radius of the plot is inferred from the points (not the curves, currently).
+
+* colors: Character. A vector of colors for coloring the points, as in all R graphics functions.
+
+Output
+
+* NULL.
+
+
+
+ellHsuNadaiScalarPlot <- function(logAs, zs, es=NULL, colors=c("white"), ...) {
+
+Hsu-Nadai plot of ellipsoid shapes, with a third dimension specified by the user.
+
+Inputs
+
+* logAs: A list of 3D real vectors. The ellipsoid semi-axis log-lengths.
+
+* zs: A vector of real numbers. The coordinates of the points in the direction perpendicular to the Hsu-Nadai plot.
+
+* es: A real number (positive) or NULL. If a number, then that is the radius of the plot in the E_s direction. If NULL, then the radius of the plot is inferred from the points.
+
+* colors: Character. A vector of colors for coloring the points, as in all R graphics functions.
+
+* ...: Other arguments to pass to the underlying plot3D.
+
+Output
+
+* NULL.
+
+
+
+ellFlinnPlot <- function(as, colors=c("black")) {
+
+Flinn plot of ellipsoid shapes.
+
+Inputs
+
+* as: A list of 3D real vectors, with all entries positive. The ellipsoid semi-axis lengths.
+
+* colors: Character. A vector of colors for coloring the points, as in all R graphics functions.
+
+Output
+
+* NULL.
+
+
+
+ellLogFlinnPlot <- function(logAs, colors=c("black")) {
+
+Logarithmic Flinn plot (Ramsay plot) of ellipsoid shapes.
+
+Inputs
+
+* logAs: A list of 3D real vectors. The ellipsoid semi-axis log-lengths.
+
+* colors: Character. A vector of colors for coloring the points, as in all R graphics functions.
+
+Output
+
+* NULL.
+
+
+
+ellJelinekPlot <- function(logAs, colors=c("black")) {
+
+Jelinek plot of ellipsoid shapes.
+
+This is a rectangular plot of Jelinek's Pj vs. Lode's nu. Tauxe (2010) called it the Jelinek plot, after Jelinek (1981).
+
+Inputs
+
+* logAs: A list of 3D real vectors. The ellipsoid semi-axis log-lengths.
+
+* colors: Character. A vector of colors for coloring the points, as in all R graphics functions.
+
+Output
+
+* NULL.
+
+
+
+ellPairsPlot <- function(points, colors=c("black"), ...) {
+
+Pair plot of ellipsoid vectors.
+
+Inputs
+
+* points: A list of 5D or 6D real vectors. Ellipsoid vectors, as in the $vector field of an ellipsoid.
+
+* colors: Character. A vector of colors for coloring the points, as in all R graphics functions.
+
+* ...: Other parameters to be passed to the underlying pairs function.
+
+Output
+
+* @
+
+
+
+ellVectorPlot <- function(ijk, points=list(), curves=list(), colors=NULL, ...) {
+
+2D or 3D plot of ellipsoid vectors.
+
+The 2D case is like a single panel of ellPairsPlot. Warning: In 2D, curves are not well tested.
+
+Inputs
+
+* ijk: A 2D or 3D vector of real numbers (positive integers). These should be in 1, ..., d, where d is the dimension of the vectors. They select out which coordinates of the vectors to display. For example, c(1, 2, 3) indicates to make a 3D plot of the first three vector coordinates.
+
+* points: A list of 5D or 6D real vectors. Ellipsoid vectors, as in the $vector field of an ellipsoid.
+
+* curves: A list of lists of 5D or 6D real vectors. Like points, but curves.
+
+* colors: Character or NULL. A vector of colors for coloring the points, as in all R graphics functions. If NULL, then defaults to black in 2D or white in 3D.
+
+* ...: Other parameters to be passed to the underlying plot3D function. Ignored in the 2D case.
+
+Output
+
+* @
+
+
+
+
+
+
+*** MISCELLANY (deformations.R) ***
+
+
+
+defExp <- expm
+
+Position gradient tensor for a given velocity gradient tensor.
+
+Given a VGT L, returns the corresponding PGT F = exp L. This F represents the finite deformation at time t = 1 of a steady, homogeneous progressive deformation that started at t = 0. Requires R package 'expm'.
+
+
+
+defLog <- logm
+
+Velocity gradient tensor deduced from a position gradient tensor.
+
+Given a PGT F, returns the 'principal' logarithm L = log F. This L is a VGT representing a steady, homogeneous progressive deformation, whose finite deformation from t = 0 to t = 1 is F. Requires R package 'expm'.
+
+
+
+defKinematicVorticity <- function(vgt) {
+
+Kinematic vorticity of a steady, homogeneous deformation.
+
+The kinematic vorticity, commonly denoted w_k, is the ratio of rotation to distortion in the deformation. If there is no distortion, then it is undefined. Otherwise, it can take on any non-negative real value. If the VGT has only real eigenvalues, then w_k <= 1.
+
+Inputs
+
+* vgt: A real 3x3 matrix. The VGT of the deformation.
+
+Output
+
+* A real number (non-negative) or Inf.
+
+
+
+defFiniteStrainEllipsoid <- function(pgt, doNormalize=TRUE) {
+
+Finite strain ellipsoid of a homogeneous deformation.
+
+Inputs
+
+* pgt: A real 3x3 matrix, with positive determinant. The PGT of the deformation.
+
+* doNormalize: Logical. Whether to scale the ellipsoid to have the same volume as the unit sphere, or not.
+
+Output
+
+* An ellipsoid (a list with members $tensor, $vector, $a, $logA, $rotation; see ellipsoid.R).
+
+
+
+
+
+*** HOMOGENEOUS SIMPLE SHEAR (deformations.R) ***
+
+
+
+defSimpleVGT <- function(gamma) {
+
+Velocity gradient tensor for homogeneous simple shear along the x-z-plane.
+
+Inputs
+
+* gamma: A real number. Positive for dextral shear, negative for sinistral shear.
+
+Output
+
+* A real 3x3 matrix.
+
+
+
+defSimplePGT <- function(gamma) {
+
+Position gradient tensor for homogeneous simple shear along the x-z-plane.
+
+Inputs
+
+* gamma: A real number. Positive for dextral shear, negative for sinistral shear.
+
+Output
+
+* A real 3x3 matrix.
+
+
+
+
+
+*** HOMOGENEOUS MONOCLINIC TRANSPRESSION (deformations.R) ***
+
+
+
+defMonoclinicVGT <- function(gamma, logK) {
+
+Velocity gradient tensor for homogeneous monoclinic transpression along the x-z-plane.
+
+See Fossen and Tikoff (1993).
+
+Inputs
+
+* gamma: A real number. Positive for dextral shear, negative for sinistral shear.
+
+* logK: A real number. Negative for transpression, positive for transtension.
+
+Output
+
+* A real 3x3 matrix.
+
+
+
+defMonoclinicPGT <- function(gamma, logK) {
+
+Position gradient tensor for homogeneous monoclinic transpression along the x-z-plane.
+
+See Fossen and Tikoff (1993).
+
+Inputs
+
+* gamma: A real number. Positive for dextral shear, negative for sinistral shear.
+
+* logK: A real number. Negative for transpression, positive for transtension.
+
+Output
+
+* A real 3x3 matrix.
+
+
+
+defMonoclinicCriticalGammaFromLogK <- function(logK) {
+
+Critical curve for homogeneous monoclinic transpression.
+
+For certain combinations of (gamma, logK), homogeneous monoclinic transpression produces a finite strain ellipsoid that is an oblate spheroid. Thus the long axis direction, which is frequently interpreted as the lineation direction, is undefined. For any logK, this function returns the corresponding gamma >= 0 to make this happen.
+
+Inputs
+
+* logK: A real number. Negative for transpression, positive for transtension.
+
+Output
+
+* A real number, non-negative. The gamma corresponding to logK.
+
+
+
+defMonoclinicAOCFromGammaLogK <- function(gamma, logK) {
+
+Angle of oblique convergence for homogeneous monoclinic transpression.
+
+This is the horizontal angle between the movement direction and the shear zone. For dextral transpression, it is between 0 and pi / 2. Together with magnitude, it forms polar coordinates on the space of homogeneous monoclinic transpressions.
+
+Inputs
+
+* gamma: A real number. Positive for dextral shear, negative for sinistral shear.
+
+* logK: A real number. Negative for transpression, positive for transtension.
+
+Output
+
+* A real number. The angle of oblique convergence, in radians.
+
+
+
+defMonoclinicMagnitudeFromGammaLogK <- function(gamma, logK) {
+
+Magnitude of homogeneous monoclinic transpression.
+
+Because of the nature of steady homogeneous deformations, the magnitude can be interpreted in various ways. On the one hand, it measures the intensity of a deformation run for a fixed time interval, say from t = 0 to t = 1. On the other hand, it measures the amount of time that a deformation runs, if we fix that deformation's intensity. Anyway, this is a good measure of 'how far away from no deformation at all' the transpression is. Together with angle of oblique convergence, it forms polar coordinates on the space of homogeneous monoclinic transpressions.
+
+Inputs
+
+* gamma: A real number. Positive for dextral shear, negative for sinistral shear.
+
+* logK: A real number. Negative for transpression, positive for transtension.
+
+Output
+
+* A real number. The angle of oblique convergence, in radians.
+
+
+
+defMonoclinicGammaFromAOCMagnitude <- function(aoc, mag) {
+
+Gamma parameter for homogeneous monoclinic transpression, from other parameters.
+
+This function and defMonoclinicLogKFromAOCMagnitude are inverse to defMonoclinicCriticalGammaFromLogK and defMonoclinicAOCFromGammaLogK.
+
+Inputs
+
+* aoc: A real number.  The angle of oblique convergence, in radians.
+
+* mag: A real number. The magnitude.
+
+Output
+
+* A real number, gamma.
+
+
+
+defMonoclinicLogKFromAOCMagnitude <- function(aoc, mag) {
+
+log k parameter for homogeneous monoclinic transpression, from other parameters.
+
+This function and defMonoclinicGammaFromAOCMagnitude are inverse to defMonoclinicCriticalGammaFromLogK and defMonoclinicAOCFromGammaLogK.
+
+Inputs
+
+* aoc: A real number.  The angle of oblique convergence, in radians.
+
+* mag: A real number. The magnitude.
+
+Output
+
+* A real number, logK.
+
+
+
+defTriclinicVGT <- function(u, hOf1=1, xOfT=c(0, 0, 0), tt=1) {
+
+Velocity gradient tensor for homogeneous triclinic transpression along a vertical, EW-striking shear plane.
+
+This deformation is homogeneous, so there are effectively only two positions: inside the shear zone versus outside. If you just pass the vector u, then the shear zone is assumed to be infinitely thick, so the station in question is inside the shear zone. If you pass any more parameters than u, then pass all of them. They are used to determine whether the station is inside the shear zone at time t or not.
+
+Inputs
+
+* u: A 3-dimensional real vector. The movement vector of the bounding rigid blocks relative to the shear plane.
+
+* hOf1: A real number, positive. The final half-width of the shear zone.
+
+* xOfT: A 3-dimensional real vector. The location of the point, at which we wish to compute the VGT. Because the deformation is homogeneous, all points inside the zone have the same VGT, and all points outside have VGT = 0.
+
+* tt: A real number. The time t at which x(t) = xOfT.
+
+Output
+
+* A real 3x3 matrix.
+
+
+
+defTriclinicPGT <- function(u, hOf1=1, xOfT=c(0, 0, 0), tt=1) {
+
+Position gradient tensor for homogeneous triclinic transpression along a vertical, EW-striking shear plane.
+
+Equals defExp(defTriclinicVGT(...)), but faster and more robustly. Same parameters as defTriclinicVGT.!!
+
+
+
+
+
+*** HOMOGENEOUS TRANSPORT TRANSPRESSION (deformations.R) ***
+
+
+
+defTransportVGT <- function(u, hOf1=1, xOfT=c(0, 0, 0), tt=1) {
+
+Velocity gradient tensor for homogeneous 'transport' transpression along a vertical, EW-striking shear plane.
+
+This deformation is homogeneous, so there are effectively only two positions: inside the shear zone versus outside. If you just pass the vector u, then the shear zone is assumed to be infinitely thick, so the station in question is inside the shear zone. If you pass any more parameters than u, then pass all of them. They are used to determine whether the station is inside the shear zone at time t or not.
+
+Inputs
+
+* u: A 3-dimensional real vector. The movement vector of the bounding rigid blocks relative to the shear plane.
+
+* hOf1: A real number, positive. The final half-width of the shear zone.
+
+* xOfT: A 3-dimensional real vector. The location of the point, at which we wish to compute the VGT. Because the deformation is homogeneous, all points inside the zone have the same VGT, and all points outside have VGT = 0.
+
+* tt: A real number. The time t at which x(t) = xOfT.
+
+Output
+
+* A real 3x3 matrix.
+
+
+
+defTransportPGT <- function(u, hOf1=1, xOfT=c(0, 0, 0), tt=1) {
+
+Position gradient tensor for homogeneous 'transport' transpression along a vertical, EW-striking shear plane.
+
+Equals defExp(defTransportVGT(...)), but more quickly and robustly. The parameters are the same as in defTransportVGT.
+
+Inputs
+
+* u: A 3-dimensional real vector. The movement vector of the bounding rigid blocks relative to the shear plane.
+
+* hOf1: A real number, positive. The final half-width of the shear zone.
+
+* xOfT: A 3-dimensional real vector. The location of the point, at which we wish to compute the VGT. Because the deformation is homogeneous, all points inside the zone have the same VGT, and all points outside have VGT = 0.
+
+* tt: A real number. The time t at which x(t) = xOfT.
+
+Output
+
+* A real 3x3 matrix.
+
+
+
+
+
+*** INCLINED TRANSPRESSIONS (deformations.R) ***
+
+
+
+defInclinedTensor <- function(strike, dip, aoc, mag, func, hOf1=1, yOfT=c(0, 0, 0), tt=1, origin=c(0, 0, 0)) {
+
+Convenience function giving global VGT or PGT for inclined version of homogeneous transpressions.
+
+Inputs
+
+* strike: A real number. The strike of the shear plane, in radians, but otherwise as usual in geology: measured clockwise from north.
+
+* dip: A real number. The dip of the shear plane, in radians. We assume that strike and dip obey the right-hand rule.
+
+* aoc: A real number. The angle of oblique convergence, in radians. Kind of like in the monoclinic case.
+
+* mag: A real number. The magnitude. Kind of like in the monoclinic case.
+
+* func: An R function of the same interface as defTriclinicVGT, defTriclinicPGT, defTransportVGT, etc., giving the tensor in local coordinates.
+
+* hOf1: A real number, positive. The final half-width of the shear zone.
+
+* yOfT: A real 3D vector.
+
+* tt: A real number. The time t at which y(t) = yOfT.
+
+* origin: A real 3D vector. The shear zone origin o in y = R x + o.
+
+Output
+
+* A real 3x3 matrix. The output of func transformed to global coordinates.
+
+
+
+
+
+*** RIGID ELLIPSOID DYNAMICS (deformations.R) ***
+
+
+
+defClassicalJeffery <- function(q0, a, l, n) {
+
+Simulating the rotation of a rigid ellipsoid in a slow viscous flow.
+
+See Jeffery (1922). Uses the classical fourth-order Runge-Kutta algorithm.
+
+Inputs
+
+* q0: A real 3x3 matrix (special orthogonal). The ellipsoid's orientation Q at time t = 0.
+
+* a: A real 3-dimensional vector. The semi-axis lengths a1, a2, a3, in order corresponding to the rows of Q.
+
+* l: A real 3x3 matrix. Usually trace-zero. The VGT of the ambient deformation.
+
+* n: A real number (positive integer). The number of time steps to use in the simulation.
+
+Output
+
+* A real 3x3 matrix (special orthogonal). The ellipsoid's orientation Q at time t = 1.
+
+
+
+defLeftJeffery <- function(q0, a, l, n) {
+
+Simulating the rotation of a rigid ellipsoid in a slow viscous flow (Jeffery, 1922).
+
+The same calculation as defClassicalJeffery, but using a left-invariant Lie group Runge-Kutta method instead of a classical Runge-Kutta method. An improved version of what's in Davis et al. (2013). This function may deliver less error (per time spent) than defClassicalJeffery, but I have not done testing to confirm that.
+
+Inputs
+
+* q0: A real 3x3 matrix (special orthogonal). The ellipsoid's orientation Q at time t = 0.
+
+* a: A real 3-dimensional vector. The semi-axis lengths a1, a2, a3, in order corresponding to the rows of Q.
+
+* l: A real 3x3 matrix. Usually trace-zero. The VGT of the ambient deformation.
+
+* n: A real number (positive integer). The number of time steps to use in the simulation.
+
+Output
+
+* A real 3x3 matrix (special orthogonal). The ellipsoid's orientation Q at time t = 1.
+
+
+
+
+
+*** DEFORMABLE ELLIPSOID DYNAMICS (deformations.R) ***
+
+
+
+defClassicalEshelby <- function(e0, l, r, n) {
+
+Simulating the deformation of a deformable ellipsoid in a slow viscous flow.
+
+See Eshelby, (1957); Bilby et al. (1975). Uses the classical fourth-order Runge-Kutta algorithm, based on the differential equation E-dot = -K^T E - E K (Davis et al., 2013).
+
+Inputs
+
+* e0: A real 3x3 matrix (symmetric, positive-definite). The ellipsoid tensor E at time t = 0.
+
+* l: A real 3x3 matrix. Usually trace-zero. The VGT of the ambient deformation.
+
+* r: A real number (positive). The viscosity ratio between the clast and the host rock. For example, a competent clast might have r = 10.
+
+* n: A real number (positive integer). The number of time steps to use in the simulation.
+
+Output
+
+* A real 3x3 matrix (symmetric, positive-definite). The ellipsoid tensor E at time t = 1.
+
+
+
+defLeftEshelby <- function(e0, l, r, n) {
+
+Simulating the deformation of a deformable ellipsoid in a slow viscous flow.
+
+See Eshelby, (1957); Bilby et al. (1975). Similar to defClassicalEshelby, but uses the left-invariant Lie group, fourth-order Runge-Kutta method of Davis et al. (2013). Should be faster (more precise per time required). Requires R package 'expm'.
+
+Inputs
+
+* e0: A real 3x3 matrix (symmetric, positive-definite). The ellipsoid tensor E at time t = 0.
+
+* l: A real 3x3 matrix. Usually trace-zero. The VGT of the ambient deformation.
+
+* r: A real number (positive). The viscosity ratio between the clast and the host rock. For example, a competent clast might have r = 10.
+
+* n: A real number (positive integer). The number of time steps to use in the simulation.
+
+Output
+
+* A real 3x3 matrix (symmetric, positive-definite). The ellipsoid tensor E at time t = 1.
+
+
+
+
+
+
+*** COORDINATE TRANSFORMATIONS (geology.R) ***
+
+
+
+geoCartesianFromTrendPlungeDeg <- function(tpDeg) {
+
+Cartesian coordinates from trend and plunge in degrees.
+
+Inverse to geoTrendPlungeDegFromCartesian, up to periodicity of angles.
+
+Inputs
+
+* tpDeg: A 2D real vector. The trend and plunge of a ray or line, in degrees.
+
+Output
+
+* A 3D real vector (unit).
+
+
+
+geoTrendPlungeDegFromCartesian <- function(xyz) {
+
+Trend and plunge in degrees, from Cartesian coordinates.
+
+Inverse to geoCartesianFromTrendPlungeDeg, up to periodicity of angles.
+
+Inputs
+
+* xyz: A 3D real vector (unit). A ray or line.
+
+Output
+
+* A 2D real vector. Trend and plunge, in degrees.
+
+
+
+geoCartesianFromStrikeDipDeg <- function(sdDeg) {
+
+Cartesian coordinates of a pole vector, from strike and dip in degrees.
+
+Assumes the right-hand rule for strike and dip. Inverse to geoStrikeDipDegFromCartesian, up to periodicity of angles.
+
+Inputs
+
+* sdDeg: A 2D real vector. The strike and dip of a plane, in degrees.
+
+Output
+
+* A 3D real vector (unit). The pole.
+
+
+
+geoStrikeDipDegFromCartesian <- function(xyz) {
+
+Strike and dip in degrees, from Cartesian coordinates of the pole vector.
+
+Obeys the right-hand rule for strike and dip. Inverse to geoCartesianFromStrikeDipDeg, up to periodicity of angles.
+
+Inputs
+
+* xyz: A 3D real vector (unit). The pole to the plane.
+
+Output
+
+* A 2D real vector. Strike and dip, in degrees.
+
+
+
+geoRotationFromStrikeDipRakeDeg <- function(sdrDeg) {
+
+Orientation matrix from strike, dip, and rake in degrees.
+
+Assumes the right-hand rule for strike and dip. Rake (also called pitch) is measured down-dip from the strike --- in other words, clockwise when viewed from above. Inverse to geoStrikeDipRakeDegFromRotation, up to periodicity of angles. When using this function to describe faults with slip, you often want to follow up with geoPoleVorticityFromPoleHanging.
+
+Inputs
+
+* sdrDeg: A real 3D vector. The strike, dip, and rake, in degrees.
+
+Output
+
+* A real 3x3 matrix (special orthogonal). The first row is the pole to the plane. The second row is the ray in the plane described by the rake. (The third row is the cross product of the first two.)
+
+
+
+geoStrikeDipRakeDegFromRotation <- function(rot) {
+
+Strike, dip, and rake in degrees, from orientation matrix.
+
+Assumes the right-hand rule for strike and dip. Rake (also called pitch) is measured down-dip from the strike --- in other words, clockwise when viewed from above. Inverse to geoRotationFromStrikeDipRakeDeg, up to periodicity of angles. When using this function to describe faults with slip, you often want to prepare with geoPoleHangingFromPoleVorticity.
+
+Inputs
+
+* rot: A real 3x3 matrix (special orthogonal). The first row is the pole to the plane. The second row is a ray within the plane, whose rake is desired. (The third row is the cross product of the first two.)
+
+Output
+
+* A real 3D vector. The strike, dip, and rake, in degrees.
+
+
+
+geoPoleVorticityFromPoleHanging <- function(rot) {
+
+Sanitizing an orientation of a fault-with-slip.
+
+The issue here is that geologists like describing fault slips in terms of the movement direction of the hanging wall, but the hanging wall is undefined for vertical faults. A much better-behaved convention is to describe the direction of slip using a vorticity vector. Inverse to geoPoleHangingFromPoleVorticity.
+
+Inputs
+
+* rot: A real 3x3 matrix (special orthogonal). The first row is the pole to a fault plane. The second row is the movement direction of the hanging wall. (The third row is the cross product of the other two.)
+
+Output
+
+* A real 3x3 matrix (special orthogonal). The first row is the downward-pointing pole to the fault. The second row is the vorticity vector of the slip. (The third row is the cross product of the other two.)
+
+
+
+geoPoleHangingFromPoleVorticity <- function(rot) {
+
+Desanitizing an orientation of a fault-with-slip.
+
+Inverse to geoPoleVorticityFromPoleHanging.
+
+Inputs
+
+* rot: A real 3x3 matrix (special orthogonal). The first row is the pole to a fault plane. The second row is the vorticity vector of the fault slip. (The third row is the cross product of the other two.)
+
+Output
+
+* A real 3x3 matrix (special orthogonal). The first row is the downward-pointing pole to the fault. The second row is the movement direction of the hanging wall. (The third row is the cross product of the other two.)
+
+
+
+geoMeanLatLongDeg <- function(latLongDegs) {
+
+Average of points on the Earth's surface, in terms of latitude and longitude.
+
+Assumes that the Earth is a perfect sphere. Positive latitudes are north, while negative latitudes are south. Positive longitudes are east, while negative longitudes are west. Handles the prime antimeridian (near international date line) and polar regions well.
+
+Inputs
+
+* latLongDegs: A list of 2D real vectors, where each vector is a latitude-longitude pair in decimal degrees.
+
+Output
+
+* A 2D real vector, consisting of the latitude and longitude of the mean location, in decimal degrees.
+
+
+
+geoEastNorthsFromLatLongDegs <- function(latLongDegs) {
+
+Crude way to convert decimal latitudes and longitudes to approximate eastings and northings.
+
+For serious applications you should probably use some combination of the rgdal and PBSmapping packages. Positive latitudes are north, while negative latitudes are south. Positive longitudes are east, while negative longitudes are west. Handles the prime antimeridian (near international date line) well. Does not work well in polar regions, where easting and northing become singular. This function produces approximate results, by assuming that the Earth is a perfect sphere of radius 6378 km. The output eastings and northings are relative to the directional mean of the locations, which you can using geoMeanLatLongDeg.
+
+Inputs
+
+* latLongDegs: A list of 2D real vectors, where each vector is a latitude-longitude pair in decimal degrees.
+
+Output
+
+* A list of 2D real vectors. Easting-northing pairs, in km, relative to the mean location.
+
+
+
+
+
+*** DEDUCING ROTATION FROM PALEOMAGNETIC DIRECTION AND DIKE ASSUMPTION (geology.R) ***
+
+
+
+geoRotationsFromDikePaleomag <- function(pole, dir, tmv) {
+
+Rotations deduced from two rays and a verticality assumption.
+
+As in Allerton and Vine (1987). But to understand the mathematical treatment used here, see the appendix to our orientation statistics paper. We seek the rotation R that satisfies two constraints: R^T dir = tmv and R^T pole is horizontal. Based on these constraints, we get zero or two candidate rotations R at each station. In the zero case, we choose the unique rotation that comes closest to making R^T pole horizontal.
+
+Inputs
+
+* pole: A line (unit 3D real vector).
+
+* dir: A ray (unit 3D real vector).
+
+* tmv: A ray (unit 3D real vector).
+
+Output
+
+* A list of 3x3 real matrices (special orthogonal). The length of the list is 1 or 2.
+
+
+
+
+
+*** LOADING DATA FROM FILE (geology.R) ***
+
+
+
+geoDataFromFile <- function(fileName, doNormalize=FALSE, separator=NULL) {
+
+Loads the file as a data frame. Attempts to infer pole, direction, rotation, and/or ellipsoid from each datum.
+
+In addition to loading the file into an R data frame (table), this function appends "Deg" to the names of certain strike, dip, trend, and plunge fields. It also attempts to infer poles, directions, rotations, and ellipsoids from the data, according to the following rules. When two rules conflict, the behavior is undefined. So avoid conflicts yourself.
+
+If fields strike-dip exist, then adds a field pole. If field rake also exists, then adds a field direction.
+
+If fields trend-plunge or x-y-z exist, then adds a field direction.
+
+If fields trend1-plunge1-trend2-plunge2 or pole-direction or x1-y1-z1-x2-y2-z2, then adds a field rotation.
+
+If fields a1-a2, but not field a3, then adds a field a3 such that a1 a2 a3 == 1.
+
+If fields rotation-a1-a2-a3, then adds ellipsoid fields a, logA, tensor, vector.
+
+If fields vector1-vector2-vector3-vector4-vector5(-vector6), then adds ellipsoid fields a, logA, rotation, tensor, vector.
+
+vector is 5D if normalized, 6D if not.
+
+Inputs
+
+* fileName: Character. The name of the file (or path relative to the working directory).
+
+* doNormalize: Logical. Whether to normalize ellipsoids to have volume equal to that of the unit sphere.
+
+* separator: Character or NULL. The separator for fields in the file. If NULL, then attempts to deduce either ',' or '\t' from the file name suffix.
+
+Output
+
+* Data frame. All fields from the original file, maybe some with 'Deg' appended, and maybe a bunch of other fields as described above.
+
+
+
+
+
+*** SPECIALIZED READING DATA FROM FILE (geology.R) ***
+
+
+
+geoEllipsoidDataFromAGICOFile <- function(fileName, meanSuscepts, doNormalize=FALSE, separator=NULL) {
+
+Loading a file of AMS ellipsoids in a certain AGICO file format.
+
+In addition to an AGICO-processed kappa bridge data file listing AMS ellipsoids, you need the mean susceptibility for each AMS ellipsoid, which is output in a separate file. The mean susceptibilities tell us how the ellipsoids were normalized, so that we can de-normalize them. Warning: The conventions used by various authors for AMS ellipsoids are so confusing and contradictory that I'm not completely sure that the ellipsoid semi-axis lengths are configured correctly. The colloquial term for this kind of situation is 'Hell on Earth'.
+
+!!Warning: doNormalize=FALSE doesn't work?
+
+Inputs
+
+* fileName: Character. The name of the file (or path relative to the working directory).
+
+* meanSuscepts: A vector of real numbers. The mean susceptibilities corresponding to the rows in the data file.
+
+* doNormalize: Logical. Whether to normalize ellipsoids to have volume equal to that of the unit sphere.
+
+* separator: Character or NULL. The separator for fields in the file. If NULL, then attempts to deduce either ',' or '\t' from the file name suffix.
+
+Output
+
+* Data frame. All fields from the original file, maybe with a bunch of ellipsoid fields appended.
+
+
+
+geoEllipsoidDataFromIRMFile <- function(fileName, doNormalize=FALSE, separator=NULL) {
+
+Loading a file of AMS ellipsoids in a certain Institute for Rock Magnetism (IRM) file format.
+
+Dmax, Imax, and max are the trend (declination), plunge (inclination), and length of the longest semi-axis of the magnitude ellipsoid. Length is also the largest eigenvalue of the susceptibility tensor (see e.g. Hrouda, 1982). Similarly, Dmin, Imin, min are for the shortest semi-axis. (This is all according to Mike Jackson, personal communication, IRM, 2016/03/09. He told me that the max, int, min in the file are the eigenvalues of the susceptibility tensor, which are also the semi-axis lengths of the magnitude ellipsoid (Hrouda, 1982), which is the ellipsoid that all recent authors care about.)
+
+Inputs
+
+* fileName: Character. The name of the file (or path relative to the working directory).
+
+* doNormalize: Logical. Whether to normalize ellipsoids to have volume equal to that of the unit sphere.
+
+* separator: Character or NULL. The separator for fields in the file. If NULL, then attempts to deduce either ',' or '\t' from the file name suffix.
+
+Output
+
+* Data frame. All fields from the original file, maybe with a bunch of ellipsoid fields appended.
+
+
+
+geoEllipsoidDataFromAvizoFile <- function(fileName, doNormalize=FALSE, separator=NULL) {
+
+Loading ellipsoids from a certain Avizo file format.
+
+When I used this code in 2015, the data came from image analysis, in the Avizo software, of X-ray computed tomography ellipsoids by Vasilis Chatzaras. As always, the big confusion was whether the EigenVal fields were semi-axis lengths, or some other power of them. Avizo tech support stated that they were the semi-axis lengths squared.
+
+Inputs
+
+* fileName: Character. The name of the file (or path relative to the working directory).
+
+* doNormalize: Logical. Whether to normalize ellipsoids to have volume equal to that of the unit sphere.
+
+* separator: Character or NULL. The separator for fields in the file. If NULL, then attempts to deduce either ',' or '\t' from the file name suffix.
+
+Output
+
+* Data frame. All fields from the original file, maybe with a bunch of ellipsoid fields appended.
+
+
+
+
+
+*** WRITING DATA TO FILE (geology.R) ***
+
+
+
+geoFaultKinFileFromMatrices <- function(rs, fileName) {
+
+Writing a file of faults-with-slip, in a certain FaultKin format.
+
+Writes a tab-separated values (TSV) file to disk. You should use the suffix '.txt', not '.tsv'. Then you can pretty easily load this file into the FaultKin software by Allmendinger and Cardozo.
+
+Inputs
+
+* rs: A list of rotation matrices. The orientations of the faults-with-slip. Each matrix has the fault pole as its first row, the vorticity vector of slip as its second row, and the cross product of those as its third row.
+
+* fileName: Character. The name of the file (or path relative to the working directory). It should end in the suffix '.txt'.
+
+Output
+
+* NULL.
+
+
+
+geoTrendPlungeDegFileFromRays <- function(us, fileName) {
+
+Writing a file of trends and plunges in degrees.
+
+Writes a tab-separated values (TSV) file to disk. You can use whatever suffix you like, but the obvious choices are '.tsv' and '.txt'. The file has two columns, headered 'trend' and 'plunge'.
+
+Inputs
+
+* us: A list of rays (length-1 3D vectors).
+
+* fileName: Character. The name of the file (or path relative to the working directory).
+
+Output
+
+* NULL.
+
+
+
+
+
+
+*** INFERENCE (rotationsUsingC.R) ***
+
+
+
+rotcWrappedTrivariateNormalMCMCInference <- function(rs, numTerms=10, numTuning=10000, numBurnin=100, numCollection=1000, numReport=10000) {
+
+MCMC of posterior distribution rho(S, eta | D) for wrapped trivariate normal distribution parameters.
+
+Implemented in C for speed. See Qiu et al. (2014). Requires compilation of the C shared library rotationsForR.c.
+
+Inputs
+
+* rs: A list of rotation matrices. The data set D.
+
+* numTerms: A real number (non-negative integer). Controls how many terms are used in the asymptotic expansions in the Jeffreys prior for kappa.
+
+* numTuning: A real number (non-negative integer). The tuning parameters are re-tuned every numTuning MCMC iterations, based on the acceptance rate since the last tuning.
+
+* numBurnin: A real number (non-negative integer). A bound on the number of tuning cycles in the burn-in phase. If the system is well-tuned before numBurnin cycles, then burn-in is stopped early. If the system is not well-tuned after numBurnin cycles, then the meta-data reveal it.
+
+* numCollection: A real number (non-negative integer). The number of tuning cycles in the collection phase. numTuning * numCollection should not exceed 100,000,000, or else we might overflow 32-bit integers along the way.
+
+* numReport: A real number (non-negative integer). The number of MCMC samples (M, kappa) to report. If 0, then none are reported. If numTuning * numCollection (or greater), then all are reported.
+
+Output
+
+* When burn-in fails, a list of metadata after burn-in: nu, nuRate, gamma, gammaRate. Otherwise, a list with elements pvalue (R function from rotations to {NA} union [0, 0.1]), ms (the reported Ms), kappas (the reported kappas), mBar (rotation matrix, the mean of the collected Ms), leftCovarInv (the inverse covariance matrix of the collected Ms in the tangent space at mBar), q090, q095, q099, q100 (percentiles), metadata after burnin, and metadata after collection.
+
+
+
+rotcBootstrapInference <- function(rs, numBoots=10000) {
+
+Bootstrapping of the sample mean.
+
+Similar to rotBootstrapInference with rotFrechetMean, but implemented in C for speed, and offers different percentiles of Mahalanobis norm. Requires compilation of the C shared library rotationsForR.c.
+
+Inputs
+
+* rs: A list of rotation matrices.
+
+* numBoots: A real number (positive integer). The number of bootstrap samples. Affects the memory requirements of the function.
+
+Output
+
+* A list with elements pvalue (R function from rotations to {NA} union [0, 0.1]), bootstraps (the bootstrapped means), rBar (rotation matrix, the mean of the bootstrapped means), leftCovarInv (the inverse covariance matrix at rBar), q090, q095, q099, q100 (percentiles of Mahalanobis norm).
+
+
+
+
+
+*** PLOTTING (rotationsUsingC.R) ***
+
+
+
+rotcKambTriangles <- function(rs, multiple, k, degree, numNonAdapt, numAdapt, groupSize=1) {
+
+Kamb level surface for density, analogous to Kamb contouring.
+
+You probably do not want to call this function directly. You probably want to use rotcKambPlot. This function returns its triangles in "raw" format (a list of x-coordinates, then y-coordinates, then z-coordinates), suitable for passing to rotBallPlot as trianglesRaw. Requires compilation of the C shared library rotationsForR.c.
+
+Inputs
+
+* rs: A list of rotation matrices.
+
+* multiple: A real number (positive). Indicates which multiple of the standard deviation to plot; for example, mult is 12 in a 12-sigma plot.
+
+* k: A real number (positive). A smoothing factor, which equaled 3 in the original paper of Kamb (1959).
+
+* degree: A real number (0, 1, or 3). The degree of the weighting polynomial; higher degrees generally produce smoother plots.
+
+* numNonAdapt: A real number (non-negative integer). The number of non-adaptive refinements. Time and space required are proportional to 8^(numNonAdapt + numAdapt), so don't make it too big.
+
+* numAdapt: A real number (non-negative integer). The number of adaptive refinements after the non-adaptive ones. Time and space required are proportional to 8^(numNonAdapt + numAdapt), so don't make it too big.
+
+* groupSize: A real number (positive integer). The size |G| of the symmetry group G acting on the rotations. If the rotations are truly rotations, without symmetry, then |G| == 1. If |G| > 1, then rs has been pre-symmetrized to hold m * |G| rotations representing m distinct orientations.
+
+Output
+
+* A set of raw triangles: x-coordinates, then y- and z-coordinates.
+
+
+
+rotcKambPlot <- function(points, multiple=6, k=3, degree=3, numNonAdapt=3, numAdapt=3, colors=c("white"), ...) {
+
+Equal-volume plot of rotations with an accompanying Kamb density level surface.
+
+This function requires compilation of the C shared library rotationsForR.c.
+
+Inputs
+
+* points: A list of rotation matrices.
+
+* multiple: A real number (positive). Indicates which multiple of the standard deviation to plot; for example, mult is 12 in a 12-sigma plot.
+
+* k: A real number (positive). A smoothing factor, which equaled 3 in the original paper of Kamb (1959).
+
+* degree: A real number (0, 1, or 3). The degree of the weighting polynomial; higher degrees generally produce smoother plots.
+
+* numNonAdapt: A real number (non-negative integer). The number of non-adaptive refinements. Time and space required are proportional to 8^(numNonAdapt + numAdapt), so don't make it too big.
+
+* numAdapt: A real number (non-negative integer). The number of adaptive refinements after the non-adaptive ones. Time and space required are proportional to 8^(numNonAdapt + numAdapt), so don't make it too big.
+
+* colors: A list of strings (colors). Used to color the points only.
+
+* ...: Plotting options: boundaryAlpha, simplePoints, etc. See rotBallPlot for details. Options about curves are ignored.
+
+Output
+
+* NULL.
+
+
+
+rotcEllipsoidTriangles <- function(center, leftCovarInv, level, numNonAdapt, numAdapt) {
+
+Raw triangles for an ellipsoid in equal-volume coordinates.
+
+You probably don't want to call this function directly. You probably want to call rotcEllipsoidPlot. Returns its triangles in 'raw' format (a list of x-coordinates, then y-coordinates, then z-coordinates), suitable for passing to rotBallPlot as trianglesRaw. Requires compilation of the shared library rotationsForR.c.
+
+Inputs
+
+* center: A rotation matrix.
+
+* leftCovarInv: A 3x3 real matrix (symmetric).
+
+* level: A real number. The ellipsoid consists of rotations whose tangent vectors v at center satisfy v %*% covarInv %*% v == level.
+
+* numNonAdapt: A real number (non-negative integer). The number of non-adaptive refinements. Time and space required are proportional to 8^(numNonAdapt + numAdapt), so don't make it too big.
+
+* numAdapt: A real number (non-negative integer). The number of adaptive refinements after the non-adaptive ones. Time and space required are proportional to 8^(numNonAdapt + numAdapt), so don't make it too big.
+
+Output
+
+* A set of raw triangles: x-coordinates, then y- and z-coordinates.
+
+
+
+rotcEllipsoidPlot <- function(points, center, leftCovarInv, level, numNonAdapt=3, numAdapt=3, colors=c("white"), ...) {
+
+Equal-volume plot of an ellipsoid.
+
+Plots an ellipsoid based on a covariance in the left-invariant tangent space at the center. For example, to plot a 95% region produced by rotMahalanobisInference, pass leftCovarInv and q095^2. Triangles are not clipped to the edges of the plot. This function requires compilation of the C shared library rotationsForR.c.
+
+Inputs
+
+* points: A list of rotation matrices. Points to plot, possibly unrelated to the ellipsoid.
+
+* center: A rotation matrix.
+
+* leftCovarInv: A 3x3 real matrix (symmetric).
+
+* level: A real number. The ellipsoid consists of rotations whose left-invariant tangent vectors v at center satisfy v %*% leftCovarInv %*% v == level.
+
+* numNonAdapt: A real number (non-negative integer). The number of non-adaptive refinements. Time and space required are proportional to 8^(numNonAdapt + numAdapt), so don't make it too big.
+
+* numAdapt: A real number (non-negative integer). The number of adaptive refinements after the non-adaptive ones. Time and space required are proportional to 8^(numNonAdapt + numAdapt), so don't make it too big.
+
+* colors: A list of strings (colors). Used to color the points only.
+
+* ...: Plotting options: boundaryAlpha, simplePoints, etc. See rotBallPlot for details.
+
+Output
+
+* NULL.
+
+
+
+
+
+
+*** INFERENCE (orientationsUsingC.R) ***
+
+
+
+oricWrappedTrivariateNormalMCMCInference <- function(rs, group, numTerms=10, numTuning=10000, numBurnin=100, numCollection=1000, numReport=10000) {
+
+MCMC of posterior distribution rho(S, eta | D) for wrapped trivariate normal distribution parameters.
+
+Implemented in C for speed. See Qiu et al. (2014). This function requires compilation of the C shared library orientationsForR.c.
+
+Inputs
+
+* rs: A list of rotation matrices. The data set D.
+
+* group: A list of rotation matrices. The symmetry group G.
+
+* numTerms: A real number (non-negative integer). Controls how many terms are used in the asymptotic expansions in the Jeffreys prior for kappa.
+
+* numTuning: A real number (non-negative integer). The tuning parameters are re-tuned every numTuning MCMC iterations, based on the acceptance rate since the last tuning.
+
+* numBurnin: A real number (non-negative integer). The number of MCMC iterations in the burn-in phase.
+
+* numCollection: A real number (non-negative integer). The number of MCMC iterations in the collection phase. Should not exceed 100,000,000, or else we might overflow 32-bit integers along the way.
+
+* numReport: A real number (non-negative integer). The number of MCMC samples (M, kappa) to report. If 0, then none are reported. If numCollection (or greater), then all are reported.
+
+Output
+
+* A list with elements pvalue (R function from rotations to {NA} union [0, 0.1]), ms (the reported Ms), kappas (the reported kappas), mBar (rotation matrix, the mean of the collected Ms), leftCovarInv (the inverse covariance matrix of the collected Ms in the left-invariant tangent space at mBar).
+
+
+
+oricBootstrapInference <- function(rs, group, numBoots=10000) {
+
+Bootstrapping of the Frechet mean.
+
+Similar to oriBootstrapInference, but implemented in C for speed, and offers different percentiles of Mahalanobis norm. This function requires compilation of the C shared library orientationsForR.c.
+
+Inputs
+
+* rs: A list of rotation matrices. The data set.
+
+* group: A list of rotation matrices. The symmetry group G.
+
+* numBoots: A real number (non-negative integer). The number of bootstrap samples. Affects the memory requirements of the function.
+
+Output
+
+* A list with elements pvalue (R function from rotations to {NA} union [0, 0.1]), bootstraps (the bootstrapped means), center (rotation matrix, the mean of the bootstrapped means), leftCovarInv (the inverse covariance matrix at rBar), q090, q095, q099, q100 (percentiles of Mahalanobis norm).
+
+
+
+
+
+*** PLOTTING (orientationsUsingC.R) ***
+
+
+
+oricKambPlot <- function(points, group, multiple=6, k=3, degree=3, numNonAdapt=3, numAdapt=3, colors=c("white"), ...) {
+
+Equal-volume plot of orientations with an accompanying Kamb density level surface.
+
+This function requires compilation of the C shared library orientationsForR.c.
+
+Inputs
+
+* points: A list of rotation matrices.
+
+* group: A list of rotation matrices. The symmetry group G.
+
+* multiple: A real number (positive). Indicates which multiple of the standard deviation to plot; for example, mult is 12 in a 12-sigma plot.
+
+* k: A real number (positive). A smoothing factor, which equaled 3 in the original paper of Kamb (1959).
+
+* degree: A real number (0, 1, or 3). The degree of the weighting polynomial; higher degrees generally produce smoother plots.
+
+* numNonAdapt: A real number (non-negative integer). The number of non-adaptive refinements. Time and space required are proportional to 8^(numNonAdapt + numAdapt), so don't make it too big.
+
+* numAdapt: A real number (non-negative integer). The number of adaptive refinements after the non-adaptive ones. Time and space required are proportional to 8^(numNonAdapt + numAdapt), so don't make it too big.
+
+* colors: A list of strings (colors). Used to color the points only.
+
+* ...: Plotting options: boundaryAlpha, simplePoints, etc. See rotPlotBall for details. Options about curves are ignored.
+
+Output
+
+* NULL.
+
+
+
+
+
+
