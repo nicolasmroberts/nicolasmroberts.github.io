@@ -10,7 +10,7 @@ TEMPLATE_DIR = 'src/templates'
 
 PAGES = [
     Page(name='index', title='Home', background_image='parallaxHome.jpg'),
-    Page(name='research', title='Research', background_image='parallaxProj.jpg'),
+    Page(name='research', title='Research & Teaching', background_image='parallaxProj.jpg'),
     Page(name='scripts', title='Scripts', background_image='parallaxScripts.jpg'),
     Page(name='cv', title='CV', background_image='parallaxCV.jpg'),
     Page(name='photos', title='Photos', background_image='parallaxPhotos.jpg'),
