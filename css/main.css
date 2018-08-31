@@ -243,11 +243,52 @@ nav li{
     display: hidden;
     width: 40px;
     height: 40px;
-    background: #4C8FEC url(img/menu-icon.png) center;
+    background: #4C8FEC url(../img/menu-icon.png) center;
 
 }
 
-@media only screen and max-width: 3000px {
+a:hover#menu-icon {
+
+    background-color: #444;
+    border-radius: 4px 4px 0 0;
+
+}
+
+
+nav a {
+    font-weight: normal;
+    padding: 20px;
+    margin: 0px;
+    font-weight: bold;
+}
+
+
+a.inactive:hover{
+    color: #000;
+    opacity: 0.7;
+
+
+}
+.active {
+    background-color: #ffffff;
+    color: #000;
+    text-decoration: none;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    opacity: 1;
+}
+
+.inactive {
+    color: #ffffff;
+    text-decoration: none;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+
+@media only screen and (max-width: 3000px) {
         header {
 
         position: absolute;
@@ -289,38 +330,6 @@ nav li{
         display: block;
 
     }
-}
-
-nav a {
-    font-weight: normal;
-    padding: 20px;
-    margin: 0px;
-    font-weight: bold;
-}
-
-
-a.inactive:hover{
-    color: #000;
-    opacity: 0.7;
-
-
-}
-.active {
-    background-color: #ffffff;
-    color: #000;
-    text-decoration: none;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    opacity: 1;
-}
-
-.inactive {
-    color: #ffffff;
-    text-decoration: none;
-    border: none;
-    outline: none;
-    cursor: pointer;
 }
 
 
