@@ -237,7 +237,30 @@ nav li{
 
 }
 
+
+#menu-icon {
+
+    display: hidden;
+    width: 40px;
+    height: 40px;
+    background: #4C8FEC url(img/menu-icon.png) center;
+
+}
+
 @media only screen and max-width: 700px {
+        header {
+
+        position: absolute;
+
+    }
+
+    #menu-icon {
+
+        display:inline-block;
+
+    }
+
+
     nav ul, nav:active ul { 
 
         display: none;
