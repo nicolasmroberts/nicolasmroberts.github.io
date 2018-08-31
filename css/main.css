@@ -161,13 +161,13 @@ main {
 
 /* Left or right column */
 .column.side {
-    width: 25%;
+    width: 35%;
     background-color: #ddd;
 }
 
 /* Middle column */
 .column.middle {
-    width: 70%;
+    width: 60%;
 }
 
 /* Clear floats after the columns */
@@ -190,7 +190,7 @@ main {
 }
 
 /* Responsive layout - makes the three columns stack on top of each other instead of next to each other */
-@media (max-width: 600px) {
+@media (max-width: 800px) {
     .column.side, .column.middle {
         width: 100%;
     }
@@ -237,24 +237,6 @@ nav li{
 
 }
 
-
-#menu-icon {
-
-    display: hidden;
-    width: 40px;
-    height: 40px;
-    background: #4C8FEC url(../img/menu-icon.png) center;
-
-}
-
-a:hover#menu-icon {
-
-    background-color: #444;
-    border-radius: 4px 4px 0 0;
-
-}
-
-
 nav a {
     font-weight: normal;
     padding: 20px;
@@ -288,48 +270,82 @@ a.inactive:hover{
 }
 
 
-@media only screen and (max-width: 3000px) {
-        header {
+@media only screen and (max-width: 700px) {
+   
+h1 {
+    color: #fff;
+    font-family: "Helvetica neue";
+    font-weight: normal;
+    text-align:left;
+    padding-top: 10px;
+    margin: 10px;
+    background:none;
+}
 
-        position: absolute;
 
-    }
+    nav {
+    text-align: right;
+    background-color: none;
+    padding-top: 10px;
+    margin: 0px;
+    vertical-align: bottom;
+}
 
-    #menu-icon {
 
-        display:inline-block;
+nav ul {
+    overflow: hidden;
+    list-style: none;
+    font-family: "Helvetica";
+    padding-top: 0px;
+    padding-bottom: 0px;
+    margin: 0px;
+}
 
-    }
+nav li{
+    display: block;
+    padding: 5px;
+    margin-left: auto;
+    margin-right:auto;
+
+}
+
+nav a {
+    font-weight: normal;
+    padding-right: 10px;
+    padding-left: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin: 0px;
+    font-weight: bold;
+}
+
+a.inactive:hover{
+    background-color: #ffffff
+    color: #000;
+    opacity: 0.7;
 
 
-    nav ul, nav:active ul { 
+}
+.active {
+    background-color: #ffffff;
+    color: #000;
+    text-decoration: none;
+    border: solid;
+    border-width: 1px;
+    outline: none;
+    border-color: #ffffff
+    cursor: pointer;
+    opacity: 1;
+}
 
-        display: none;
-        position: absolute;
-        padding: 20px;
-        background: #fff;
-        border: 5px solid #444;
-        right: 20px;
-        top: 60px;
-        width: 50%;
-        border-radius: 4px 0 4px 4px;
-
-    }
-
-    nav li {
-
-        text-align: center;
-        width: 100%;
-        padding: 10px 0;
-        margin: 0;
-
-    }
-
-    nav:hover ul {
-
-        display: block;
-
-    }
+.inactive {
+    color: #ffffff;
+    text-decoration: none;
+    border: 10px;
+    outline: none;
+    cursor: pointer;
+}
+    
 }
 
 
