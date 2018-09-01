@@ -105,12 +105,12 @@ body {
 }
 
 h1 {
-    color: #fff;
-    font-family: "Helvetica neue";
+    color: #ffffff;
+    font-family: "Times New Roman";
     font-weight: normal;
-    font-size: 24pt;
-    text-align:center;
-    padding-top: 90px;
+    font-size: 20pt;
+    text-align: center;
+    padding-top: 0px;
     margin: 0px;
     background:none;
 }
@@ -237,13 +237,23 @@ main {
     float:right;
 }
 
+.parallax {
+    position: relative;
+    text-align: center;
+}
+
+.topMargin {
+    height: 190px;
+    padding: 15px;
+}
+
 /* Style the tab */
 nav {
+    display: inline-block;
+    float: center;
     text-align: center;
-    background-color: none;
-    padding-top: 73px;
+    padding-top: 0px;
     margin: 0px;
-    vertical-align: bottom;
 }
 
 
@@ -251,8 +261,8 @@ nav ul {
     overflow: hidden;
     list-style: none;
     font-family: "Helvetica";
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding-top: 0px;
+    padding-bottom: 0px;
     margin: 0px;
 }
 
@@ -260,12 +270,16 @@ nav li{
     display: inline-block;
     margin-left: auto;
     margin-right:auto;
+    padding: 10px;
 
 }
 
 nav a {
     font-weight: normal;
-    padding: 20px;
+    padding-right: 10px;
+    padding-left: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
     margin: 0px;
     font-weight: bold;
 }
@@ -273,15 +287,21 @@ nav a {
 
 a.inactive:hover{
     color: #000;
-    opacity: 0.7;
+    background-color: #efefef;
+    padding: 10px;
+    opacity: 0.6;
 
 
 }
 .active {
     background-color: #ffffff;
     color: #000;
+    padding: 10px;
     text-decoration: none;
-    border: none;
+    border: solid;
+    border-width: 1px;
+    outline: none;
+    border-color: #ffffff
     outline: none;
     cursor: pointer;
     opacity: 1;
@@ -311,10 +331,10 @@ a.inactive:hover{
    
 h1 {
     color: #fff;
-    font-family: "Helvetica neue";
+    font-family: "Times New Roman";
     font-weight: normal;
-    text-align:left;
-    font-size: 16px;
+    float: left;
+    width: 35%;
     padding-top: 10px;
     margin: 10px;
     background:none;
@@ -323,8 +343,9 @@ h1 {
 
     nav {
     text-align: right;
+    float: right;
     background-color: none;
-    padding-top: 10px;
+    padding-top: 0px;
     margin: 0px;
     vertical-align: bottom;
 }
@@ -336,12 +357,13 @@ nav ul {
     font-family: "Helvetica";
     padding-top: 0px;
     padding-bottom: 0px;
-    margin: 0px;
+    margin-top: 5px;
 }
 
 nav li{
     display: block;
-    padding: 5px;
+    padding: 8px;
+    margin-top: 9px;
     margin-left: auto;
     margin-right:auto;
 
@@ -359,7 +381,11 @@ nav a {
 
 a.inactive:hover{
     background-color: #ffffff
+    border: solid;
+    border-width: 1px;
+    border-color: #111;
     color: #000;
+
     opacity: 0.7;
 
 
@@ -379,7 +405,6 @@ a.inactive:hover{
 .inactive {
     color: #ffffff;
     text-decoration: none;
-    border: 10px;
     outline: none;
     cursor: pointer;
 }
