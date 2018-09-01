@@ -315,7 +315,7 @@ a.inactive:hover{
     cursor: pointer;
 }
 
-@media only screen and (max-width: 600px){
+@media only screen and (max-width: 640px){
     .headshot {
     margin-right: 20%;
     margin-left: 20%;
