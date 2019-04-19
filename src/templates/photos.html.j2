@@ -6,61 +6,218 @@
 
 {% block page_content %}
 
+<script>
+// Open the Modal
+function openModal() {
+  document.getElementById('myModal').style.display = "block";
+}
+
+// Close the Modal
+function closeModal() {
+  document.getElementById('myModal').style.display = "none";
+}
+
+var slideIndex = 1;
+showSlides(slideIndex);
+
+// Next/previous controls
+function plusSlides(n) {
+  showSlides(slideIndex += n);
+}
+
+// Thumbnail image controls
+function currentSlide(n) {
+  showSlides(slideIndex = n);
+}
+
+function showSlides(n) {
+  var i;
+  var slides = document.getElementsByClassName("mySlides");
+  var dots = document.getElementsByClassName("demo");
+  var captionText = document.getElementById("caption");
+  if (n > slides.length) {slideIndex = 1}
+  if (n < 1) {slideIndex = slides.length}
+  for (i = 0; i < slides.length; i++) {
+    slides[i].style.display = "none";
+  }
+  for (i = 0; i < dots.length; i++) {
+    dots[i].className = dots[i].className.replace(" active", "");
+  }
+  slides[slideIndex-1].style.display = "block";
+  dots[slideIndex-1].className += " active";
+  captionText.innerHTML = dots[slideIndex-1].alt;
+}
+</script>
+
+
+<h2>
+      Photos of cool geologic structures. 
+</h2>
 <p>
-      <em>This section of my website is in the first stages of design, with only a few example photos. Sorry about that! More photos to come soon</em>
+<em> <strong>Note:</strong> All photos were taken by me. Feel free to use them for non-commercial purposes.</em>
 </p>
 
-<h2> Geology photos </h2>
+<!-- Images used to open the lightbox -->
+<div class="row">
+  <div class="columnGallery">
+    <img src="photoGallery/AlaskaFaultAndFold.jpeg" onclick="openModal();currentSlide(1)" class="hover-shadow">
+    <img src="photoGallery/AlaskaFoldedTurbidites.jpeg" onclick="openModal();currentSlide(2)" class="hover-shadow">
+ 	<img src="photoGallery/ArizonaCrenulations.jpeg" onclick="openModal();currentSlide(3)" class="hover-shadow">
+ 	<img src="photoGallery/ArizonaFold.jpeg" onclick="openModal();currentSlide(4)" class="hover-shadow">
+  
 
-            
-            <h4> Greece 2015 (UW-Madison graduate field trip)</h4>
+  </div>
+  <div class="columnGallery">
+    <img src="photoGallery/Australia rootless fold.jpeg" onclick="openModal();currentSlide(5)" class="hover-shadow">
+    <img src="photoGallery/AustraliaFold.jpeg" onclick="openModal();currentSlide(6)" class="hover-shadow">
+ 	<img src="photoGallery/AustraliaFolded3DVein.jpeg" onclick="openModal();currentSlide(7)" class="hover-shadow">
+ 	<img src="photoGallery/AustraliaFoldedVein.jpeg" onclick="openModal();currentSlide(8)" class="hover-shadow">
+  
 
-					<div class="responsive">
-					  <div class="gallery">
-					    <a target="_blank" href="Greece 2015/bigGarnets.jpg">
-					      <img src="Greece 2015/bigGarnets.jpg" alt="nice granets" width="300" height="200">
-					    </a>
-					    <div class="desc">Really nice garnets</div>
-					  </div>
-					</div>
+  </div>
+  <div class="columnGallery">
+    <img src="photoGallery/AustraliaFoldedVein3.jpeg" onclick="openModal();currentSlide(9)" class="hover-shadow">
+    <img src="photoGallery/AustraliaFoldedVeins2.jpeg" onclick="openModal();currentSlide(10)" class="hover-shadow">
+ 	<img src="photoGallery/BarabooCleavage.jpeg" onclick="openModal();currentSlide(11)" class="hover-shadow">
+ 	<img src="photoGallery/BlackHills.jpeg" onclick="openModal();currentSlide(12)" class="hover-shadow">
+  
 
+  </div>
+    <div class="columnGallery">
+    <img src="photoGallery/CaliforniaFold.jpeg" onclick="openModal();currentSlide(13)" class="hover-shadow">
+    <img src="photoGallery/CaliforniaFold2.jpeg" onclick="openModal();currentSlide(14)" class="hover-shadow">
+ 	<img src="photoGallery/ChileCleavage.jpeg" onclick="openModal();currentSlide(15)" class="hover-shadow">
+ 	<img src="photoGallery/ChileFold2.jpeg" onclick="openModal();currentSlide(16)" class="hover-shadow">
+  
 
-					<div class="responsive">
-					  <div class="gallery">
-					    <a target="_blank" href="Greece 2015/boudinBlock.jpg">
-					      <img src="Greece 2015/boudinBlock.jpg" alt="3D boudins" width="600" height="400">
-					    </a>
-					    <div class="desc">Marble blocks from a quarry on Naxos</div>
-					  </div>
-					</div>
-
-<div class="responsive">
-  <div class="gallery">
-    <a target="_blank" href="Greece 2015/crenulations.jpg">
-      <img src="Greece 2015/crenulations.jpg" alt="crenulated fold" width="600" height="400">
-    </a>
-    <div class="desc">Amazing crenulations in folds</div>
   </div>
 </div>
 
-<div class="responsive">
-  <div class="gallery">
-    <a target="_blank" href="Greece 2015/crossDikes.jpg">
-      <img src="Greece 2015/crossDikes.jpg" alt="cross cutting dikes" width="600" height="400">
-    </a>
-    <div class="desc">Add a description of the image here</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- The Modal/Lightbox -->
+<div id="myModal" class="modal">
+  <span class="close cursor" onclick="closeModal()">&times;</span>
+  <div class="modal-content">
+
+    <div class="mySlides">
+      <div class="numbertext">1 / 16</div>
+      <img src="photoGallery/AlaskaFaultAndFold.jpg" style="max-width:100%;max-height:95%;">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">2 / 16</div>
+      <img class="galleryDisplay" src="photoGallery/AlaskaFoldedTurbidites.jpg">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">3 / 16</div>
+      <img src="photoGallery/ArizonaCrenulations.jpg" style="max-width:100%;max-height:95%;horizontal-align:middle">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">4 / 16</div>
+      <img src="photoGallery/ArizonaFold.jpg" style="max-width:100%;max-height:95%;">
+    </div>
+
+
+
+
+
+    <div class="mySlides">
+      <div class="numbertext">5 / 16</div>
+      <img src="photoGallery/Australia rootless fold.jpg" style="max-width:100%;max-height:95%;">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">6 / 16</div>
+      <img class="galleryDisplay" src="photoGallery/AustraliaFold.jpg">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">7 / 16</div>
+      <img src="photoGallery/AustraliaFolded3DVein.jpg" style="max-width:100%;max-height:95%;horizontal-align:middle">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">8 / 16</div>
+      <img src="photoGallery/AustraliaFoldedVein.jpg" style="max-width:100%;max-height:95%;">
+    </div>
+
+
+
+
+
+
+    <div class="mySlides">
+      <div class="numbertext">9 / 16</div>
+      <img src="photoGallery/AustraliaFoldedVein3.jpg" style="max-width:100%;max-height:95%;">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">10 / 16</div>
+      <img class="galleryDisplay" src="photoGallery/AustraliaFoldedVeins2.jpg">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">11 / 16</div>
+      <img src="photoGallery/BarabooCleavage.jpg" style="max-width:100%;max-height:95%;horizontal-align:middle">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">12 / 16</div>
+      <img src="photoGallery/BlackHills.jpg" style="max-width:100%;max-height:95%;">
+    </div>
+
+
+
+
+
+    <div class="mySlides">
+      <div class="numbertext">13 / 16</div>
+      <img src="photoGallery/CaliforniaFold.jpg" style="max-width:100%;max-height:95%;">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">14 / 16</div>
+      <img class="galleryDisplay" src="photoGallery/CaliforniaFold2.jpg">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">15 / 16</div>
+      <img src="photoGallery/ChileCleavage.jpg" style="max-width:100%;max-height:95%;horizontal-align:middle">
+    </div>
+
+    <div class="mySlides">
+      <div class="numbertext">16 / 16</div>
+      <img src="photoGallery/ChileFold2.jpg" style="max-width:100%;max-height:95%;">
+    </div>
+
+
+
+
+
+    <!-- Next/previous controls -->
+    <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+    <a class="next" onclick="plusSlides(1)">&#10095;</a>
+
+
+
+
   </div>
 </div>
-
-<div class="clearfix"></div>
-
-
-
-
-
-            <h4> Pilbara Craton, Western Australia (2015/2016)</h4>
-            <h4> Chile 2017 (UW-Madison graduate field trip)</h4>
-            <h4> Albany Fraser orogeny 2017 (SGTSG Forum, Western Australia)</h4>
 
 {% endblock %}
 

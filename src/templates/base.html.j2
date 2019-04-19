@@ -53,11 +53,11 @@
 
         <div class="parallax">
             {% block parallax_header%}{% endblock %}
-                <nav><ul>
-            {% for p in PAGES %}
-                <li><a {% if p.name == current_page.name %}class ="active" {% endif %}
-                {% if p.name != current_page.name %}class ="inactive"{% endif %} href = "{{ p.name }}.html">{{p.title}}</a></li>{% endfor %}
-        </nav>
+            <nav><ul>
+            	{% for p in PAGES %}
+                	<li><a {% if p.name == current_page.name %}class ="active" {% endif %}
+                	{% if p.name != current_page.name %}class ="inactive"{% endif %} href = "{{ p.name }}.html">{{p.title}}</a></li>{% endfor %}
+        	</nav>
         </div>
 
 
