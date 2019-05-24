@@ -106,8 +106,9 @@ body {
 
 h1 {
     color: #ffffff;
-    font-family: "Times New Roman";
-    font-weight: normal;
+    font-family: "Helvetica", "Helvetica Neue", sans serif;
+    font-weight: lighter;
+    letter-spacing: 3px;
     font-size: 20pt;
     text-align: center;
     padding-top: 0px;
@@ -117,7 +118,8 @@ h1 {
 
 h2 {
     color: #000;
-    font-family: "Times New Roman";
+    font-family: "Helvetica", "Helvetica Neue", sans serif;
+    font-weight: normal;
     padding-top: 0;
     margin-top: 0;
     text-align: left;
@@ -125,13 +127,16 @@ h2 {
 
 h3 {
     color: #666;
-    font-family: "helvetica";
-    padding-left: 10px;
+    font-family: "Helvetica", "Helvetica Neue", sans serif;
+    font-weight: lighter;
+    padding-left: 0;
+    line-height: 1;
+
 }
 
 h4{
     color:#000
-    font-family: "Times new roman";
+   font-family: "Helvetica", "Helvetica Neue", sans serif;
     padding-top: 0;
     margin-top: 0;
     text-align: left;
@@ -140,7 +145,7 @@ h4{
 footer {
     background-color: #ccc;
     color: #000;
-    font-family: "Times new roman";
+    font-family: "Helvetica", "Helvetica Neue", sans serif;
     font-size: 12pt;
     text-align: center;
     padding:5px;
@@ -150,6 +155,12 @@ footer {
 main {
     margin: 0px;
     padding: 0px;
+
+}
+
+p {
+  font-family: "Helvetica", "Helvetica Neue", sans serif;
+  font-weight: lighter;
 
 }
 
@@ -164,7 +175,7 @@ main {
 /* Left or right column */
 .column.side {
     width: 35%;
-    background-color: #ddd;
+    background-color: #eee;
         border-radius: 15px 15px 15px 15px;
 }
 
@@ -191,6 +202,7 @@ main {
 .contentContainerWhite {
     background-color: #ffffff;
     padding: 20px;
+    padding-top: 0px;
     overflow: hidden;
     margin-top: 20px;
     width: 100%;
@@ -205,14 +217,26 @@ main {
 }
 
 .headshot {
-    width: 25%;
-    margin-right:20px;
+    height: 100px;
+    margin-right:10px;
     margin-bottom: 10px;
-    margin-left:0;
-    margin-top:0px;
-    float:left;
-        border-radius: 15px 15px 15px 15px;
+    margin-left:15px;
+    margin-top:175px;
+    position: absolute;
+    top: 0px;
+    left: 10px;
+    border-radius: 15px 15px 15px 15px;
+    position: top;
 }
+
+.headshot:hover, .headshot:active {
+    height: 280px;
+    margin: 10px;
+        left: 0px;
+
+}
+
+
 
 .halfPage {
     border: 10px;
@@ -269,7 +293,8 @@ nav {
 nav ul {
     overflow: hidden;
     list-style: none;
-    font-family: "Helvetica";
+    font-family: "Helvetica", "Helvetica Neue", sans serif;
+    font-weight: lighter;
     padding-top: 0px;
     padding-bottom: 0px;
     margin: 0px;
@@ -284,13 +309,12 @@ nav li{
 }
 
 nav a {
-    font-weight: normal;
+    font-weight: lighter;
     padding-right: 10px;
     padding-left: 10px;
     padding-top: 5px;
     padding-bottom: 5px;
     margin: 0px;
-    font-weight: bold;
 }
 
 
@@ -325,23 +349,40 @@ a.inactive:hover{
 }
 
 @media only screen and (max-width: 640px){
-    .headshot {
-    margin-right: 20%;
-    margin-left: 20%;
-    border: 10px;
-    border-color: black;
-    padding: 10px;
-    float:center;
-    width: 60%;
-    }
+
 }
 
 @media only screen and (max-width: 700px) {
-   
+  
+
+.headshot {
+    height: 100px;
+    margin-right:10px;
+    margin-bottom: 10px;
+    margin-left:15px;
+    margin-top:180px;
+    position: absolute;
+    top: 0px;
+    left: 35px;
+    border-radius: 15px 15px 15px 15px;
+    position: top;
+}
+
+
+.headshot:hover, .headshot:active {
+    height: 280px;
+    margin: 10px;
+        left: 0px;
+
+}
+
+
 h1 {
-    color: #fff;
-    font-family: "Times New Roman";
-    font-weight: normal;
+    color: #ffffff;
+    font-family: "Helvetica", "Helvetica Neue", sans serif;
+    font-weight: lighter;
+    letter-spacing: 3px;
+    font-size: 14pt;
     float: left;
     width: 30%;
     padding-top: 10px;
@@ -363,7 +404,7 @@ h1 {
 nav ul {
     overflow: hidden;
     list-style: none;
-    font-family: "Helvetica";
+    font-family: "Helvetica", "Helvetica Neue", sans serif;
     padding-top: 0px;
     padding-bottom: 0px;
     margin-top: 5px;
