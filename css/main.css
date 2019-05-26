@@ -164,6 +164,11 @@ p {
 
 }
 
+li {
+  font-family: "Helvetica", "Helvetica Neue", sans serif;
+  font-weight: lighter;
+}
+
 
 .column {
     float: left;
@@ -176,7 +181,8 @@ p {
 .column.side {
     width: 35%;
     background-color: #eee;
-        border-radius: 15px 15px 15px 15px;
+    padding: 20px;
+    border-radius: 15px 15px 15px 15px;
 }
 
 /* Middle column */
@@ -217,23 +223,14 @@ p {
 }
 
 .headshot {
-    height: 100px;
-    margin-right:10px;
-    margin-bottom: 10px;
-    margin-left:15px;
-    margin-top:175px;
-    position: absolute;
+    width: 40%;
+    max-width: 400px;
+    margin: 10px;
+    float: right;
     top: 0px;
     left: 10px;
     border-radius: 15px 15px 15px 15px;
     position: top;
-}
-
-.headshot:hover, .headshot:active {
-    height: 280px;
-    margin: 10px;
-        left: 0px;
-
 }
 
 
@@ -318,6 +315,19 @@ nav a {
 }
 
 
+.buttonCV {
+  float:right; 
+  padding:40px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-right: 100px; 
+  margin-top: 20px;
+  background-color:#FF0000; 
+  border-radius:15px;
+  text-align: center;
+}
+
+
 a.inactive:hover{
     color: #000;
     background-color: #efefef;
@@ -348,32 +358,34 @@ a.inactive:hover{
     cursor: pointer;
 }
 
+
 @media only screen and (max-width: 640px){
 
 }
 
 @media only screen and (max-width: 700px) {
-  
 
-.headshot {
-    height: 100px;
-    margin-right:10px;
-    margin-bottom: 10px;
-    margin-left:15px;
-    margin-top:180px;
-    position: absolute;
-    top: 0px;
-    left: 35px;
-    border-radius: 15px 15px 15px 15px;
-    position: top;
+.buttonCV {
+  float:none;
+  padding:40px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin: 30px;
+  background-color:#FF0000; 
+  border-radius:15px;
+  text-align: center;
+  position:center;
 }
 
-
-.headshot:hover, .headshot:active {
-    height: 280px;
+.headshot {
+    float:none;
+    width: 80%;
+    max-width: 600px;
     margin: 10px;
-        left: 0px;
-
+    top: 0px;
+    left: 10px;
+    border-radius: 15px 15px 15px 15px;
+    position: top;
 }
 
 
