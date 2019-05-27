@@ -180,8 +180,9 @@ li {
 /* Left or right column */
 .column.side {
     width: 35%;
-    background-color: #eee;
-    padding: 20px;
+    background-color: #efefef;
+    padding: 30px;
+    margin-top: 20px;
     border-radius: 15px 15px 15px 15px;
 }
 
@@ -201,6 +202,7 @@ li {
 .contentContainer {
     background-color: #f0f0e9;
     padding: 20px;
+    margin: 20px;
     overflow: hidden;
     border-radius: 15px 15px 15px 15px;
 }
@@ -212,8 +214,21 @@ li {
     overflow: hidden;
     margin-top: 20px;
     width: 100%;
-    border-radius: 15px 15px 15px 15px;
 }
+
+.contentContainerHeading {
+    background-color: #ffffff;
+    padding-left: 10px;
+    padding-right: 10px;  
+    padding-bottom: 10px;
+    padding-top: 10px;
+    overflow: hidden;
+    margin-bottom: 10px;
+    margin-left: 20px;
+    margin-right:20px;
+    width: 100%;
+    border-bottom: 1px solid #ccc
+  }
 
 /* Responsive layout - makes the three columns stack on top of each other instead of next to each other */
 @media (max-width: 800px) {
@@ -273,7 +288,7 @@ li {
 }
 
 .topMargin {
-    height: 230px;
+    height: 200px;
     padding: 30px;
 }
 
@@ -316,16 +331,36 @@ nav a {
 
 
 .buttonCV {
+  font-family: "Helvetica", "Helvetica Neue", sans serif;
+  font-weight: lighter;
   float:right; 
-  padding:40px;
+  padding:20px;
   padding-top: 10px;
   padding-bottom: 10px;
-  margin-right: 100px; 
-  margin-top: 20px;
+  margin-right: 15%; 
+  margin-top: 40px;
+  background-color:#FF6666; 
+  border-radius:15px;
+  text-align: center;
+  display: block;
+}
+
+.buttonCV:hover {
+  font-family: "Helvetica", "Helvetica Neue", sans serif;
+  font-weight: lighter;
+  float:right; 
+  padding:20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-right: 15%; 
+  margin-top: 40px;
   background-color:#FF0000; 
   border-radius:15px;
   text-align: center;
+  vertical-align: center
+  display: block;
 }
+
 
 
 a.inactive:hover{
@@ -365,27 +400,51 @@ a.inactive:hover{
 
 @media only screen and (max-width: 700px) {
 
+
 .buttonCV {
+  font-family: "Helvetica", "Helvetica Neue", sans serif;
+  font-weight: lighter;
   float:none;
-  padding:40px;
+  position:center; 
+  padding:20px;
   padding-top: 10px;
   padding-bottom: 10px;
-  margin: 30px;
+  margin: 10px;
+  margin-left: 60px;
+  margin-right: 60px;
+  background-color:#FF6666; 
+  border-radius:15px;
+  text-align: center;
+  display: block;
+}
+
+
+.buttonCV:hover {
+  font-family: "Helvetica", "Helvetica Neue", sans serif;
+  font-weight: lighter;
+  float:none;
+  position:center; 
+  padding:20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin: 10px;
+  margin-left: 60px;
+  margin-right: 60px;
   background-color:#FF0000; 
   border-radius:15px;
   text-align: center;
-  position:center;
+  display: block;
 }
+
 
 .headshot {
     float:none;
     width: 80%;
-    max-width: 600px;
-    margin: 10px;
-    top: 0px;
-    left: 10px;
+    max-width: none;
+    margin: 10%;
     border-radius: 15px 15px 15px 15px;
-    position: top;
+    position: center;
+    diplay:block;
 }
 
 
@@ -394,7 +453,7 @@ h1 {
     font-family: "Helvetica", "Helvetica Neue", sans serif;
     font-weight: lighter;
     letter-spacing: 3px;
-    font-size: 14pt;
+    font-size: 20pt;
     float: left;
     width: 30%;
     padding-top: 10px;
@@ -404,6 +463,8 @@ h1 {
 
 
     nav {
+    font-family: "Helvetica", "Helvetica Neue", sans serif;
+    font-weight: lighter;
     text-align: right;
     float: right;
     background-color: none;
@@ -416,7 +477,6 @@ h1 {
 nav ul {
     overflow: hidden;
     list-style: none;
-    font-family: "Helvetica", "Helvetica Neue", sans serif;
     padding-top: 0px;
     padding-bottom: 0px;
     margin-top: 5px;
@@ -432,13 +492,11 @@ nav li{
 }
 
 nav a {
-    font-weight: normal;
     padding-right: 10px;
     padding-left: 10px;
     padding-top: 5px;
     padding-bottom: 5px;
     margin: 0px;
-    font-weight: bold;
 }
 
 
@@ -458,8 +516,8 @@ nav a {
     padding: 12px 12px;
     border-radius: 15px 15px 15px 15px;
     background-color: #ffffff;
-    min-height: 600px;
-    padding-top: 20px;
+    min-height: 400px;
+    padding-top: 0px;
 
 }
 
