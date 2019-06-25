@@ -526,7 +526,7 @@ FrechetVarDom1 <-
 FrechetCurvesDom1 <-
     lapply(Follins$rotation[domain1Crit], function(r)
         rotGeodesicPoints(FrechetMeanDom1, r, 10))
-oriEqualAnglePlot(points = Follins$rotation[domain1Crit], curves = FrechetCurvesDom1)
+oriEqualAnglePlot(points = Follins$rotation[domain1Crit], curves = FrechetCurvesDom1, group = oriLineInPlaneGroup)
 
 # Print the Strike, Dip, Rake of the Frechet mean.
 geoStrikeDipRakeDegFromRotation(FrechetMeanDom1)
@@ -548,7 +548,7 @@ FrechetVarDom2 <-
 FrechetCurvesDom2 <-
     lapply(Follins$rotation[domain2Crit], function(r)
         rotGeodesicPoints(FrechetMeanDom2, r, 10))
-oriEqualAnglePlot(points = Follins$rotation[domain2Crit], curves = FrechetCurvesDom2)
+oriEqualAnglePlot(points = Follins$rotation[domain2Crit], curves = FrechetCurvesDom2, oriLineInPlaneGroup)
 
 # Print the Strike, Dip, Rake of the Frechet mean.
 geoStrikeDipRakeDegFromRotation(FrechetMeanDom2)
@@ -570,7 +570,7 @@ FrechetVarDom3 <-
 FrechetCurvesDom3 <-
     lapply(Follins$rotation[domain3Crit], function(r)
         rotGeodesicPoints(FrechetMeanDom3, r, 10))
-oriEqualAnglePlot(points = Follins$rotation[domain3Crit], curves = FrechetCurvesDom3)
+oriEqualAnglePlot(points = Follins$rotation[domain3Crit], curves = FrechetCurvesDom3, oriLineInPlaneGroup)
 
 # Print the Strike, Dip, Rake of the Frechet mean.
 geoStrikeDipRakeDegFromRotation(FrechetMeanDom3)
@@ -587,7 +587,7 @@ FrechetVarDom3
 # Redefine the rotations to be within one of the symmetric copies
 mu <- oriFrechetMean(Follins$rotation, group = oriLineInPlaneGroup)
 Follins$rotation <-
-    oriNearestRepresentatives(Follins$rotation, mu, group = oriLineInPlaneGroup)
+    oriNearestRepresentatives(Follins$rotation, mu, oriLineInPlaneGroup)
 
 # Northern Domain, n = 16. Fisher maximum likelihood
 mleDom1 <- rotFisherMLE(Follins$rotation[domain1Crit])

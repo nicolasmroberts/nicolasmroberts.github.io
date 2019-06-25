@@ -20,7 +20,7 @@ library("rgl")
 library("fields")
 library("MASS")
 library("ICSNP")
-library("FRB")
+#library("FRB") <-- archived and defunct
 library("expm")
 library("Directional")
 library("pracma")
