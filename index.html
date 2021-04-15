@@ -45,7 +45,17 @@
             background-repeat: no-repeat;
             background-size: cover;
 
-}
+        }
+
+        @media only screen and (max-width: 700px) {
+            .parallax{
+                background-repeat: repeat-y;
+                background-position: top;
+                background-size: auto 60%;
+
+            }
+        }
+
    </style>
 
 
@@ -53,6 +63,7 @@
            <main>
 
         <div class="parallax">
+            <!-- <h1 class="topMargin">Nick Roberts | <em>Structural Geology</em></h1> -->
             <h1 class="topMargin">Nick Roberts | <em>Structural Geology</em></h1>
             <nav><ul>
             	
@@ -82,7 +93,7 @@
 
         <div class = "contentContainerHeading">
             <div style="padding-left: 15px; padding-right: 15px; text-align: center;">
-                <img class="headshot" src="img/meOct2019.jpeg" alt="char">
+                <img class="headshot" style="max-width:600px;" src="img/meOct2019.jpeg" alt="char">
 
                 <h3>Postdoctoral Researcher</h3>
                 <h3>Department of Geoscience, University of Wisconsin Madison</h3>
@@ -156,7 +167,7 @@
 
 
         <div>
-            <footer> Nick last updated this website on Apr 14, 2021 </footer>
+            <footer> Nick last updated this website on Apr 15, 2021 </footer>
         </div>
 
         </div>

@@ -45,7 +45,17 @@
             background-repeat: no-repeat;
             background-size: cover;
 
-}
+        }
+
+        @media only screen and (max-width: 700px) {
+            .parallax{
+                background-repeat: repeat-y;
+                background-position: top;
+                background-size: auto 60%;
+
+            }
+        }
+
    </style>
 
 
@@ -53,7 +63,8 @@
            <main>
 
         <div class="parallax">
-            <h1 class="topMargin"></h1>
+            <!-- <h1 class="topMargin"></h1> -->
+            <h1 class="topMargin">Nick Roberts | <em>Structural Geology</em></h1>
             <nav><ul>
             	
                 	<li><a 
@@ -123,7 +134,7 @@ function showSlides(n) {
 
 
 <!-- Images used to open the lightbox -->
-<div class="row">
+<div class="row", style="background-color:rgba(0 0 0,0.8);-webkit-backdrop-filter:blur(10px);">
   <div class="columnGallery">
     <img src="photoGallery/AlaskaFaultAndFold.jpeg" onclick="openModal();currentSlide(1)" class="hover-shadow">
     <img src="photoGallery/AlaskaFoldedTurbidites.jpeg" onclick="openModal();currentSlide(2)" class="hover-shadow">
@@ -285,7 +296,7 @@ function showSlides(n) {
 
 
         <div>
-            <footer> Nick last updated this website on Apr 14, 2021 </footer>
+            <footer> Nick last updated this website on Apr 15, 2021 </footer>
         </div>
 
         </div>
