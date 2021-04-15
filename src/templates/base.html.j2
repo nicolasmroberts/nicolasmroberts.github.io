@@ -37,7 +37,7 @@
             background-image: url('img/{{ current_page.background_image }}');
 
             /* Set a specific height */
-            height: 260px;
+            /* height: 400px; */
 
             /* Create the parallax scrolling effect */
             background-attachment: fixed;
@@ -59,7 +59,9 @@
                 	<li><a {% if p.name == current_page.name %}class ="active" {% endif %}
                 	{% if p.name != current_page.name %}class ="inactive"{% endif %} href = "{{ p.name }}.html">{{p.title}}</a></li>{% endfor %}
         	   </nav>
-        </div>
+
+        <div class = "topSpacer"></div>
+        
 
 
 
@@ -70,7 +72,12 @@
         </div>
 
 
-<div class="parallax"></div>
+        <div>
+            <footer> Nick last updated this website on {{ today.strftime('%b %d, %Y') }} </footer>
+        </div>
+
+        </div>
+
 
     </main>
 
@@ -83,8 +90,6 @@
 
         <!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
 
-    <div>
-       <footer> Nick last updated this website on {{ today.strftime('%b %d, %Y') }} </footer>
-    </div>
+
     </body>
 </html>

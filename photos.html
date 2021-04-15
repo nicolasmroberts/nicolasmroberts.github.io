@@ -37,7 +37,7 @@
             background-image: url('img/parallaxPhotos.jpg');
 
             /* Set a specific height */
-            height: 260px;
+            /* height: 400px; */
 
             /* Create the parallax scrolling effect */
             background-attachment: fixed;
@@ -67,7 +67,9 @@
                 	<li><a class ="active" 
                 	 href = "photos.html">Photos</a></li>
         	   </nav>
-        </div>
+
+        <div class = "topSpacer"></div>
+        
 
 
 
@@ -120,17 +122,6 @@ function showSlides(n) {
 </script>
 
 
-<div class="contentContainerWhite">
-
-<h2>
-      Photos of cool geologic structures. 
-</h2>
-<p>
-<em> <strong>Note:</strong> All photos were taken by me. Feel free to use them for non-commercial purposes.</em>
-</p>
-
-</div>
-
 <!-- Images used to open the lightbox -->
 <div class="row">
   <div class="columnGallery">
@@ -138,9 +129,8 @@ function showSlides(n) {
     <img src="photoGallery/AlaskaFoldedTurbidites.jpeg" onclick="openModal();currentSlide(2)" class="hover-shadow">
  	<img src="photoGallery/ArizonaCrenulations.jpeg" onclick="openModal();currentSlide(3)" class="hover-shadow">
  	<img src="photoGallery/ArizonaFold.jpeg" onclick="openModal();currentSlide(4)" class="hover-shadow">
-  
-
   </div>
+
   <div class="columnGallery">
     <img src="photoGallery/Australia rootless fold.jpeg" onclick="openModal();currentSlide(5)" class="hover-shadow">
     <img src="photoGallery/AustraliaFold.jpeg" onclick="openModal();currentSlide(6)" class="hover-shadow">
@@ -294,7 +284,12 @@ function showSlides(n) {
         </div>
 
 
-<div class="parallax"></div>
+        <div>
+            <footer> Nick last updated this website on Apr 14, 2021 </footer>
+        </div>
+
+        </div>
+
 
     </main>
 
@@ -307,8 +302,6 @@ function showSlides(n) {
 
         <!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
 
-    <div>
-       <footer> Nick last updated this website on Mar 16, 2021 </footer>
-    </div>
+
     </body>
 </html>
