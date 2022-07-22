@@ -107,7 +107,7 @@ body {
 h1 {
     color: #ffffff;
     font-family: "Helvetica", "Helvetica Neue", sans serif;
-    font-weight: lighter;
+    font-weight: bold;
     letter-spacing: 3px;
     font-size: 20pt;
     text-align: center;
@@ -185,7 +185,7 @@ li {
 }
 
 .contentContainer {
-    background-color: rgba(200,200,180, 0.7);
+    background-color: rgba(214, 186, 139, 0.7);
     -webkit-backdrop-filter: blur(20px) brightness(2);
     padding: 20px;
     margin: 10px 50px 10px 50px;
@@ -206,7 +206,8 @@ li {
 }
 
 .contentContainerHeading {
-    background-color: rgba(255, 255, 255, 0.4);
+    /*background-color: rgba(255, 255, 255, 0.4);*/
+    background-color: rgba(0,  47,  134, 0.8);
     -webkit-backdrop-filter: blur(20px) brightness(1.5);
     padding: 10px;
     overflow: hidden;
@@ -308,7 +309,7 @@ nav ul {
     overflow: hidden;
     list-style: none;
     font-family: "Helvetica", "Helvetica Neue", sans serif;
-    font-weight: lighter;
+    font-weight: bolder;
     position:center;
     padding-top: 0px;
     padding-bottom: 0px;
@@ -325,7 +326,7 @@ nav li{
 }
 
 nav a {
-    font-weight: lighter;
+    font-weight: regular;
     padding-right: 10px;
     padding-left: 10px;
     padding-top: 5px;
@@ -337,6 +338,13 @@ nav a {
   text-align: center;
   margin-left: 10%;
   margin-right: 10%;
+}
+
+.centeredParagraphWhite {
+  text-align: center;
+  margin-left: 10%;
+  margin-right: 10%;
+  color: #ffffff;
 }
 
 
@@ -367,17 +375,18 @@ nav a {
 
 a.inactive:hover{
     color: #000;
-    background-color: #efefef;
+    background-color: #d6ba8b;
     padding: 10px;
-    opacity: 0.6;
-    border-radius: 15px 15px 15px 15px;
+    opacity: 0.8;
+    -webkit-backdrop-filter: blur(20px) brightness(1.5);
+    border-radius: 10px 10px 10px 10px;
 
 
 }
 .active {
-    background-color: rgba(255,255,255,0.7);
+    background-color: rgb(0,  47,  134,0.8);
     -webkit-backdrop-filter:blur(20px) brightness(2);
-    color: #000;
+    color: #ffffff;
     padding: 10px;
     text-decoration: none;
     border: none;
@@ -385,7 +394,8 @@ a.inactive:hover{
     outline: none;
     cursor: pointer;
     opacity: 1;
-    border-radius: 15px 15px 15px 15px;
+    border-radius: 10px 10px 10px 10px;
+    font-weight: bolder;
 }
 
 .inactive {
@@ -402,13 +412,13 @@ a.inactive:hover{
   padding: 20px;
   margin-top: 10px;
   margin-bottom: 10px;
-  background-color: rgb(255,255,255);
+  background-color: rgb(214, 186, 139);
   border-radius: 15px;
 }
 
 
 .journalEntry:hover{
-  background-color: rgb(200,200,200);
+  background-color: rgb(230,200,160);
 }
 
 
@@ -419,6 +429,7 @@ a.inactive:hover{
     margin: 10px 0px 50px 0px;
     overflow: hidden;
     border-radius: 15px 15px 15px 15px;
+
 }
 
 .contentContainerWhite {
