@@ -1,0 +1,333 @@
+
+<!doctype html>
+<html class="no-js" lang="en">
+    <head>
+         <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Nick's geology scripts</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="manifest" href="site.webmanifest">
+        <link rel="apple-touch-icon" href="icon.png">
+        <!-- Place favicon.ico in the root directory -->
+
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/main.css">
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5XD3KN8X20"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-5XD3KN8X20');
+</script>
+
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-125019670-1');
+</script>
+
+
+
+
+
+   </head>
+
+   <style>
+        .parallax {
+            /* The image used */
+            background-image: url('img/parallaxScripts.jpg');
+
+            /* Set a specific height */
+            /* height: 400px; */
+
+            /* Create the parallax scrolling effect */
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+
+        }
+
+        @media only screen and (max-width: 600px) {
+            .parallax{
+                background-repeat: repeat-y;
+                background-position: top;
+                background-size: auto 60%;
+                width: 100%;
+
+            }
+        }
+
+   </style>
+
+<style>
+  .gradient-block {
+    width: 100%;
+    height: 100%;
+    /* Gradient goes from solid black to transparent black */
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.5), rgba(0,0,0,0));
+  }
+
+
+@media only screen and (max-width: 700px) {
+            .gradient-block {
+                height: 300px;
+                
+
+            }
+        }
+</style>
+
+
+    <body>
+           <main>
+
+        <div class="parallax">
+            <!-- <h1 class="topMargin"></h1> -->
+           
+            <div class ="gradient-block">
+           
+            <h1 class="topMargin"><em>Structural Geology @ Hamilton College</em></h1>
+            <nav><ul>
+            	
+                	<li><a 
+                	class ="inactive" href = "index.html">Home</a></li>
+                	<li><a 
+                	class ="inactive" href = "research.html">Research</a></li>
+                	<li><a 
+                	class ="inactive" href = "publications.html">Publications</a></li>
+                	<li><a 
+                	class ="inactive" href = "teaching.html">Teaching</a></li>
+                	<li><a class ="active" 
+                	 href = "code.html">Code</a></li>
+                	<li><a 
+                	class ="inactive" href = "photos.html">Photos</a></li>
+        	   </nav>
+            </div>
+
+
+        <div class="tabcontent">
+            
+
+<div class = "row">
+
+<div class="contentContainerHeading">
+
+  <h2 style = "color:#ffffff">Statistical analysis scripts and code </h2>
+
+	<p class = "centeredParagraphWhite"><em>I do all of my structural analysis of field data using the R programing language, and all of my microstructural (EBSD) analysis using the MTEX toolbox in Matlab. If you are interested in getting started doing the same, then this is the page for you! </em></p> 
+
+  <p class = "centeredParagraphWhite"><em>This page is dedicated to providing set-up documentation for analysis scripts that have been included as part of published work. For permanent repositories of published and some unpublished scripts, please visit my <a style="color:#add8e6" href = "https://github.com/nicolasmroberts">GitHub page<a>. Please email me at nmrobert@hamilton.edu if any scripts do not work properly after following the directions below. Things can happen...for example, R packages are often updated or sometimes get archived, and as a result scripts may need periodic updating</em></p> 
+
+	<p class = "centeredParagraphWhite"><em>Update: On June 25, 2019 I made a few corrections to the </em> Utility of statistics in structural geology <em> scripts, including no longer loading a defunct library ('FRB').</em></p>
+
+  <p class = "centeredParagraphWhite"> For published work, I include all the files necessary to reproduce my statistical analysis on this page. </p>
+
+           
+</div>
+
+<div class="contentContainer" style="text-align:left;">
+
+                               <h4>From <em>Internal structure of the Paleoarchean Mt Edgar dome, Pilbara Craton, Western Australia</em> (Roberts and Tikoff, 2021)</h4>
+                               <p>
+                                    This paper examines a dataset of anisotropy of magnetic susceptibility collected from granitic rocks within a Paleoarchean gneiss dome.
+                               </p>
+
+                              <p>
+                                    The project files can be downloaded from <a href = https://github.com/nicolasmroberts/InternalStructureMtEdgar_PR2021>here</a>.
+                               </p>
+                                    
+</div>
+
+<div class="contentContainer" style="text-align:left;">
+
+					 <h4>From <em>The utility of statistical analysis in structural geology</em> (Roberts et al., 2018)</h4>
+					 <p>
+                                    Download the <a href="Robertsetal_Manuscript.pdf">manuscript</a> and the <a href="Robertsetal_Figures.pdf">figures</a>. download the published pdf <a href = "https://doi.org/10.1016/j.jsg.2018.05.030">here</a>.
+                               </p>
+					 <p>
+                                    This paper analyzes three datasets: two from the West Mountain area of the western Idaho shear zone, and one from the Orofino area of the western Idaho shear zone, locally the Ahsahka shear zone. The two datasets from West Mountain are a foliation dataset and a dataset of foliation-lineation pairs. The data from Orofino are foliation-lineation pairs.
+                               </p>
+                               <p>  <strong>Note:</strong> The scripts in this project have been written for specific static versions of the <em>geologyGeometry</em> library, for which download links are given. If you would rather download the most recent version of <em>geologyGeometry</em> (which may not be backwards-compatible with all statistical analyses), visit <a href="http://www.joshuadavis.us/software">Joshua Davis's website</a>.
+                               </p>
+
+
+					 <ol>
+					 <li>If you have not already downloaded <em>R </em>and<em> RStudio</em> and set it up for using <em>geologyGeometry</em>, then follow the instructions to do so at the bottom of this page. </li>
+					 <br>
+					 <li>
+					 						Dowload <a href = "geologyGeometry.zip"><em>geologyGeometry</em> June 2017 version</a>. This linked version already contains the datasets and statistical analyses from Roberts et al. (2018).
+					 			</li>
+					 	<br>
+					 			<li>
+					 						Drag the <em>20170620geologyGeometry</em> folder to your desktop. <strong> Note for Windows users:</strong> When Windows unzips a <em>.zip</em> file, it creates a folder with the <em>.zip</em> name. Open this folder, and you will fine the <em>20170620geologyGeometry</em> folder within. Drag <em>20170620geologyGeometry</em> to the desktop.
+					 			</li>
+
+						<br>
+					 		<li>
+					 						The two statistical analysis scripts are titled <em>JSG_StatisticalAnalysis_Orofino.r, </em>and<em> JSG_statisticalAnalysis_WestMountain.r</em>, both located in the <em>geologyGeometry</em> folder. Open them in RStudio.
+					 			</li>
+					 		 <br>
+					 			<li>
+					 						At the top of each one, change <span style="font-family:courier new;color:#050">setwd('~Desktop/20170620geologyGeometry')</span> to reflect the true path to your <em>geologyGeometry</em> folder. You should not need to change this if you are using a Mac. If you are using Windows, the proper path format is commented (anything that has a '<span style="font-family:courier new;color:#050">#</span>' in front of it is 'commented', meaning it won't run). Fill in your user name, uncomment the line, and run it.
+					 			</li>
+					 <br>
+					 			<li>
+					 						Run each file line by line using "Run" button at the top of the window. Enjoy!
+					 			</li>
+
+								<br>
+								<li>
+										<strong>Strongly encouraged:</strong> In the <em>20170620geologyGeometry</em> folder, you will find many <em>tutorial</em> subdirectories. Each of these subdirectories contain well-commented tutorial scripts by Joshua Davis that guide you through the basics of statistical analysis. If you are new to coding, I recommend starting with the tutorial files in <em>tutorialsR</em>, followed by <em>tutorialsDirections</em> and <em>tutorialsOrientations</em>.
+								</li>
+					 </ol>
+					 </div>
+
+<br>
+
+
+<div class= "contentContainer" style="text-align:left;">
+
+            <h4>R/RStudio Setup Instructions before using <em>geologyGeometry</em>:</h4>
+
+            <ol>
+                  <li>
+                        <a href = "http://www.r-project.org/">Dowload R</a> for your system.
+
+                        <ul>
+                        	<li>
+                        	Choose a "mirror site" that hosts the software, prefereably near your geographical location, for 	speed.
+							</li>
+
+							<li>
+                        	On the mirror site, click to download a "precompiled binary distribution" of R for your operating 	system.
+                        	</li>
+
+                        	<li>
+                        	Once the download is complete, run the installer program and follow its instructions.
+                        	</li>
+                        </ul>
+                  </li>
+                  <br>
+                  <li>
+                        Download and install <a href = "https://www.rstudio.com/">RStudio</a>, a nice user interface for using R.
+                  </li>
+
+                  <br>
+                  <li>
+                        If you are installing on a Mac computer, download and install <a href= "http://xquartz.macosforge.org/"><em>XQuartz</em></a>. (You will need to log out and log back in after installing to activate it). <em>XQuartz</em> is a unix windowing system that <em>geologyGeometry</em> uses for interactive plots.
+                  </li>
+<br>
+                  <li>
+                        Now, launch <em>RStudio</em>. It will open large window consisting of several "panes". Probably the Console pane is in the lower left corner of the window. Copy and paste (or retype) the following three lines of code into the Console pane, and then press Return to execute them. <strong> This step only needs to be done the first time you use R/RStudio. It will permenantly install some R packages that <em>geologyGeometry</em> uses.</strong>
+
+
+                        <span style="font-family:courier new;color:#050">
+                        	<ul>
+                      			<li>
+                        		install.packages(c("rgl", "fields", "MASS"))
+                        		</li>
+
+                        		<li>
+                        		install.packages(c("ICSNP", "expm", "FRB"))
+                        		</li>
+
+                        		<li>
+                        		install.packages(c("Directional", "pracma"))
+                        		</li>
+                        	</ul>
+                        </span>
+
+                        <br>
+
+                        These commands should cause a flurry of activity. If you are notified that a source version is newer than a binary version, and asked whether to download the source version (y/n), enter  <span style="font-family:courier new;color:#050">n</span>. If you see warnings about how some package was built with an earlier version of R, then ignore them. To check that each package installed correctly, copy each of the following lines into the console.
+
+                        <span style="font-family:courier new;color:#050">
+                        	<ul>
+                        		<li>
+                        		library("rgl")
+                        		</li>
+
+                        		<li>
+                        		library("fields")
+                        		</li>
+
+                        		<li>
+                        		library("MASS")
+                        		</li>
+
+                        		<li>
+                        		library("ICSNP")
+                        		</li>
+
+                        		<li>
+                        		library("expm")
+                        		</li>
+
+								<li>
+                        		library("FRB")
+                        		</li>
+
+                        		<li>
+                        		library("Directional")
+                        		</li>
+
+                        		<li>
+                        		library("pracma")
+                        		</li>
+                        	</ul>
+                        </span>
+                        <br>
+                        You are now all set up to use the <em>geologyGeometry</em> tools.
+									</li>
+
+            </ol>
+
+      </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </div>
+
+
+        <div>
+            <footer> Nick last updated this website on Jan 29, 2026 </footer>
+        </div>
+
+        </div>
+
+
+    </main>
+
+
+        <script src="js/vendor/modernizr-3.5.0.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+        <script>window.jQuery || document.write('<script src="js/vendor/jquery-3.2.1.min.js"><\/script>')</script>
+        <script src="js/plugins.js"></script>
+        <script src="js/main.js"></script>
+
+        <!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
+
+
+    </body>
+</html>

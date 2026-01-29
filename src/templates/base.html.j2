@@ -55,16 +55,35 @@
 
         }
 
-        @media only screen and (max-width: 700px) {
+        @media only screen and (max-width: 600px) {
             .parallax{
                 background-repeat: repeat-y;
                 background-position: top;
                 background-size: auto 60%;
+                width: 100%;
 
             }
         }
 
    </style>
+
+<style>
+  .gradient-block {
+    width: 100%;
+    height: 100%;
+    /* Gradient goes from solid black to transparent black */
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.5), rgba(0,0,0,0));
+  }
+
+
+@media only screen and (max-width: 700px) {
+            .gradient-block {
+                height: 300px;
+                
+
+            }
+        }
+</style>
 
 
     <body>
@@ -72,18 +91,16 @@
 
         <div class="parallax">
             <!-- {% block parallax_header%}{% endblock %} -->
+           
+            <div class ="gradient-block">
+           
             <h1 class="topMargin"><em>Structural Geology @ Hamilton College</em></h1>
             <nav><ul>
             	{% for p in PAGES %}
                 	<li><a {% if p.name == current_page.name %}class ="active" {% endif %}
                 	{% if p.name != current_page.name %}class ="inactive"{% endif %} href = "{{ p.name }}.html">{{p.title}}</a></li>{% endfor %}
         	   </nav>
-
-        <div class = "topSpacer"></div>
-        
-
-
-
+            </div>
 
 
         <div class="tabcontent">

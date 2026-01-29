@@ -55,16 +55,35 @@
 
         }
 
-        @media only screen and (max-width: 700px) {
+        @media only screen and (max-width: 600px) {
             .parallax{
                 background-repeat: repeat-y;
                 background-position: top;
                 background-size: auto 60%;
+                width: 100%;
 
             }
         }
 
    </style>
+
+<style>
+  .gradient-block {
+    width: 100%;
+    height: 100%;
+    /* Gradient goes from solid black to transparent black */
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.5), rgba(0,0,0,0));
+  }
+
+
+@media only screen and (max-width: 700px) {
+            .gradient-block {
+                height: 300px;
+                
+
+            }
+        }
+</style>
 
 
     <body>
@@ -72,6 +91,9 @@
 
         <div class="parallax">
             <!-- <h1 class="topMargin"></h1> -->
+           
+            <div class ="gradient-block">
+           
             <h1 class="topMargin"><em>Structural Geology @ Hamilton College</em></h1>
             <nav><ul>
             	
@@ -84,16 +106,11 @@
                 	<li><a class ="active" 
                 	 href = "teaching.html">Teaching</a></li>
                 	<li><a 
-                	class ="inactive" href = "scripts.html">Scripts</a></li>
+                	class ="inactive" href = "code.html">Code</a></li>
                 	<li><a 
                 	class ="inactive" href = "photos.html">Photos</a></li>
         	   </nav>
-
-        <div class = "topSpacer"></div>
-        
-
-
-
+            </div>
 
 
         <div class="tabcontent">
@@ -103,9 +120,11 @@
 <div class= "contentContainerHeading">
 
 	<div style="text-align:center;">
-		<img class="headingPhotos" style="width:85%;" src="img/CCFaults.jpeg" alt="char">
-		<img class="headingPhotos" style="width:36%;" src="img/TeachingField.jpeg" alt="char">
-		<img class="headingPhotos" style="width:43%;" src="img/TeachingHogback.jpeg" alt="char">
+			<img class="headingPhotos" style="width:80%;" src="img/StudentsAndVolcano.jpeg" alt="char">
+
+		<img class="headingPhotos" style="width:25%;" src="img/StudentsAtDike.jpg" alt="char">
+		<img class="headingPhotos" style="width:25%;" src="img/AndersonianSandBlock.jpeg" alt="char">
+		<img class="headingPhotos" style="width:30%;" src="img/StudentOnOutcrop.jpeg" alt="char">
 	</div>
 <br>
 	<h2 style="color:#ffffff">Quantitative, experiential learning in the Geosciences</h2>
@@ -137,7 +156,7 @@
 
 
         <div>
-            <footer> Nick last updated this website on Jul 27, 2022 </footer>
+            <footer> Nick last updated this website on Jan 29, 2026 </footer>
         </div>
 
         </div>

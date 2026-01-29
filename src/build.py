@@ -14,7 +14,7 @@ PAGES = [
     Page(name='research', title='Research', background_image='parallaxProj.jpg'),
     Page(name='publications', title='Publications', background_image='parallaxHome.jpg'),
     Page(name='teaching', title='Teaching', background_image='parallaxTeaching.jpg'),
-    Page(name='scripts', title='Scripts', background_image='parallaxScripts.jpg'),
+    Page(name='code', title='Code', background_image='parallaxScripts.jpg'),
     #Page(name='cv', title='CV', background_image='parallaxCV.jpg'),
     Page(name='photos', title='Photos', background_image='parallaxPhotos.jpg'),
 ]

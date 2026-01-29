@@ -55,16 +55,35 @@
 
         }
 
-        @media only screen and (max-width: 700px) {
+        @media only screen and (max-width: 600px) {
             .parallax{
                 background-repeat: repeat-y;
                 background-position: top;
                 background-size: auto 60%;
+                width: 100%;
 
             }
         }
 
    </style>
+
+<style>
+  .gradient-block {
+    width: 100%;
+    height: 100%;
+    /* Gradient goes from solid black to transparent black */
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.5), rgba(0,0,0,0));
+  }
+
+
+@media only screen and (max-width: 700px) {
+            .gradient-block {
+                height: 300px;
+                
+
+            }
+        }
+</style>
 
 
     <body>
@@ -72,6 +91,9 @@
 
         <div class="parallax">
             <!-- <h1 class="topMargin"></h1> -->
+           
+            <div class ="gradient-block">
+           
             <h1 class="topMargin"><em>Structural Geology @ Hamilton College</em></h1>
             <nav><ul>
             	
@@ -84,16 +106,11 @@
                 	<li><a 
                 	class ="inactive" href = "teaching.html">Teaching</a></li>
                 	<li><a 
-                	class ="inactive" href = "scripts.html">Scripts</a></li>
+                	class ="inactive" href = "code.html">Code</a></li>
                 	<li><a 
                 	class ="inactive" href = "photos.html">Photos</a></li>
         	   </nav>
-
-        <div class = "topSpacer"></div>
-        
-
-
-
+            </div>
 
 
         <div class="tabcontent">
@@ -103,16 +120,28 @@
 
 
 	<div style="text-align:center;">
-		<img class="headingPhotos" src="img/Website 	photos - 1 of 4.png" alt="char">
 		<img class="headingPhotos" src="img/Website 	photos - 2 of 4.png" alt="char">
-		<img class="headingPhotos" src="img/Website photos - 4 of 4.png" alt="char">
+		<img class="headingPhotos" src="img/CutBlock.jpeg" alt="char">
+		<img class="headingPhotos" src="img/Mis2Mean.jpg" alt="char">
+		
 	</div>
 <br>
 
-<h2 style = "color:#ffffff">Structural Geology, Archean Tectonics, Statistics</h2>
+<h2 style = "color:#ffffff">Rheological Evolution of Continental Crust</h2>
 <p class = "centeredParagraphWhite">
-		I have broad interests in how continental crust accomodates deformation in different tectonic contexts. My approach to stuying deformation processes integrates field mapping, statistics, microstructural analysis and quantitative laboratory techniques such as electron backscatter diffraction (EBSD). I also am part of the team working on the StraboSpot digital data system. I currently and working to design new structural geology and sedimentology field apps for iPadOS.
+		I have broad interests in how continental crust accomodates deformation in different tectonic contexts, and specifically how deformation drives rheological change. My approach to stuying deformation processes integrates field mapping, statistics, microstructural analysis and quantitative laboratory techniques such as electron backscatter diffraction (EBSD) and anisotropy of magnetic susceptibility (AMS). 
+</p>
 
+<div style = "text=align:center;">
+<img class="headingPhotos" src="img/LabSpace.jpeg" alt="char" style="width: 50%;">
+<img class="headingPhotos" src="img/AMSKappabridge.jpeg" alt="char" style="width: 28%;">
+</div>
+
+<h2 style = "color:#D1B67C">The Structure Lab at Hamilton College</h2>
+
+
+<p class = "centeredParagraphWhite" style="color:#D1B67C;">
+The major piece of instrumentation in my lab is an AGICO KLYS Anisotropy of Magnetic Susceptibility Kappabridge with a 3D rotator and all the equipment necessary to process samples for AMS. AMS is an incredible approach to studying a wide variety of deformation- and magmatism-related processes. In my lab, I mostly use it to study granitic rocks that have been involved in deformation. 
 </p>
 
 </div>
@@ -120,20 +149,59 @@
 
 <div class = "contentContainer">
 
-<h2>Quantitative Structural Geology</h2>
-<img class="thirdPage" src="img/Fig_08_AMS sdtp.png" alt="char" style="float:right">
-<img class="thirdPage" src="img/Fig_01_amsLocationsMaps.png" alt="char" style = "float:right">
+<h2>Strain Rate and Stress Evolution in Shear Zones</h2>
+<img class="thirdPage" src="img/ShearZonePhoto.jpeg" alt="char" style="float:right">
+<img class="thirdPage" src="img/StudentInArizona.jpeg" alt="char" style = "float:right">
 
 <p>
-		By what mechanisms were large structural domes emplaced into Earth's early crust? What is the relationship between plutonism, plate tectonics, crustal flow, and shear/fault localization during the deformation of continental crust? How do rocks partition strain from the field to the crystal lattice scales? These are among the questions that motivate my research. 
+	Natural shear zones commonly undergo significant rheological change throughout their evolution. I am interested in how strain geometry and existing rheological boundaries can work in tandem with other geological processes (metamorphism, melting, deformation mechanisms) to drive transient behavior in shear zone systems.
+</p>
 
-		My current research investigates a Paleoarchean granitic dome in Western Australia's Pilbara craton. The Mt Edgar dome is one of the archetypal Paleoarchean domes and has been pointed to as the strongest evidence for volumninous granitic diapirism in the early Earth. My structural work in the Pilbara tests this hypothesis by studying the internal structure of the Mt Edgar dome using a deformation proxy tequnique, the anisotropy of magnetic susceptibility (AMS), detailed field and microstrctural observation around the sheared margin of the Mt Edgar dome, and statistical analysis of field measurements.  
+<p>
+	My approach to this work mostly involves nitty-gritty microstructural analysis, including strain analysis, EBSD-derived crystallographic fabric analysis, and quartz paleopiezometry. Students get to collect shear zone samples, examine them under the light microscope, do phase identification using EDS, and collect EBSD data and perform analyses using the MTEX package for MATLAB. 
+
+</p>
+
+</div>
+
+
+
+<div class = "contentContainer">
+
+<h2>Archean Tectonics</h2>
+<img class="thirdPage" src="img/Fig_08_AMS sdtp.png" alt="char" style="float:right">
+<img class="thirdPage" src="img/StudentsInAustralia.jpeg" alt="char" style = "float:right">
+
+<p>
+		By what mechanisms were large structural domes emplaced into Earth's early crust? What is the relationship between plutonism, plate tectonics, crustal flow, and shear/fault localization during the subsequent deformation of continental crust? How did rocks partition strain from the field to the crystal lattice scales? These are among the questions that motivate my research in the Early Earth. 
+
+		My current research investigates a Paleoarchean granitic dome in Western Australia's Pilbara craton. The Mt Edgar dome is one of the archetypal Paleoarchean domes and has been pointed to as the strongest evidence for volumninous granitic diapirism in the early Earth. My structural work in the Pilbara tests this hypothesis by studying the internal structure of several granitic domes using anisotropy of magnetic susceptibility (AMS), detailed field and microstrctural observation around the sheared margin of the Mt Edgar dome, and statistical analysis of field measurements.  
 </p>
 <p>
-		In the summer of 2018 I was joined in the field by two Geoscience majors from UW Madison, Casey and Rex. The three of us spent six weeks mapping large scale folds in the Warrawoona syncline. Both Rex and Casey finished senior theses in Spring 2019 and 2020, respectively.
+		In the summer of 2023 I was joined in the field by two Geosciences majors from Hamilton College. The three of us spent several weeks mapping and collecting samples for AMS in the Mt Edgar and Shaw domes.
 
 </p>
 </div>
+
+
+<div class = "contentContainer">
+<h2>Shear Zone - Magma Interactions</h2>
+<img class="thirdPage" src="img/MagmaShearZone.jpeg" alt="char" style="float:right">
+<p>
+		In crustal scale shear zones, magmatism is commonly coeval with deformation. How does magmatic activity drive rheological change in the crust? Do shear zones help focus magmatism, or does magmatism localize shear zone deformation? These are among the questions I am asking in a project in south central Maine, where students and I have been examining a high temperature shear zone that is adjacent and structurally related to a gabbroic intrusion. 
+</p>
+<p>
+		I took a team of four Hamilton students in 2024 to south central Maine to map fine scale features and collect samples for analysis. 
+
+</p>
+</div>
+
+
+
+
+
+
+
 
 <div class = "contentContainer">
 <h2>Statistical Analysis</h2>
@@ -150,10 +218,7 @@
 <h2>Datascience for field geologists</h2>
 <img class="thirdPage" src="img/StraboField.jpeg" alt="char" style="float:left">
 	<p>
-		An exciting new frontier for structural geology and other field-based geologic disciplines is the emergence of large, open-source databases for geologic data. I have been working on the StraboSpot digital data system development team for the past two years, designing the next generation of iOS field tools and helping to lead testing field trips with experts to get feedback and input from the broader community. 
-	</p>
-	<p>
-		I am also spearheading an effort to write statistical and querying tools directly into the front end of the StraboSpot system so that field geologists can do on-the-fly statistical analyses during fieldwork. 
+		An exciting new frontier for structural geology and other field-based geologic disciplines is the emergence of large, open-source databases for geologic data. I have long been involved in the StraboSpot digital data system, and continue to help drive this project forward, including testing field trips with experts to get feedback and input from the broader community. 
 	</p>
 </div>
 
@@ -164,7 +229,7 @@
 
 
         <div>
-            <footer> Nick last updated this website on Jul 27, 2022 </footer>
+            <footer> Nick last updated this website on Jan 29, 2026 </footer>
         </div>
 
         </div>
