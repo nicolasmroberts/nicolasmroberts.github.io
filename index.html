@@ -2,15 +2,19 @@
 <!doctype html>
 <html class="no-js" lang="en">
     <head>
-         <meta charset="utf-8">
+        <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
         <title>Nick's geology home</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="manifest" href="site.webmanifest">
-        <link rel="apple-touch-icon" href="icon.png">
+        <link rel="apple-touch-icon" href="icon.jpg">
         <!-- Place favicon.ico in the root directory -->
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:wght@500;600;700&display=swap" rel="stylesheet">
 
         <link rel="stylesheet" href="css/normalize.css">
         <link rel="stylesheet" href="css/main.css">
@@ -23,183 +27,152 @@
   gtag('js', new Date());
 
   gtag('config', 'G-5XD3KN8X20');
-</script>
-
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
   gtag('config', 'UA-125019670-1');
 </script>
 
-
-
-
-
-   </head>
-
-   <style>
-        .parallax {
-            /* The image used */
-            background-image: url('img/parallaxHome.jpg');
-
-            /* Set a specific height */
-            /* height: 400px; */
-
-            /* Create the parallax scrolling effect */
-            background-attachment: fixed;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: cover;
-
-        }
-
-        @media only screen and (max-width: 600px) {
-            .parallax{
-                background-repeat: repeat-y;
-                background-position: top;
-                background-size: auto 60%;
-                width: 100%;
-
-            }
-        }
-
-   </style>
-
-<style>
-  .gradient-block {
-    width: 100%;
-    height: 100%;
-    /* Gradient goes from solid black to transparent black */
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.5), rgba(0,0,0,0));
-  }
-
-
-@media only screen and (max-width: 700px) {
-            .gradient-block {
-                height: 300px;
-                
-
-            }
-        }
-</style>
-
+    </head>
 
     <body>
-           <main>
-
-        <div class="parallax">
-            <!--  -->
-           
-            <div class ="gradient-block">
-           
-            <h1 class="topMargin"><em>Structural Geology @ Hamilton College</em></h1>
-            <nav><ul>
-            	
-                	<li><a class ="active" 
-                	 href = "index.html">Home</a></li>
-                	<li><a 
-                	class ="inactive" href = "research.html">Research</a></li>
-                	<li><a 
-                	class ="inactive" href = "publications.html">Publications</a></li>
-                	<li><a 
-                	class ="inactive" href = "teaching.html">Teaching</a></li>
-                	<li><a 
-                	class ="inactive" href = "code.html">Code</a></li>
-                	<li><a 
-                	class ="inactive" href = "photos.html">Photos</a></li>
-        	   </nav>
+        <header class="site-header">
+            <div class="header-inner">
+                <a class="brand" href="index.html">
+                    <span class="brand-name">Nicolas M. Roberts</span>
+                    <span class="brand-tagline">Structural Geology &middot; Hamilton College</span>
+                </a>
+                <nav class="site-nav" aria-label="Primary">
+                    <ul>
+                        
+                        <li><a class="active" aria-current="page" href="index.html">Home</a></li>
+                        
+                        <li><a  href="research.html">Research</a></li>
+                        
+                        <li><a  href="publications.html">Publications</a></li>
+                        
+                        <li><a  href="teaching.html">Teaching</a></li>
+                        
+                        <li><a  href="code.html">Code</a></li>
+                        
+                        <li><a  href="photos.html">Photos</a></li>
+                        
+                    </ul>
+                </nav>
             </div>
+        </header>
 
+        <main>
+            <div class="page-content">
+                
 
-        <div class="tabcontent">
-            
-
-<div class = "row">
-
-        <div class = "contentContainerHeading">
-            <div style="padding-left: 15px; padding-right: 15px; text-align: center;">
-                <div class="row">
-
-                    <div class="columnImages">
-                        <img src="img/australiaPointing.jpeg" alt="char">
-                        <img src="img/australiaFieldwork.jpeg" alt="char">
-                        <img src="img/gcGroup.jpeg" alt="char">
-                    </div>
-                    
-
-                    <div class="columnImages" style="flex:33%;max-width:33%;">
-                    <img src="img/carletonRainbow.jpeg" alt="char">
-                       <img style="border-radius: 15px 15px 15px 15px;" src="img/meOct2019.jpeg" alt="char">
-                       <img src="img/gcBoudin.jpeg" alt="char">
-
-                    </div>
-
-                    <div class="columnImages">
-                        <img src="img/australiaPegmatite.jpeg" alt = "char">
-                        <img src="img/gcWaterTalk.jpeg" alt="char">
-                        <img src="img/carletonTeach.jpeg" alt = "char">
-                    </div>
-                    
-                </div>
-
-                <p style="font-size:8pt;text-align:right;color:#ffffff">Center photo by C. Bate. Middle photo on the right by L. Crossey. Bottom photo on the right by E. Houlihan.</p>
-                    
-
-        <div style = "text-align: center">
-            <h2 style = "color:#ffffff">Welcome!</h2>
-            <p class = "centeredParagraphWhite">
-                    I am a structural geologist and Assistant Professor of Geosciences at Hamilton College. My research is motivated by trying to understand the rheological evolution of deforming parts of Earth's continental crust. Some of my current projects focus on shear zone evolution from a strain, strain-rate, and stress perspective; deep crustal flow in the Archean, and magma and fault system interractions. My main analytical approaches include field data collection and mapping, electron backscatter diffraction (EBSD), anisotropy of magnetic susceptibility (AMS), and statistical analysis of structural data. My lab at Hamilton that is equipped with an AGICO KLY5S Anisotropy of Magnetic Susceptibility Kappabridge and the equipment to prepare AMS samples. 
-
-            </p>
-
-            <p class = "centeredParagraphWhite">
-                   Working closely with undergraduate students is one of my great professional joys. We have travelled to Western Australia, Arizona, and Maine to conduct fieldwork, and have spent countless hours processing samples, collecting EBSD data, and thinking through interesting scientific puzzels.
-            </p>
-
-            <p class = "centeredParagraphWhite">
-                    I have taugh a wide variety of courses at Hamilton, including an introductory Geosciences course, Structural Geology and Tectonics, Geophysics, and a field course in Arizona. I care deeply about teaching. Geologic processes exert an enormous control on many of today's pressing issues, from climate change to water resources to energy. Whether or not students persue a career in the geosciences, we need to increase our society's geologic literacy. Take a look at my teaching page to hear more about my teaching philosophy.
-            </p>
-
-            <p class = "centeredParagraphWhite">
-                       In all aspects of my professional life, I am committed to the enduringly important work of broadening participation in and increasing the diversity, equity, and inclusion of the geosciences.    
-                </p>
-
-
-
+<div class="card">
+    <div class="photo-mosaic">
+        <img class="mosaic-hero" src="img/meOct2019.jpeg" alt="Nick Roberts">
+        <div class="mosaic-rotator">
+            <div class="mosaic-slot">
+                <img class="slot-layer active" src="img/australiaPointing.jpeg" alt="Fieldwork in Western Australia">
+                <img class="slot-layer" src="img/australiaPointing.jpeg" alt="">
+            </div>
+            <div class="mosaic-slot">
+                <img class="slot-layer active" src="img/gcWaterTalk_web.jpeg" alt="Discussing geology by the water in the Grand Canyon">
+                <img class="slot-layer" src="img/gcWaterTalk_web.jpeg" alt="">
+            </div>
+            <div class="mosaic-slot">
+                <img class="slot-layer active" src="img/carletonRainbow.jpeg" alt="Rainbow over a Carleton College field site">
+                <img class="slot-layer" src="img/carletonRainbow.jpeg" alt="">
+            </div>
         </div>
-        </div>
-        </div>
-
-        <div class = "contentContainer">
-
-            <h2>Links</h2>
-
-            <a style="color: #ffffff; text-decoration: none;" href="CV_Roberts_Jan2026.pdf"><span class="buttonCV">Download CV</span></a>
-
-            <a style="color: #ffffff; text-decoration: none;" href=https://www.researchgate.net/profile/Nicolas-Roberts><span class="buttonCV">ResearchGate</span></a>
-
     </div>
 
+    <script>
+    (function () {
+        var pool = [
+            { src: 'img/australiaPointing.jpeg', alt: 'Fieldwork in Western Australia' },
+            { src: 'img/gcBoudin_web.jpeg', alt: 'Boudinaged rock in the Grand Canyon' },
+            { src: 'img/australiaPegmatite.jpeg', alt: 'Pegmatite in Western Australia' },
+            { src: 'img/gcWaterTalk_web.jpeg', alt: 'Discussing geology by the water in the Grand Canyon' },
+            { src: 'img/gcGroup_web.jpeg', alt: 'Field group in the Grand Canyon' },
+            { src: 'img/australiaFieldwork.jpeg', alt: 'Fieldwork in Western Australia' },
+            { src: 'img/carletonRainbow.jpeg', alt: 'Rainbow over a Carleton College field site' },
+            { src: 'img/carletonTeach.jpeg', alt: 'Teaching in the field' }
+        ];
 
-    <div class = "contentContainer">
+        var slots = Array.prototype.slice.call(document.querySelectorAll('.mosaic-slot'));
+        if (!slots.length) { return; }
 
+        var shown = slots.map(function (slot) {
+            return slot.querySelector('.slot-layer.active').getAttribute('src');
+        });
 
-        <div>
-                <h2>Contact info</h2>
-                <p class = "centeredParagraph"><em>email:</em><br>nmrobert@hamilton.edu</p>
-        </div>
+        function pickNext(currentSrc) {
+            var candidates = pool.filter(function (p) { return shown.indexOf(p.src) === -1; });
+            if (!candidates.length) {
+                candidates = pool.filter(function (p) { return p.src !== currentSrc; });
+            }
+            return candidates[Math.floor(Math.random() * candidates.length)];
+        }
 
+        function rotateSlot() {
+            var i = Math.floor(Math.random() * slots.length);
+            var container = slots[i];
+            var layers = container.querySelectorAll('.slot-layer');
+            var activeLayer = container.querySelector('.slot-layer.active');
+            var nextLayer = activeLayer === layers[0] ? layers[1] : layers[0];
+            var next = pickNext(shown[i]);
+            if (!next) { return; }
 
+            nextLayer.setAttribute('alt', next.alt);
+            nextLayer.src = next.src;
 
-        
+            var startCrossfade = function () {
+                activeLayer.classList.remove('active');
+                nextLayer.classList.add('active');
+                shown[i] = next.src;
+            };
+
+            if (nextLayer.decode) {
+                nextLayer.decode().then(startCrossfade).catch(startCrossfade);
+            } else {
+                startCrossfade();
+            }
+        }
+
+        setInterval(rotateSlot, 4000);
+    })();
+    </script>
+
+    <h2>Welcome!</h2>
+    <p class="lead-text">
+        I am a structural geologist and Assistant Professor of Geosciences at Hamilton College. My research is motivated by trying to understand the rheological evolution of deforming parts of Earth's continental crust. Some of my current projects focus on shear zone evolution from a strain, strain-rate, and stress perspective; deep crustal flow in the Archean, and magma and fault system interactions. My main analytical approaches include field data collection and mapping, electron backscatter diffraction (EBSD), anisotropy of magnetic susceptibility (AMS), and statistical analysis of structural data. My lab at Hamilton is equipped with an AGICO KLY5S Anisotropy of Magnetic Susceptibility Kappabridge and the equipment to prepare AMS samples.
+    </p>
+
+    <p class="lead-text">
+        Working closely with undergraduate students is one of my great professional joys. We have travelled to Western Australia, Arizona, and Maine to conduct fieldwork, and have spent countless hours processing samples, collecting EBSD data, and thinking through interesting scientific puzzles.
+    </p>
+
+    <p class="lead-text">
+        I have taught a wide variety of courses at Hamilton, including an introductory Geosciences course, Structural Geology and Tectonics, Geophysics, and a field course in Arizona. I care deeply about teaching. Geologic processes exert an enormous control on many of today's pressing issues, from climate change to water resources to energy. Whether or not students pursue a career in the geosciences, we need to increase our society's geologic literacy. Take a look at my teaching page to hear more about my teaching philosophy.
+    </p>
+
+    <p class="lead-text">
+        In all aspects of my professional life, I am committed to the enduringly important work of broadening participation in and increasing the diversity, equity, and inclusion of the geosciences.
+    </p>
+</div>
+
+<div class="card">
+    <h2>Links</h2>
+    <div class="btn-row" style="text-align:left;">
+        <a class="btn" href="CV_Roberts_Jan2026.pdf">Download CV</a>
+        <a class="btn" href="https://www.researchgate.net/profile/Nicolas-Roberts">ResearchGate</a>
     </div>
+</div>
 
+<div class="card">
+    <h2>Contact info</h2>
+    <p><em>email:</em> <a href="mailto:nmrobert@hamilton.edu">nmrobert@hamilton.edu</a></p>
+</div>
 
-    <div class = "contentContainer" style="text-align:left;">
-        <h2> Recent Activity </h2>
-        <ul>
+<div class="card">
+    <h2>Recent Activity</h2>
+        <ul class="activity-list">
             <li> <strong> December 2025: </strong> Had a great AGU full of interesting talks and discussions.
             <li> <strong> November 2025: </strong> I had the pleasure of giving research talks at Lamont Doherty Earth Observatory and Colby College.
             <li> <strong> October 2025: </strong> I presented new work at the GSA fall meeting.
@@ -226,33 +199,20 @@
 
             -->
         </ul>
-    </div>
-
-
-    
 </div>
 
-        </div>
+            </div>
+        </main>
 
-
-        <div>
-            <footer> Nick last updated this website on Jan 30, 2026 </footer>
-        </div>
-
-        </div>
-
-
-    </main>
-
+        <footer class="site-footer">
+            <p>Nick last updated this website on Aug 17, 2026 &middot; <a href="mailto:nmrobert@hamilton.edu">nmrobert@hamilton.edu</a></p>
+        </footer>
 
         <script src="js/vendor/modernizr-3.5.0.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-3.2.1.min.js"><\/script>')</script>
         <script src="js/plugins.js"></script>
         <script src="js/main.js"></script>
-
-        <!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
-
 
     </body>
 </html>

@@ -2,15 +2,19 @@
 <!doctype html>
 <html class="no-js" lang="en">
     <head>
-         <meta charset="utf-8">
+        <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
         <title>Nick's geology research</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="manifest" href="site.webmanifest">
-        <link rel="apple-touch-icon" href="icon.png">
+        <link rel="apple-touch-icon" href="icon.jpg">
         <!-- Place favicon.ico in the root directory -->
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:wght@500;600;700&display=swap" rel="stylesheet">
 
         <link rel="stylesheet" href="css/normalize.css">
         <link rel="stylesheet" href="css/main.css">
@@ -23,229 +27,175 @@
   gtag('js', new Date());
 
   gtag('config', 'G-5XD3KN8X20');
-</script>
-
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
   gtag('config', 'UA-125019670-1');
 </script>
 
-
-
-
-
-   </head>
-
-   <style>
-        .parallax {
-            /* The image used */
-            background-image: url('img/parallaxProj.jpg');
-
-            /* Set a specific height */
-            /* height: 400px; */
-
-            /* Create the parallax scrolling effect */
-            background-attachment: fixed;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: cover;
-
-        }
-
-        @media only screen and (max-width: 600px) {
-            .parallax{
-                background-repeat: repeat-y;
-                background-position: top;
-                background-size: auto 60%;
-                width: 100%;
-
-            }
-        }
-
-   </style>
-
-<style>
-  .gradient-block {
-    width: 100%;
-    height: 100%;
-    /* Gradient goes from solid black to transparent black */
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.5), rgba(0,0,0,0));
-  }
-
-
-@media only screen and (max-width: 700px) {
-            .gradient-block {
-                height: 300px;
-                
-
-            }
-        }
-</style>
-
+    </head>
 
     <body>
-           <main>
-
-        <div class="parallax">
-            <!-- <h1 class="topMargin"></h1> -->
-           
-            <div class ="gradient-block">
-           
-            <h1 class="topMargin"><em>Structural Geology @ Hamilton College</em></h1>
-            <nav><ul>
-            	
-                	<li><a 
-                	class ="inactive" href = "index.html">Home</a></li>
-                	<li><a class ="active" 
-                	 href = "research.html">Research</a></li>
-                	<li><a 
-                	class ="inactive" href = "publications.html">Publications</a></li>
-                	<li><a 
-                	class ="inactive" href = "teaching.html">Teaching</a></li>
-                	<li><a 
-                	class ="inactive" href = "code.html">Code</a></li>
-                	<li><a 
-                	class ="inactive" href = "photos.html">Photos</a></li>
-        	   </nav>
+        <header class="site-header">
+            <div class="header-inner">
+                <a class="brand" href="index.html">
+                    <span class="brand-name">Nicolas M. Roberts</span>
+                    <span class="brand-tagline">Structural Geology &middot; Hamilton College</span>
+                </a>
+                <nav class="site-nav" aria-label="Primary">
+                    <ul>
+                        
+                        <li><a  href="index.html">Home</a></li>
+                        
+                        <li><a class="active" aria-current="page" href="research.html">Research</a></li>
+                        
+                        <li><a  href="publications.html">Publications</a></li>
+                        
+                        <li><a  href="teaching.html">Teaching</a></li>
+                        
+                        <li><a  href="code.html">Code</a></li>
+                        
+                        <li><a  href="photos.html">Photos</a></li>
+                        
+                    </ul>
+                </nav>
             </div>
+        </header>
 
+        <main>
+            <div class="page-content">
+                
 
-        <div class="tabcontent">
-            
-<div class = "row">
-<div class = "contentContainerHeading">
-
-
-	<div style="text-align:center;">
-		<img class="headingPhotos" src="img/Website 	photos - 2 of 4.png" alt="char">
-		<img class="headingPhotos" src="img/CutBlock.jpeg" alt="char">
-		<img class="headingPhotos" src="img/Mis2Mean.jpg" alt="char">
-		
-	</div>
-<br>
-
-<h2 style = "color:#ffffff">Rheological Evolution of Continental Crust</h2>
-<p class = "centeredParagraphWhite">
-		I have broad interests in how continental crust accomodates deformation in different tectonic contexts, and specifically how deformation drives rheological change. My approach to stuying deformation processes integrates field mapping, statistics, microstructural analysis and quantitative laboratory techniques such as electron backscatter diffraction (EBSD) and anisotropy of magnetic susceptibility (AMS). 
-</p>
-
-<div style = "text=align:center;">
-<img class="headingPhotos" src="img/LabSpace.jpeg" alt="char" style="width: 50%;">
-<img class="headingPhotos" src="img/AMSKappabridge.jpeg" alt="char" style="width: 28%;">
+<div class="page-title">
+    <h1>Research</h1>
 </div>
 
-<h2 style = "color:#D1B67C">The Structure Lab at Hamilton College</h2>
+<div class="card">
 
+<div class="heading-photos">
+    <img src="img/Website photos - 2 of 4.png" alt="Field photo">
+    <img src="img/CutBlock.jpeg" alt="Rock sample cut block">
+    <img src="img/Mis2Mean.jpg" alt="EBSD misorientation-to-mean map">
+</div>
 
-<p class = "centeredParagraphWhite" style="color:#D1B67C;">
-The major piece of instrumentation in my lab is an AGICO KLYS Anisotropy of Magnetic Susceptibility Kappabridge with a 3D rotator and all the equipment necessary to process samples for AMS. AMS is an incredible approach to studying a wide variety of deformation- and magmatism-related processes. In my lab, I mostly use it to study granitic rocks that have been involved in deformation. 
+<h2>Rheological Evolution of Continental Crust</h2>
+<p class="lead-text">
+    I have broad interests in how continental crust accommodates deformation in different tectonic contexts, and specifically how deformation drives rheological change. My approach to studying deformation processes integrates field mapping, statistics, microstructural analysis and quantitative laboratory techniques such as electron backscatter diffraction (EBSD) and anisotropy of magnetic susceptibility (AMS).
+</p>
+
+<div class="heading-photos">
+    <img src="img/LabSpace.jpeg" alt="The structure lab at Hamilton College" style="height:170px;">
+    <img src="img/AMSKappabridge.jpeg" alt="AMS Kappabridge instrument" style="height:170px;">
+</div>
+
+<h2>The Structure Lab at Hamilton College</h2>
+
+<p class="lead-text">
+    The major piece of instrumentation in my lab is an AGICO KLY5S Anisotropy of Magnetic Susceptibility Kappabridge with a 3D rotator and all the equipment necessary to process samples for AMS. AMS is an incredible approach to studying a wide variety of deformation- and magmatism-related processes. In my lab, I mostly use it to study granitic rocks that have been involved in deformation.
 </p>
 
 </div>
 
-
-<div class = "contentContainer">
+<div class="card">
 
 <h2>Strain Rate and Stress Evolution in Shear Zones</h2>
-<img class="thirdPage" src="img/ShearZonePhoto.jpeg" alt="char" style="float:right">
-<img class="thirdPage" src="img/StudentInArizona.jpeg" alt="char" style = "float:right">
-
-<p>
-	Natural shear zones commonly undergo significant rheological change throughout their evolution. I am interested in how strain geometry and existing rheological boundaries can work in tandem with other geological processes (metamorphism, melting, deformation mechanisms) to drive transient behavior in shear zone systems.
-</p>
-
-<p>
-	My approach to this work mostly involves nitty-gritty microstructural analysis, including strain analysis, EBSD-derived crystallographic fabric analysis, and quartz paleopiezometry. Students get to collect shear zone samples, examine them under the light microscope, do phase identification using EDS, and collect EBSD data and perform analyses using the MTEX package for MATLAB. 
-
-</p>
+<div class="media-row">
+    <div class="media-images">
+        <img src="img/ShearZonePhoto.jpeg" alt="Shear zone outcrop photo">
+        <img src="img/StudentInArizona.jpeg" alt="Student conducting fieldwork in Arizona">
+    </div>
+    <div class="media-text">
+        <p>
+            Natural shear zones commonly undergo significant rheological change throughout their evolution. I am interested in how strain geometry and existing rheological boundaries can work in tandem with other geological processes (metamorphism, melting, deformation mechanisms) to drive transient behavior in shear zone systems.
+        </p>
+        <p>
+            My approach to this work mostly involves nitty-gritty microstructural analysis, including strain analysis, EBSD-derived crystallographic fabric analysis, and quartz paleopiezometry. Students get to collect shear zone samples, examine them under the light microscope, do phase identification using EDS, and collect EBSD data and perform analyses using the MTEX package for MATLAB.
+        </p>
+    </div>
+</div>
 
 </div>
 
-
-
-<div class = "contentContainer">
+<div class="card">
 
 <h2>Archean Tectonics</h2>
-<img class="thirdPage" src="img/Fig_08_AMS sdtp.png" alt="char" style="float:right">
-<img class="thirdPage" src="img/StudentsInAustralia.jpeg" alt="char" style = "float:right">
-
-<p>
-		By what mechanisms were large structural domes emplaced into Earth's early crust? What is the relationship between plutonism, plate tectonics, crustal flow, and shear/fault localization during the subsequent deformation of continental crust? How did rocks partition strain from the field to the crystal lattice scales? These are among the questions that motivate my research in the Early Earth. 
-
-		My current research investigates a Paleoarchean granitic dome in Western Australia's Pilbara craton. The Mt Edgar dome is one of the archetypal Paleoarchean domes and has been pointed to as the strongest evidence for volumninous granitic diapirism in the early Earth. My structural work in the Pilbara tests this hypothesis by studying the internal structure of several granitic domes using anisotropy of magnetic susceptibility (AMS), detailed field and microstrctural observation around the sheared margin of the Mt Edgar dome, and statistical analysis of field measurements.  
-</p>
-<p>
-		In the summer of 2023 I was joined in the field by two Geosciences majors from Hamilton College. The three of us spent several weeks mapping and collecting samples for AMS in the Mt Edgar and Shaw domes.
-
-</p>
+<div class="media-row media-row-reverse">
+    <div class="media-images">
+        <img src="img/Fig_08_AMS sdtp.png" alt="AMS stereonet data figure">
+        <img src="img/StudentsInAustralia.jpeg" alt="Students conducting fieldwork in Australia">
+    </div>
+    <div class="media-text">
+        <p>
+            By what mechanisms were large structural domes emplaced into Earth's early crust? What is the relationship between plutonism, plate tectonics, crustal flow, and shear/fault localization during the subsequent deformation of continental crust? How did rocks partition strain from the field to the crystal lattice scales? These are among the questions that motivate my research in the Early Earth.
+        </p>
+        <p>
+            My current research investigates a Paleoarchean granitic dome in Western Australia's Pilbara craton. The Mt Edgar dome is one of the archetypal Paleoarchean domes and has been pointed to as the strongest evidence for voluminous granitic diapirism in the early Earth. My structural work in the Pilbara tests this hypothesis by studying the internal structure of several granitic domes using anisotropy of magnetic susceptibility (AMS), detailed field and microstructural observation around the sheared margin of the Mt Edgar dome, and statistical analysis of field measurements.
+        </p>
+        <p>
+            In the summer of 2023 I was joined in the field by two Geosciences majors from Hamilton College. The three of us spent several weeks mapping and collecting samples for AMS in the Mt Edgar and Shaw domes.
+        </p>
+    </div>
 </div>
 
-
-<div class = "contentContainer">
-<h2>Shear Zone - Magma Interactions</h2>
-<img class="thirdPage" src="img/MagmaShearZone.jpeg" alt="char" style="float:right">
-<p>
-		In crustal scale shear zones, magmatism is commonly coeval with deformation. How does magmatic activity drive rheological change in the crust? Do shear zones help focus magmatism, or does magmatism localize shear zone deformation? These are among the questions I am asking in a project in south central Maine, where students and I have been examining a high temperature shear zone that is adjacent and structurally related to a gabbroic intrusion. 
-</p>
-<p>
-		I took a team of four Hamilton students in 2024 to south central Maine to map fine scale features and collect samples for analysis. 
-
-</p>
 </div>
 
+<div class="card">
 
+<h2>Shear Zone &ndash; Magma Interactions</h2>
+<div class="media-row">
+    <div class="media-images">
+        <img src="img/MagmaShearZone.jpeg" alt="Shear zone adjacent to a gabbroic intrusion in Maine">
+    </div>
+    <div class="media-text">
+        <p>
+            In crustal scale shear zones, magmatism is commonly coeval with deformation. How does magmatic activity drive rheological change in the crust? Do shear zones help focus magmatism, or does magmatism localize shear zone deformation? These are among the questions I am asking in a project in south central Maine, where students and I have been examining a high temperature shear zone that is adjacent and structurally related to a gabbroic intrusion.
+        </p>
+        <p>
+            I took a team of four Hamilton students in 2024 to south central Maine to map fine scale features and collect samples for analysis.
+        </p>
+    </div>
+</div>
 
+</div>
 
+<div class="card">
 
-
-
-
-<div class = "contentContainer">
 <h2>Statistical Analysis</h2>
-<img class="thirdPage" src="img/OrofinoResults.pdf" alt="char" style="float:right">
-	<p>
-		I have a deep interest in the statistical treatment of high-dimensional structural geology data (like foliation-lineation pairs, strain ellipsoids). The advent of methods and tools for analyzing structural geology data statistically nicely coincides with a trend towards larger datasets, especially as new databases like StraboSpot come online. I have pioneered workflows and am involved with developming to statistical techniques with collaborators. 
-	</p>
-	<p>
-		The structural geology community is in the middle of an exciting shift towards using statistical techniques to get more out of complex datasets, and recently developed techniques and software tools are making it possible to treat high-dimensional data holistically. My goal is to use these new statistical and software tools to push the boundaries of how structural geologists use statistics, and to allow others to do the same by publishing my R scripts on this website.
-	</p>
-</div>
-
-<div class = "contentContainer">
-<h2>Datascience for field geologists</h2>
-<img class="thirdPage" src="img/StraboField.jpeg" alt="char" style="float:left">
-	<p>
-		An exciting new frontier for structural geology and other field-based geologic disciplines is the emergence of large, open-source databases for geologic data. I have long been involved in the StraboSpot digital data system, and continue to help drive this project forward, including testing field trips with experts to get feedback and input from the broader community. 
-	</p>
-</div>
+<p>
+    I have a deep interest in the statistical treatment of high-dimensional structural geology data (like foliation-lineation pairs, strain ellipsoids). The advent of methods and tools for analyzing structural geology data statistically nicely coincides with a trend towards larger datasets, especially as new databases like StraboSpot come online. I have pioneered workflows and am involved with developing statistical techniques with collaborators.
+</p>
+<p>
+    The structural geology community is in the middle of an exciting shift towards using statistical techniques to get more out of complex datasets, and recently developed techniques and software tools are making it possible to treat high-dimensional data holistically. My goal is to use these new statistical and software tools to push the boundaries of how structural geologists use statistics, and to allow others to do the same &mdash; see the <a href="code.html">Code</a> page for example datasets and R scripts, including <a href="img/OrofinoResults.pdf">example statistical results from the Orofino dataset</a>.
+</p>
 
 </div>
 
+<div class="card">
 
-        </div>
+<h2>Data Science for Field Geologists</h2>
+<div class="media-row media-row-reverse">
+    <div class="media-images">
+        <img src="img/StraboField.jpeg" alt="Collecting field data with StraboSpot">
+    </div>
+    <div class="media-text">
+        <p>
+            An exciting new frontier for structural geology and other field-based geologic disciplines is the emergence of large, open-source databases for geologic data. I have long been involved in the StraboSpot digital data system, and continue to help drive this project forward, including testing field trips with experts to get feedback and input from the broader community.
+        </p>
+    </div>
+</div>
+
+</div>
 
 
-        <div>
-            <footer> Nick last updated this website on Jan 30, 2026 </footer>
-        </div>
+            </div>
+        </main>
 
-        </div>
-
-
-    </main>
-
+        <footer class="site-footer">
+            <p>Nick last updated this website on Aug 17, 2026 &middot; <a href="mailto:nmrobert@hamilton.edu">nmrobert@hamilton.edu</a></p>
+        </footer>
 
         <script src="js/vendor/modernizr-3.5.0.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-3.2.1.min.js"><\/script>')</script>
         <script src="js/plugins.js"></script>
         <script src="js/main.js"></script>
-
-        <!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
-
 
     </body>
 </html>

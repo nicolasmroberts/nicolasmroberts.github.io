@@ -2,15 +2,19 @@
 <!doctype html>
 <html class="no-js" lang="en">
     <head>
-         <meta charset="utf-8">
+        <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
         <title>Nick's geology photos</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="manifest" href="site.webmanifest">
-        <link rel="apple-touch-icon" href="icon.png">
+        <link rel="apple-touch-icon" href="icon.jpg">
         <!-- Place favicon.ico in the root directory -->
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:wght@500;600;700&display=swap" rel="stylesheet">
 
         <link rel="stylesheet" href="css/normalize.css">
         <link rel="stylesheet" href="css/main.css">
@@ -23,323 +27,224 @@
   gtag('js', new Date());
 
   gtag('config', 'G-5XD3KN8X20');
-</script>
-
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
   gtag('config', 'UA-125019670-1');
 </script>
 
-
-
-
-
-   </head>
-
-   <style>
-        .parallax {
-            /* The image used */
-            background-image: url('img/parallaxPhotos.jpg');
-
-            /* Set a specific height */
-            /* height: 400px; */
-
-            /* Create the parallax scrolling effect */
-            background-attachment: fixed;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: cover;
-
-        }
-
-        @media only screen and (max-width: 600px) {
-            .parallax{
-                background-repeat: repeat-y;
-                background-position: top;
-                background-size: auto 60%;
-                width: 100%;
-
-            }
-        }
-
-   </style>
-
-<style>
-  .gradient-block {
-    width: 100%;
-    height: 100%;
-    /* Gradient goes from solid black to transparent black */
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.5), rgba(0,0,0,0));
-  }
-
-
-@media only screen and (max-width: 700px) {
-            .gradient-block {
-                height: 300px;
-                
-
-            }
-        }
-</style>
-
+    </head>
 
     <body>
-           <main>
-
-        <div class="parallax">
-            <!-- <h1 class="topMargin"></h1> -->
-           
-            <div class ="gradient-block">
-           
-            <h1 class="topMargin"><em>Structural Geology @ Hamilton College</em></h1>
-            <nav><ul>
-            	
-                	<li><a 
-                	class ="inactive" href = "index.html">Home</a></li>
-                	<li><a 
-                	class ="inactive" href = "research.html">Research</a></li>
-                	<li><a 
-                	class ="inactive" href = "publications.html">Publications</a></li>
-                	<li><a 
-                	class ="inactive" href = "teaching.html">Teaching</a></li>
-                	<li><a 
-                	class ="inactive" href = "code.html">Code</a></li>
-                	<li><a class ="active" 
-                	 href = "photos.html">Photos</a></li>
-        	   </nav>
+        <header class="site-header">
+            <div class="header-inner">
+                <a class="brand" href="index.html">
+                    <span class="brand-name">Nicolas M. Roberts</span>
+                    <span class="brand-tagline">Structural Geology &middot; Hamilton College</span>
+                </a>
+                <nav class="site-nav" aria-label="Primary">
+                    <ul>
+                        
+                        <li><a  href="index.html">Home</a></li>
+                        
+                        <li><a  href="research.html">Research</a></li>
+                        
+                        <li><a  href="publications.html">Publications</a></li>
+                        
+                        <li><a  href="teaching.html">Teaching</a></li>
+                        
+                        <li><a  href="code.html">Code</a></li>
+                        
+                        <li><a class="active" aria-current="page" href="photos.html">Photos</a></li>
+                        
+                    </ul>
+                </nav>
             </div>
+        </header>
 
-
-        <div class="tabcontent">
-            
+        <main>
+            <div class="page-content">
+                
 
 <script>
-// Open the Modal
-function openModal() {
-  document.getElementById('myModal').style.display = "block";
+function openModal(n) {
+    document.getElementById('myModal').style.display = 'block';
+    showSlide(n);
 }
 
-// Close the Modal
 function closeModal() {
-  document.getElementById('myModal').style.display = "none";
+    document.getElementById('myModal').style.display = 'none';
 }
 
 var slideIndex = 1;
-showSlides(slideIndex);
 
-// Next/previous controls
-function plusSlides(n) {
-  showSlides(slideIndex += n);
+function changeSlide(n) {
+    showSlide(slideIndex + n);
 }
 
-// Thumbnail image controls
-function currentSlide(n) {
-  showSlides(slideIndex = n);
+function showSlide(n) {
+    var slides = document.getElementsByClassName('mySlides');
+    if (n > slides.length) { n = 1; }
+    if (n < 1) { n = slides.length; }
+    slideIndex = n;
+    for (var i = 0; i < slides.length; i++) {
+        slides[i].style.display = 'none';
+    }
+    slides[slideIndex - 1].style.display = 'block';
 }
 
-function showSlides(n) {
-  var i;
-  var slides = document.getElementsByClassName("mySlides");
-  var dots = document.getElementsByClassName("demo");
-  var captionText = document.getElementById("caption");
-  if (n > slides.length) {slideIndex = 1}
-  if (n < 1) {slideIndex = slides.length}
-  for (i = 0; i < slides.length; i++) {
-    slides[i].style.display = "none";
-  }
-  for (i = 0; i < dots.length; i++) {
-    dots[i].className = dots[i].className.replace(" active", "");
-  }
-  slides[slideIndex-1].style.display = "block";
-  dots[slideIndex-1].className += " active";
-  captionText.innerHTML = dots[slideIndex-1].alt;
-}
+document.addEventListener('keydown', function (e) {
+    var modal = document.getElementById('myModal');
+    if (modal.style.display === 'block') {
+        if (e.key === 'ArrowRight') { changeSlide(1); }
+        if (e.key === 'ArrowLeft') { changeSlide(-1); }
+        if (e.key === 'Escape') { closeModal(); }
+    }
+});
 </script>
 
-
-<!-- Images used to open the lightbox -->
-<div class="row", style="background-color:rgba(0 0 0,0.8);-webkit-backdrop-filter:blur(10px);">
-  <div class="columnGallery">
-    <img src="photoGallery/AlaskaFaultAndFold.jpeg" onclick="openModal();currentSlide(1)" class="hover-shadow">
-    <img src="photoGallery/AlaskaFoldedTurbidites.jpeg" onclick="openModal();currentSlide(2)" class="hover-shadow">
- 	<img src="photoGallery/ArizonaCrenulations.jpeg" onclick="openModal();currentSlide(3)" class="hover-shadow">
- 	<img src="photoGallery/ArizonaFold.jpeg" onclick="openModal();currentSlide(4)" class="hover-shadow">
-  </div>
-
-  <div class="columnGallery">
-    <img src="photoGallery/Australia rootless fold.jpeg" onclick="openModal();currentSlide(5)" class="hover-shadow">
-    <img src="photoGallery/AustraliaFold.jpeg" onclick="openModal();currentSlide(6)" class="hover-shadow">
- 	<img src="photoGallery/AustraliaFolded3DVein.jpeg" onclick="openModal();currentSlide(7)" class="hover-shadow">
- 	<img src="photoGallery/AustraliaFoldedVein.jpeg" onclick="openModal();currentSlide(8)" class="hover-shadow">
-  
-
-  </div>
-  <div class="columnGallery">
-    <img src="photoGallery/AustraliaFoldedVein3.jpeg" onclick="openModal();currentSlide(9)" class="hover-shadow">
-    <img src="photoGallery/AustraliaFoldedVeins2.jpeg" onclick="openModal();currentSlide(10)" class="hover-shadow">
- 	<img src="photoGallery/BarabooCleavage.jpeg" onclick="openModal();currentSlide(11)" class="hover-shadow">
- 	<img src="photoGallery/BlackHills.jpeg" onclick="openModal();currentSlide(12)" class="hover-shadow">
-  
-
-  </div>
-    <div class="columnGallery">
-    <img src="photoGallery/CaliforniaFold.jpeg" onclick="openModal();currentSlide(13)" class="hover-shadow">
-    <img src="photoGallery/CaliforniaFold2.jpeg" onclick="openModal();currentSlide(14)" class="hover-shadow">
- 	<img src="photoGallery/ChileCleavage.jpeg" onclick="openModal();currentSlide(15)" class="hover-shadow">
- 	<img src="photoGallery/ChileFold2.jpeg" onclick="openModal();currentSlide(16)" class="hover-shadow">
-  
-
-  </div>
+<div class="page-title">
+    <h1>Photos</h1>
 </div>
 
+<div class="card">
+<div class="gallery-grid">
+    <img src="photoGallery/AlaskaFaultAndFold.jpeg" alt="Faulted and folded strata, Alaska" onclick="openModal(1)">
+    <img src="photoGallery/AlaskaFoldedTurbidites.jpeg" alt="Folded turbidites, Alaska" onclick="openModal(2)">
+    <img src="photoGallery/ArizonaCrenulations.jpeg" alt="Crenulations, Arizona" onclick="openModal(3)">
+    <img src="photoGallery/ArizonaFold.jpeg" alt="Fold, Arizona" onclick="openModal(4)">
+    <img src="photoGallery/Australia rootless fold.jpeg" alt="Rootless fold, Western Australia" onclick="openModal(5)">
+    <img src="photoGallery/AustraliaFold.jpeg" alt="Fold, Western Australia" onclick="openModal(6)">
+    <img src="photoGallery/AustraliaFolded3DVein.jpeg" alt="Folded vein in three dimensions, Western Australia" onclick="openModal(7)">
+    <img src="photoGallery/AustraliaFoldedVein.jpeg" alt="Folded vein, Western Australia" onclick="openModal(8)">
+    <img src="photoGallery/AustraliaFoldedVein3.jpeg" alt="Folded vein, Western Australia" onclick="openModal(9)">
+    <img src="photoGallery/AustraliaFoldedVeins2.jpeg" alt="Folded veins, Western Australia" onclick="openModal(10)">
+    <img src="photoGallery/BarabooCleavage.jpeg" alt="Cleavage, Baraboo, Wisconsin" onclick="openModal(11)">
+    <img src="photoGallery/BlackHills.jpeg" alt="Structures, Black Hills" onclick="openModal(12)">
+    <img src="photoGallery/CaliforniaFold.jpeg" alt="Fold, California" onclick="openModal(13)">
+    <img src="photoGallery/CaliforniaFold2.jpeg" alt="Fold, California" onclick="openModal(14)">
+    <img src="photoGallery/ChileCleavage.jpeg" alt="Cleavage, Chile" onclick="openModal(15)">
+    <img src="photoGallery/ChileFold2.jpeg" alt="Fold, Chile" onclick="openModal(16)">
+</div>
+</div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- The Modal/Lightbox -->
+<!-- Lightbox -->
 <div id="myModal" class="modal">
-  <span class="close cursor" onclick="closeModal()">&times;</span>
-  <div class="modal-content">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <div class="modal-content">
 
-    <div class="mySlides">
-      <div class="numbertext">1 / 16</div>
-      <img src="photoGallery/AlaskaFaultAndFold.jpg" style="max-width:100%;max-height:95%;">
+        <div class="mySlides">
+            <div class="numbertext">1 / 16</div>
+            <img src="photoGallery/AlaskaFaultAndFold.jpg" alt="">
+            <div class="caption-container">Faulted and folded strata, Alaska</div>
+        </div>
+
+        <div class="mySlides">
+            <div class="numbertext">2 / 16</div>
+            <img src="photoGallery/AlaskaFoldedTurbidites.jpg" alt="">
+            <div class="caption-container">Folded turbidites, Alaska</div>
+        </div>
+
+        <div class="mySlides">
+            <div class="numbertext">3 / 16</div>
+            <img src="photoGallery/ArizonaCrenulations.jpg" alt="">
+            <div class="caption-container">Crenulations, Arizona</div>
+        </div>
+
+        <div class="mySlides">
+            <div class="numbertext">4 / 16</div>
+            <img src="photoGallery/ArizonaFold.jpg" alt="">
+            <div class="caption-container">Fold, Arizona</div>
+        </div>
+
+        <div class="mySlides">
+            <div class="numbertext">5 / 16</div>
+            <img src="photoGallery/Australia rootless fold.jpg" alt="">
+            <div class="caption-container">Rootless fold, Western Australia</div>
+        </div>
+
+        <div class="mySlides">
+            <div class="numbertext">6 / 16</div>
+            <img src="photoGallery/AustraliaFold.jpg" alt="">
+            <div class="caption-container">Fold, Western Australia</div>
+        </div>
+
+        <div class="mySlides">
+            <div class="numbertext">7 / 16</div>
+            <img src="photoGallery/AustraliaFolded3DVein.jpg" alt="">
+            <div class="caption-container">Folded vein in three dimensions, Western Australia</div>
+        </div>
+
+        <div class="mySlides">
+            <div class="numbertext">8 / 16</div>
+            <img src="photoGallery/AustraliaFoldedVein.jpg" alt="">
+            <div class="caption-container">Folded vein, Western Australia</div>
+        </div>
+
+        <div class="mySlides">
+            <div class="numbertext">9 / 16</div>
+            <img src="photoGallery/AustraliaFoldedVein3.jpg" alt="">
+            <div class="caption-container">Folded vein, Western Australia</div>
+        </div>
+
+        <div class="mySlides">
+            <div class="numbertext">10 / 16</div>
+            <img src="photoGallery/AustraliaFoldedVeins2.jpg" alt="">
+            <div class="caption-container">Folded veins, Western Australia</div>
+        </div>
+
+        <div class="mySlides">
+            <div class="numbertext">11 / 16</div>
+            <img src="photoGallery/BarabooCleavage.jpg" alt="">
+            <div class="caption-container">Cleavage, Baraboo, Wisconsin</div>
+        </div>
+
+        <div class="mySlides">
+            <div class="numbertext">12 / 16</div>
+            <img src="photoGallery/BlackHills.jpg" alt="">
+            <div class="caption-container">Structures, Black Hills</div>
+        </div>
+
+        <div class="mySlides">
+            <div class="numbertext">13 / 16</div>
+            <img src="photoGallery/CaliforniaFold.jpg" alt="">
+            <div class="caption-container">Fold, California</div>
+        </div>
+
+        <div class="mySlides">
+            <div class="numbertext">14 / 16</div>
+            <img src="photoGallery/CaliforniaFold2.jpg" alt="">
+            <div class="caption-container">Fold, California</div>
+        </div>
+
+        <div class="mySlides">
+            <div class="numbertext">15 / 16</div>
+            <img src="photoGallery/ChileCleavage.jpg" alt="">
+            <div class="caption-container">Cleavage, Chile</div>
+        </div>
+
+        <div class="mySlides">
+            <div class="numbertext">16 / 16</div>
+            <img src="photoGallery/ChileFold2.jpg" alt="">
+            <div class="caption-container">Fold, Chile</div>
+        </div>
+
+        <a class="prev" onclick="changeSlide(-1)">&#10094;</a>
+        <a class="next" onclick="changeSlide(1)">&#10095;</a>
+
     </div>
-
-    <div class="mySlides">
-      <div class="numbertext">2 / 16</div>
-      <img class="galleryDisplay" src="photoGallery/AlaskaFoldedTurbidites.jpg">
-    </div>
-
-    <div class="mySlides">
-      <div class="numbertext">3 / 16</div>
-      <img src="photoGallery/ArizonaCrenulations.jpg" style="max-width:100%;max-height:95%;horizontal-align:middle">
-    </div>
-
-    <div class="mySlides">
-      <div class="numbertext">4 / 16</div>
-      <img src="photoGallery/ArizonaFold.jpg" style="max-width:100%;max-height:95%;">
-    </div>
-
-
-
-
-
-    <div class="mySlides">
-      <div class="numbertext">5 / 16</div>
-      <img src="photoGallery/Australia rootless fold.jpg" style="max-width:100%;max-height:95%;">
-    </div>
-
-    <div class="mySlides">
-      <div class="numbertext">6 / 16</div>
-      <img class="galleryDisplay" src="photoGallery/AustraliaFold.jpg">
-    </div>
-
-    <div class="mySlides">
-      <div class="numbertext">7 / 16</div>
-      <img src="photoGallery/AustraliaFolded3DVein.jpg" style="max-width:100%;max-height:95%;horizontal-align:middle">
-    </div>
-
-    <div class="mySlides">
-      <div class="numbertext">8 / 16</div>
-      <img src="photoGallery/AustraliaFoldedVein.jpg" style="max-width:100%;max-height:95%;">
-    </div>
-
-
-
-
-
-
-    <div class="mySlides">
-      <div class="numbertext">9 / 16</div>
-      <img src="photoGallery/AustraliaFoldedVein3.jpg" style="max-width:100%;max-height:95%;">
-    </div>
-
-    <div class="mySlides">
-      <div class="numbertext">10 / 16</div>
-      <img class="galleryDisplay" src="photoGallery/AustraliaFoldedVeins2.jpg">
-    </div>
-
-    <div class="mySlides">
-      <div class="numbertext">11 / 16</div>
-      <img src="photoGallery/BarabooCleavage.jpg" style="max-width:100%;max-height:95%;horizontal-align:middle">
-    </div>
-
-    <div class="mySlides">
-      <div class="numbertext">12 / 16</div>
-      <img src="photoGallery/BlackHills.jpg" style="max-width:100%;max-height:95%;">
-    </div>
-
-
-
-
-
-    <div class="mySlides">
-      <div class="numbertext">13 / 16</div>
-      <img src="photoGallery/CaliforniaFold.jpg" style="max-width:100%;max-height:95%;">
-    </div>
-
-    <div class="mySlides">
-      <div class="numbertext">14 / 16</div>
-      <img class="galleryDisplay" src="photoGallery/CaliforniaFold2.jpg">
-    </div>
-
-    <div class="mySlides">
-      <div class="numbertext">15 / 16</div>
-      <img src="photoGallery/ChileCleavage.jpg" style="max-width:100%;max-height:95%;horizontal-align:middle">
-    </div>
-
-    <div class="mySlides">
-      <div class="numbertext">16 / 16</div>
-      <img src="photoGallery/ChileFold2.jpg" style="max-width:100%;max-height:95%;">
-    </div>
-
-
-    <!-- Next/previous controls -->
-    <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-    <a class="next" onclick="plusSlides(1)">&#10095;</a>
-
-
-
-
-  </div>
 </div>
 
 
-        </div>
+            </div>
+        </main>
 
-
-        <div>
-            <footer> Nick last updated this website on Jan 30, 2026 </footer>
-        </div>
-
-        </div>
-
-
-    </main>
-
+        <footer class="site-footer">
+            <p>Nick last updated this website on Aug 17, 2026 &middot; <a href="mailto:nmrobert@hamilton.edu">nmrobert@hamilton.edu</a></p>
+        </footer>
 
         <script src="js/vendor/modernizr-3.5.0.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-3.2.1.min.js"><\/script>')</script>
         <script src="js/plugins.js"></script>
         <script src="js/main.js"></script>
-
-        <!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
-
 
     </body>
 </html>
